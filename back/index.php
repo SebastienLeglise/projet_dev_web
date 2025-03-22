@@ -1,23 +1,23 @@
 <?php
 
 require_once 'Router.php';
-//require_once 'AuthController.php';
-//require_once 'CommentController.php';
-
-//TODo : require_once etc
+require_once 'AuthController.php';/*
+require_once 'CommentController.php';
+require_once 'RecipeController.php';
+require_once 'RoleController.php';*/
 
 session_start(); // Start the session
 
 $router = new Router();
 
-/*
+
 $authController = new AuthController(__DIR__ . '/data/users.json');
-$commentController = new CommentController(__DIR__ . '/data/comments.json', $authController);
+//$commentController = new CommentController(__DIR__ . '/data/comments.json', $authController);
 
 //------------------------------------------------------------------
 
 
-$roleController = new RoleController(__DIR__ . '/data/roles.json', //TODO :arguments);
+/*$roleController = new RoleController(__DIR__ . '/data/roles.json', //TODO :arguments);
 $recipeController = new CommentController(__DIR__ . '/data/recipes.json', //TODO);
 
 //------------------------------------------------------------------
@@ -25,12 +25,12 @@ $recipeController = new CommentController(__DIR__ . '/data/recipes.json', //TODO
 
 
 
-
+*/
 
 //Auth
 
 $router->register('POST', '/register', [$authController, 'handleRegister']);
-$router->register('POST', '/login', [$authController, 'handleLogin']);
+/*$router->register('POST', '/login', [$authController, 'handleLogin']);
 $router->register('POST', '/logout', [$authController, 'handleLogout']);
 
 
@@ -79,11 +79,11 @@ $router->register('POST','/recipe',[$recipeController, '']);				//Liker une rece
 
 //------------------------------------------------------------------
 
-
+/*
 //test
 $router->register('GET', '/post/{post_id}/comment/{comment_id}', function ($post_id, $comment_id) {
     echo "Post ID: " . $post_id . ", Comment ID: " . $comment_id;
-});
+});*/
 
 
 

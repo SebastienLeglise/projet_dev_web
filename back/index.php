@@ -2,7 +2,7 @@
 
 require_once 'Router.php';
 require_once 'AuthController.php';
-//require_once 'CommentController.php';
+require_once 'CommentController.php';
 require_once 'RecipeController.php';
 //require_once 'RoleController.php';
 
@@ -21,12 +21,6 @@ $commentController = new CommentController(__DIR__ . '/data/comments.json', $aut
 $recipeController = new RecipeController(__DIR__ . '/data/recipes.json');
 
 //------------------------------------------------------------------
-
-
-
-
-*/
-
 //Auth
 
 $router->register('POST', '/register', [$authController, 'handleRegister']);
@@ -42,8 +36,6 @@ $router->register('GET', '/comment', [$commentController, 'handleGetCommentsRequ
 $router->register('DELETE', '/comment', [$commentController, 'handleDeleteCommentRequest']);
 
 
-*/
-
 //------------------------------------------------------------------
 
 /*
@@ -54,15 +46,16 @@ $router->register('POST','/askedRoles', [$roleController, ''] );		//Demander un 
 $router->register('POST','/roles',  [$roleController, ''] );		//Accepter la demande d'un role
 $router->register('PUT','/role',  [$roleController, '']  );		//Attribuer un role
 
-
+*/
 
 
 //Recipe
 
-*/
-$router->register('POST','/recipe',[$recipeController, 'handleRecipeProposal']);				//Proposer une recette
+
+/*$router->register('POST','/recipe',[$recipeController, 'handleRecipeProposal']);				//Proposer une recette
 $router->register('DELETE','/recipe/{recipe_id}',[$recipeController, 'handleRecipeDeletion']);				//Éliminer une recette
 $router->register('PUT','/recipe',[$recipeController, 'handleRecipeModification']);			//Modifier une recette
+
 $router->register('POST','/recipe',[$recipeController, 'handleRecipeApproval']);				//Approuver une recette
 $router->register('GET','/recipe/{recipe_id}',[$recipeController, 'handleRecipeConsulting']);				//Consulter une recette
 $router->register('GET','/recipe/{recipe_id}',[$recipeController, 'handleRecipeSearch']);				//Rechercher une recette
@@ -71,7 +64,7 @@ $router->register('POST','/recipe',[$recipeController, 'handleRecipeFotoPublicat
 $router->register('POST','/recipe',[$recipeController, 'handleRecipeLike']);				//Liker une recette
 
 
-
+*/
 
 
 //------------------------------------------------------------------

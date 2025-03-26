@@ -11,147 +11,98 @@ class AuthController
 
 	// TODO: Implement the handleRegister method
 	public function handleRegister(): void
-	{
-		// Hints:
-		// 1. Check if the request Content-Type is 'application/x-www-form-urlencoded'
+{
+    if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
+        http_response_code(400);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Invalid Content-Type']);
+        return;
+    }
 
-        if($_SERVER['CONTENT_TYPE'] !== 'application/x-www-form-urlencoded' ){
-            http_response_code(400);
-            echo json_encode(['error' => 'Invalid Content-Type header']);
-            return;
-        }
+    // Get raw data from the request
+    $json = file_get_contents('php://input');
 
-		// 2. Get the email and password from the POST data
+    // Convert JSON data to a PHP object
+    $data = json_decode($json);
 
-        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    if (!($data->username) || !($data->password)) {
+        http_response_code(400);
+        header('Content-Type: application/json');
+        echo json_encode([
+            'error' => 'Invalid username or password',
+            'username' => $data->username ?? null,
+            'password' => $data->password ?? null
+        ]);
+        return;
+    }
 
+    $username = $data->username;
+    $password = $data->password;
 
-		// 3. Validate the email and password
+    $users = $this->getAllUsers();
 
-        if(!$username || !$password ){
-            http_response_code(400);
-            echo json_encode(['error' => 'Missing required fields ']);
-            return;
-        }
+    if (isset($users[$username])) {
+        http_response_code(409);
+        echo json_encode(['error' => 'Username already registered']);
+        return;
+    }
 
-		// 4. Check if the email is already registered
+    // Hash the password and add the new user to the list
+    $users[$username] = ['password' => password_hash($password, PASSWORD_DEFAULT)];
 
-    
-        $f = fopen('data/users.json', 'r+');
-        if (!flock($f, LOCK_EX))
-            http_response_code(409); // conflict
-        $jsonString = fread($f, filesize('dara/'.$users.'.json'));
-        $data = json_decode($jsonString, true); 
+    // Save the updated users to the file
+    file_put_contents($this->filePath, json_encode($users, JSON_PRETTY_PRINT));
 
-        foreach($data as $name){
-            if($user['username'] == $username){
-                http_response_code(401);
-                echo json_encode(['error' => 'User already registered']);
-                flock($f, LOCK_UN);
-                fclose($f);
-                return;
-            }
-        }
-        
+    // Send a success response
+    http_response_code(201);
+    echo json_encode(['message' => 'User registered successfully']);
+}
 
-		// 5. Hash the password using password_hash
-
-        $Hpassword = password_hash($password, PASSWORD_DEFAULT);
-
-
-		// 6. Save the user data to the file
-
-
-        $data[] =[
-            'username' => $username,
-            'password' => $Hpassword,
-        ];
-
-
-        flock($f, LOCK_UN);
-        fclose($f);
-
-
-		// 7. Return a success message with HTTP status code 201
-
-        http_response_code(201);
-
-		// If any error occurs, return an error message with the appropriate HTTP status code
-		// Make sure to set the Content-Type header to 'application/json' in the response
-		// You can use the json_encode function to encode an array as JSON
-		// You can use the http_response_code function to set the HTTP status code
-
-
-        
-	}
 
 	// TODO: Implement the handleLogin method
 	public function handleLogin(): void
 	{
-		// Hints:
-		// 1. Check if the request Content-Type is 'application/x-www-form-urlencoded'
-
-        if($_SERVER['CONTENT_TYPE'] !== 'application/x-www-form-urlencoded' ){
+		if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
             http_response_code(400);
-            echo json_encode(['error' => 'Invalid Content-Type header']);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid Content-Type']);
+            return;
+        }
+    
+        // Get raw data from the request
+        $json = file_get_contents('php://input');
+    
+        // Convert JSON data to a PHP object
+        $data = json_decode($json);
+    
+        if (!($data->username) || !($data->password)) {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'error' => 'Invalid username or password',
+                'username' => $data->username ?? null,
+                'password' => $data->password ?? null
+            ]);
             return;
         }
 
-		// 2. Get the email and password from the POST data
+        $username = $data->username;
+        $password = $data->password;
 
-        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		$users = $this->getAllUsers();
 
+		if (!isset($users[$username]) || !password_verify($password, $users[$username]['password'])) {
+			http_response_code(401);
+			echo json_encode(['error' => 'Invalid credentials']);
+			return;
+		}
 
-		// 3. Validate the email and password
+		// Store user session
+		$_SESSION['user'] = $username;
 
-        if(!$username || !$password ){
-            http_response_code(400);
-            echo json_encode(['error' => 'Missing required fields ']);
-            return;
-        }
-		// 4. Check if the user exists and the password is correct
+		http_response_code(200);
+		echo json_encode(['message' => 'Login successful']);
 
-        $f = fopen('data/users.json', 'r+');
-        if (!flock($f, LOCK_EX))
-            http_response_code(409); // conflict
-        $jsonString = fread($f, filesize('dara/'.$users.'.json'));
-        $data = json_decode($jsonString, true); 
-
-        $Hpassword = password_hash($password, PASSWORD_DEFAULT);
-
-        $found = FALSE;
-        foreach($data as $name){
-            if($user['username'] == $username && $user['password'] == $Hpassword){
-                $found = TRUE;
-            }
-        }
-
-        if($found == FALSE){
-            http_response_code(400);
-            echo json_encode(['error' => 'User not found ']);
-            return;
-
-        }
-        
-		// 5. Store the user session
-
-
-
-		// 6. Return a success message with HTTP status code 200
-        http_response_code(200);
-
-
-
-		// Additional hints:
-		// If any error occurs, return an error message with the appropriate HTTP status code
-		// Make sure to set the Content-Type header to 'application/json' in the response
-		// You can use the getAllUsers method to get the list of registered users
-		// You can use the password_verify function to verify the password
-		// You can use the $_SESSION superglobal to store the user session
-		// You can use the json_encode function to encode an array as JSON
-		// You can use the http_response_code function to set the HTTP status code
 	}
 
 	public function handleLogout(): void

@@ -24,6 +24,9 @@ class Router
 		// Get the HTTP method and path of the request
 		$method = $_SERVER['REQUEST_METHOD'];
 		$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+		$query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+			
+		parse_str($query, $splitedQuery);		
 
 		// Set the CORS headers
 		header("Access-Control-Allow-Origin: *");
@@ -45,7 +48,7 @@ class Router
 
 
 				// If a route matches the request, call the handler
-				call_user_func_array($route['handler'], $matches);
+				call_user_func_array($route['handler'], [$matches, $splitedQuery]);
 				return;
 			}
 		}

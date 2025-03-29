@@ -1,7 +1,34 @@
 [
     {
-        "name": "Crock Pot Roast",
-        "nameFR":"Roti à la cocotte",
-        "Author": "Unknown"
+        "name": "test",
+        "nameFR": "Roti \u00e0 la cocotte",
+        "Author": "Unknown",
+        "Without": ["NoGluten","NoMilk"],
+        "imageURL": [
+            "url2",
+            "url",
+            "url3"
+        ],
+        "likes": 2
+    },
+    {
+        "name": "test2",
+        "nameFR": "Roti \u00e0 la cocottela",
+        "Author": "Unknown",
+        "ingredients":[
+            {
+                "quantity": "1",
+                "name": "beef roast",
+                "type": "Meat"
+            }],
+
+        "imageURL": [
+            "url2",
+            "url",
+            "url3"
+        ],
+        "likes": 2
+
+
     }
 ]

@@ -56,12 +56,13 @@ $router->register('POST','/recipe',[$recipeController, 'handleRecipePostProposal
 $router->register('DELETE','/recipe/{params}',[$recipeController, 'handleRecipeDeletion']);				//Éliminer une recette
 $router->register('PUT','/recipe',[$recipeController, 'handleRecipeModification']);			//Modifier une recette
 
-$router->register('POST','/recipe/approval',[$recipeController, 'handleRecipeApproval']);				//Approuver une recette
-$router->register('GET','/recipe/consult/{params}',[$recipeController, 'handleRecipeConsulting']);				//Consulter une recette
-$router->register('GET','/recipe/search/{params}',[$recipeController, 'handleRecipeSearch']);				//Rechercher une recette
-$router->register('POST','/recipe/traduction',[$recipeController, 'handleRecipeTraduction']);				//Traduire une recette
-$router->register('POST','/recipe/photo',[$recipeController, 'handleRecipeFotoPublication']); 			//Publier une photo d'une recette
-$router->register('POST','/recipe/like',[$recipeController, 'handleRecipeLike']);				//Liker une recette
+$router->register('POST','/recipe/approval/{recipe_name}',[$recipeController, 'handleRecipeApproval']);				//Approuver une recette
+$router->register('GET','/recipe/consult/{recipe_name}',[$recipeController, 'handleRecipeConsulting']);				//Consulter une recette
+$router->register('GET','/recipe/search',[$recipeController, 'handleRecipeSearch']);				//Rechercher une recette
+
+$router->register('POST','/recipe/traduction/{params}',[$recipeController, 'handleRecipeTraduction']);				//Traduire une recette
+$router->register('POST','/recipe/photo/{params}',[$recipeController, 'handleRecipeFotoPublication']); 			//Publier une photo d'une recette
+$router->register('POST','/recipe/like/{recipe_name}',[$recipeController, 'handleRecipeLike']);				//Liker une recette
 
 
 

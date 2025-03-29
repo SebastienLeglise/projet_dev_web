@@ -1,0 +1,12 @@
+[
+    {
+        "username": "john",
+        "requestedRole": "chef",
+        "status": "pending"
+    },
+    {
+        "username": "jane",
+        "requestedRole": "cuisinier",
+        "status": "approved"
+    }
+]

@@ -9,9 +9,9 @@ class AuthController
 		$this->filePath = $filePath;
 	}
 
-	// TODO: Implement the handleRegister method
-	public function handleRegister(): void
-{
+
+
+    public function handleRegister(): void {  
     if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
         http_response_code(400);
         header('Content-Type: application/json');

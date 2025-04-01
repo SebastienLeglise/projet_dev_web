@@ -17,10 +17,45 @@ class RecipeController{
         echo "Recipe proposal received.";
     }
 
+   public function handleRecipePostProposal() {
+    
+        echo "Recipe proposal received.";
+    }
+
     public function handleRecipeDeletion($params) {
         //TODO
-        $recipe_id = (int) $params[0]; // Extraire l'ID depuis le tableau
-        echo "Recipe with ID $recipe_id deleted.";
+        if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid Content-Type']);
+            return;
+        }
+
+        $json = file_get_contents('php://input');
+        $data = json_decode($json);
+
+        if (!($data->name)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing recipe name']);
+            return;
+        }
+
+        $recipes = $this->getAllRecipes();
+        foreach ($recipes as $index => $recipe) {
+            if ($recipe['name'] === $data->name) {
+                array_splice($recipes, $index, 1);
+                file_put_contents($this->filePath, json_encode($recipes, JSON_PRETTY_PRINT));
+                http_response_code(200);
+                echo json_encode(['message' => 'Recipe deleted successfully']);
+                return;
+            }
+        }
+
+        http_response_code(404);
+        echo json_encode(['error' => 'Recipe not found']);
+    
+       // $recipe_id = (int) $params[0]; // Extraire l'ID depuis le tableau
+    //echo "Recipe with ID $recipe_id deleted.";
     }
     
     public function handleRecipeModification() {

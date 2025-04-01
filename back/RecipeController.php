@@ -13,13 +13,45 @@ class RecipeController{
 
 
     public function handleRecipePostProposal() {
-    
-        echo "Recipe proposal received.";
-    }
+        if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid Content-Type']);
+            return;
+        }
 
-   public function handleRecipePostProposal() {
-    
-        echo "Recipe proposal received.";
+        $json = file_get_contents('php://input');
+        $data = json_decode($json);
+
+        // Validate necessary fields
+        if (!($data->name) || !($data->ingredients) || !($data->steps)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing required recipe information']);
+            return;
+        }
+
+        $recipes = $this->getAllRecipes();
+
+        // Create a new recipe object using the input data
+        $newRecipe = [
+            "name" => $data->name,
+            "nameFR" => $data->nameFR ?? "N/A",
+            "Author" => $data->Author ?? "Unknown",
+            "Without" => $data->Without ?? [],
+            "ingredients" => $data->ingredients,
+            "steps" => $data->steps,
+            "timers" => $data->timers ?? [],
+            "imageURL" => $data->imageURL ?? "",
+            "originalURL" => $data->originalURL ?? "",
+            "status" => 'proposed'
+        ];
+
+        $recipes[] = $newRecipe;
+
+        file_put_contents($this->filePath, json_encode($recipes, JSON_PRETTY_PRINT));
+
+        http_response_code(201);
+        echo json_encode(['message' => 'Recipe proposed successfully']);
     }
 
     public function handleRecipeDeletion($params) {

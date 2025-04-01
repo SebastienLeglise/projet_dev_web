@@ -1,13 +1,16 @@
 <?php
 
-class RolepeController{
+class RoleController{
 
     private string $filePath;
+    private AuthController $authController;
 
-	public function __construct(string $filePath)
+	public function __construct(string $filePath, AuthController $authController)
 	{
 		$this->filePath = $filePath;
-	}
+        $this->authController = $authController;
+    }
+    
     public function getAllRoleRequests(): void
     {
         header('Content-Type: application/json');
@@ -18,14 +21,26 @@ class RolepeController{
     {
         return file_exists($this->filePath) ? json_decode(file_get_contents($this->filePath), true) ?? [] : [];
     }
-    private function getAllUsers(): array
+    
+
+    private function updateRoles(array $u): void
     {
-        $usersFile = 'users.json'; 
-        return file_exists($usersFile) ? json_decode(file_get_contents($usersFile), true) ?? [] : [];
+        $users = $this->getAllUsers();
+
+        foreach($user as &$us) {
+            if($user['name'] == $role['name']) {
+                $user = $u;
+                break;
+            }
+        }
+        file_put_contents($this->filePath, json_encode($users, JSON_PRETTY_PRINT));
+        
     }
 
 
     public function handleRoleRequest(): void{
+        echo "ok";
+
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
             http_response_code(400);
             header('Content-Type: application/json');
@@ -34,6 +49,8 @@ class RolepeController{
         }
         $json = file_get_contents('php://input');
         $data = json_decode($json);
+
+        echo "ok";
 
         if (!($data->username) || !($data->requestedRole)) {
             http_response_code(400);
@@ -96,6 +113,12 @@ class RolepeController{
     }
     public function handleRoleAssignment(): void
     {
+
+/*
+
+        $echo = "ok";
+
+
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
             http_response_code(400);
             header('Content-Type: application/json');
@@ -106,27 +129,48 @@ class RolepeController{
         $json = file_get_contents('php://input');
         $data = json_decode($json);
 
+        
+
+        
         if (!($data->username) || !($data->role)) {
             http_response_code(400);
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Invalid username or role']);
             return;
         }
-
         $username = $data->username;
         $role = $data->role;
-        $users = $this->getAllUsers();
 
-        if (!isset($users[$username])) {
+        $users = $this->authController->getAllUsers();
+        
+        if($users == null)
+        {
             http_response_code(404);
-            echo json_encode(['error' => 'User not found']);
+            echo json_encode(['error' => 'la gran puta']);
             return;
         }
 
-        $users[$username]['role'] = $role;
-        file_put_contents($this->filePath, json_encode($users, JSON_PRETTY_PRINT));
-        http_response_code(200);
-        echo json_encode(['message' => 'Role assigned to user']);
+        $echo = "ok";
+
+
+        foreach ($users as $key => $user) {
+            echo $ok;
+            if ($user == $username) {
+                $user['role'] = $role;
+                updateRoles(user);
+                file_put_contents($this->filePath, json_encode($users, JSON_PRETTY_PRINT));
+                http_response_code(200);
+                echo json_encode(['message' => 'Role assigned to user']);
+                return;
+            }
+
+        }
+
+
+
+*/
+        http_response_code(404);
+        echo json_encode(['error' => 'User not found aaaaaaaaaaaaaaa']);
     }
     
         

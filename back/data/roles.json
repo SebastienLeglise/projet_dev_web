@@ -8,5 +8,10 @@
         "username": "jane",
         "requestedRole": "cuisinier",
         "status": "approved"
+    },
+    {
+        "username": "pablo",
+        "requestedRole": "chef",
+        "status": "approved"
     }
 ]

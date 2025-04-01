@@ -4,7 +4,7 @@ require_once 'Router.php';
 require_once 'AuthController.php';
 require_once 'CommentController.php';
 require_once 'RecipeController.php';
-//require_once 'RoleController.php';
+require_once 'RoleController.php';
 
 session_start(); // Start the session
 
@@ -17,7 +17,7 @@ $commentController = new CommentController(__DIR__ . '/data/comments.json', $aut
 //------------------------------------------------------------------
 
 
-//$roleController = new RoleController(__DIR__ . '/data/roles.json', //TODO :arguments);
+$roleController = new RoleController(__DIR__ . '/data/roles.json', $authController);
 $recipeController = new RecipeController(__DIR__ . '/data/recipesTest.json');
 
 //------------------------------------------------------------------
@@ -41,12 +41,12 @@ $router->register('DELETE', '/comment', [$commentController, 'handleDeleteCommen
 /*
 
 //Roles
-
-$router->register('POST','/askedRoles', [$roleController, ''] );		//Demander un role
-$router->register('POST','/roles',  [$roleController, ''] );		//Accepter la demande d'un role
-$router->register('PUT','/role',  [$roleController, '']  );		//Attribuer un role
-
 */
+$router->register('POST','/askedRoles', [$roleController, 'handleRoleRequest'] );		//Demander un role
+$router->register('POST','/roles',  [$roleController, 'handleRoleApproval'] );		//Accepter la demande d'un role
+$router->register('PUT','/role',  [$roleController, 'handleRoleAssignment']  );		//Attribuer un role
+
+
 
 
 //Recipe

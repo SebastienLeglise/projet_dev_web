@@ -24,7 +24,7 @@ class RecipeController{
         $data = json_decode($json);
 
         // Validate necessary fields
-        if (!($data->name) || !($data->ingredients) || !($data->steps)) {
+        if (!($data->name) || !($data->ingredients) || !($data->steps)  ||!($data->timers)) {
             http_response_code(400);
             echo json_encode(['error' => 'Missing required recipe information']);
             return;
@@ -40,7 +40,7 @@ class RecipeController{
             "Without" => $data->Without ?? [],
             "ingredients" => $data->ingredients,
             "steps" => $data->steps,
-            "timers" => $data->timers ?? [],
+            "timers" => $data->timers ,
             "imageURL" => $data->imageURL ?? "",
             "originalURL" => $data->originalURL ?? "",
             "status" => 'proposed'

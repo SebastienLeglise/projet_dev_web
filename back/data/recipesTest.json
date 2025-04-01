@@ -3,7 +3,10 @@
         "name": "test",
         "nameFR": "Roti \u00e0 la cocotte",
         "Author": "Unknown",
-        "Without": ["NoGluten","NoMilk"],
+        "Without": [
+            "NoGluten",
+            "NoMilk"
+        ],
         "imageURL": [
             "url2",
             "url",
@@ -15,20 +18,18 @@
         "name": "test2",
         "nameFR": "Roti \u00e0 la cocottela",
         "Author": "Unknown",
-        "ingredients":[
+        "ingredients": [
             {
                 "quantity": "1",
                 "name": "beef roast",
                 "type": "Meat"
-            }],
-
+            }
+        ],
         "imageURL": [
             "url2",
             "url",
             "url3"
         ],
         "likes": 2
-
-
     }
 ]

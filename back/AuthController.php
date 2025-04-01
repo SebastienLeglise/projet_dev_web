@@ -117,7 +117,7 @@ class AuthController
 		return $_SESSION['user'] ?? null;
 	}
 
-	private function getAllUsers(): array
+	public function getAllUsers(): array
 	{
 		return file_exists($this->filePath) ? json_decode(file_get_contents($this->filePath), true) ?? [] : [];
 	}

@@ -90,10 +90,41 @@ class RecipeController{
     //echo "Recipe with ID $recipe_id deleted.";
     }
     
-    public function handleRecipeModification() {
-        //TODO
-        echo "Recipe modification processed.";
-    }
+        public function handleRecipeModification() {
+        if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid Content-Type']);
+            return;
+        }
+    
+        $json = file_get_contents('php://input');
+        $data = json_decode($json);
+    
+        if (!($data->name)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing recipe name']);
+            return;
+        }
+    
+        $recipes = $this->getAllRecipes();
+        foreach ($recipes as &$recipe) {
+            if ($recipe['name'] === $data->name) {
+                $recipe['nameFR'] = $data->nameFR ?? $recipe['nameFR'];
+                $recipe['Author'] = $data->Author ?? $recipe['Author'];
+                $recipe['Without'] = $data->Without ?? $recipe['Without'];
+                $recipe['ingredients'] = $data->ingredients ?? $recipe['ingredients'];
+                $recipe['steps'] = $data->steps ?? $recipe['steps'];
+                $recipe['timers'] = $data->timers ?? $recipe['timers'];
+                $recipe['imageURL'] = $data->imageURL ?? $recipe['imageURL'];
+                $recipe['originalURL'] = $data->originalURL ?? $recipe['originalURL'];
+    
+                file_put_contents($this->filePath, json_encode($recipes, JSON_PRETTY_PRINT));
+                http_response_code(200);
+                echo json_encode(['message' => 'Recipe modified successfully']);
+                return;
+            }
+        }
 
 
 

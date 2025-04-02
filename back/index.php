@@ -11,7 +11,7 @@ session_start(); // Start the session
 $router = new Router();
 
 
-$authController = new AuthController(__DIR__ . '/data/users.json');
+$authController = new AuthController(__DIR__ . '/data/users.json',__DIR__ . '/data/roles.json' );
 $commentController = new CommentController(__DIR__ . '/data/comments.json', $authController);
 
 //------------------------------------------------------------------

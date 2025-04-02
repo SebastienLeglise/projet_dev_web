@@ -1,17 +1,10 @@
 [
     {
-        "username": "john",
-        "requestedRole": "chef",
-        "status": "pending"
+        "username": "sebas",
+        "role": "cuisinier"
     },
     {
-        "username": "jane",
-        "requestedRole": "cuisinier",
-        "status": "approved"
-    },
-    {
-        "username": "pablo",
-        "requestedRole": "chef",
-        "status": "approved"
+        "username": "papu",
+        "role": "cuisinier"
     }
 ]

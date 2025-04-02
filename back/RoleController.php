@@ -3,12 +3,10 @@
 class RoleController{
 
     private string $filePath;
-    private AuthController $authController;
 
-	public function __construct(string $filePath, AuthController $authController)
+	public function __construct(string $filePath)
 	{
 		$this->filePath = $filePath;
-        $this->authController = $authController;
     }
     
     public function getAllRoleRequests(): void
@@ -22,22 +20,6 @@ class RoleController{
         return file_exists($this->filePath) ? json_decode(file_get_contents($this->filePath), true) ?? [] : [];
     }
     
-
-    private function updateRoles(array $u): void
-    {
-        $users = $this->
-        getAllUsers();
-
-        foreach($user as &$us) {
-            if($user['name'] == $role['name']) {
-                $user = $u;
-                break;
-            }
-        }
-        file_put_contents($this->filePath, json_encode($users, JSON_PRETTY_PRINT));
-        
-    }
-
 
     public function handleRoleRequest(): void{
         echo "ok";
@@ -112,13 +94,11 @@ class RoleController{
         http_response_code(404);
         echo json_encode(['error' => 'Role request not found']);
     }
+
+
+
     public function handleRoleAssignment(): void
     {
-
-
-
-        $echo = "ok";
-
 
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
             http_response_code(400);
@@ -129,9 +109,6 @@ class RoleController{
 
         $json = file_get_contents('php://input');
         $data = json_decode($json);
-
-        
-
         
         if (!($data->username) || !($data->role)) {
             http_response_code(400);
@@ -139,37 +116,39 @@ class RoleController{
             echo json_encode(['error' => 'Invalid username or role']);
             return;
         }
+
+
         $username = $data->username;
         $role = $data->role;
 
-        $users = $this->authController->getAllUsers();
+        $roles = $this->getAllRequests();
         
-        if($users == null)
-        {
-            http_response_code(404);
-            echo json_encode(['error' => 'la gran puta']);
-            return;
-        }
-
-        $echo = "ok";
 
 
-        foreach ($users->getIterator() as $key => $user) {
-            echo $ok;
-            if ($user == $username) {
-                $user['role'] = $role;
-                updateRoles(user);
-                file_put_contents($this->filePath, json_encode($users, JSON_PRETTY_PRINT));
-                http_response_code(200);
-                echo json_encode(['message' => 'Role assigned to user']);
-                return;
+       if($roles == null)
+       {
+           http_response_code(400);
+           echo json_encode(['error' => 'roles list is empty']);
+           return;
+       }
+
+
+       foreach ($roles as $key => &$userInfo) {
+            foreach($userInfo as $key => &$value){
+                    if($value == $username)
+                    {
+                        $userInfo['role'] = $role;
+                        file_put_contents($this->filePath, json_encode($roles, JSON_PRETTY_PRINT));
+                        unset($userInfo);
+                        http_response_code(200);
+                        return;
+                    }
             }
-
         }
-        echo $json;
-        echo json_encode($users);
-        http_response_code(404);
-        echo json_encode(['error' => 'User not found ']);
+        unset($userInfo);
+      
+       http_response_code(404);
+       echo json_encode(['error' => 'User not found ']);
     }
     
         

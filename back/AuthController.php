@@ -2,11 +2,12 @@
 
 class AuthController
 {
-	private string $filePath;
+	private string $filePath, $roleFilePath;
 
-	public function __construct(string $filePath)
+	public function __construct(string $filePath, string $roleFilePath)
 	{
 		$this->filePath = $filePath;
+        $this->roleFilePath = $roleFilePath;
 	}
 
 
@@ -52,6 +53,17 @@ class AuthController
 
     // Save the updated users to the file
     file_put_contents($this->filePath, json_encode($users, JSON_PRETTY_PRINT));
+
+
+    //default role
+
+    $role= [
+        'username' => $username,
+        'role'=> "cuisinier"
+    ];
+
+    $this->saveRole($role);
+
 
     // Send a success response
     http_response_code(201);
@@ -121,4 +133,21 @@ class AuthController
 	{
 		return file_exists($this->filePath) ? json_decode(file_get_contents($this->filePath), true) ?? [] : [];
 	}
+
+    private function saveRole(array $role): void
+	{
+		$roles = $this->getAllRoles();
+		$roles[] = $role;
+
+		file_put_contents($this->roleFilePath, json_encode($roles, JSON_PRETTY_PRINT));
+	}
+    
+    
+    private function getAllRoles(): array
+    {
+		return file_exists($this->roleFilePath) ? json_decode(file_get_contents($this->roleFilePath), true) ?? [] : [];
+
+    }
+
+
 }

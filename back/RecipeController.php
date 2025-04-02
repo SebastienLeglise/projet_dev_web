@@ -125,17 +125,14 @@ class RecipeController{
                 return;
             }
         }
-
-
-
-
+    }
     //---------------------------------------------------------------
 
 
 
 
 
-    public function handleRecipeApproval() {
+    public function handleRecipeApproval():void {
         //TODO
         echo "Recipe approved.";
     }

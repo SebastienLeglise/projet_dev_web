@@ -7,12 +7,13 @@ class Router
 	/**
 	 * Register a new route
 	 */
-	public function register(string $method, string $path, callable $handler): void
+	public function register(string $method, string $path, callable $handler, bool $protected ): void
 	{	
 		$this->routes[] = [
 			'method' => strtoupper($method),
 			'path' => $path,
 			'handler' => $handler,
+			'protected' => $protected,
 		];
 	}
 
@@ -48,6 +49,9 @@ class Router
 
 
 				// If a route matches the request, call the handler
+				if ($route['protected']){
+					AuthMiddleware::authCheck();
+				}
 				call_user_func_array($route['handler'], [$matches, $splitedQuery]);
 				return;
 			}
@@ -60,7 +64,6 @@ class Router
 }
 
 ?>
-
 
 
 

@@ -8,6 +8,7 @@ require_once 'RoleController.php';
 
 session_start(); // Start the session
 
+
 $router = new Router();
 
 

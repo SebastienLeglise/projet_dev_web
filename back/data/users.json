@@ -1,17 +1,2 @@
 {
-    "test@test.com": {
-        "password": "$2y$12$gax8EMz8RL4xfRlYU09aFOu419n0WWIfMh4bwvEJf.ZPkhtTwL0Ay"
-    },
-    "pablo": {
-        "password": "$2y$10$ROIlU2AeXGN2D1b4d7z\/Julo4El50DM6BbAqOg8G0qwRBm8U3yCXm"
-    },
-    "sebas": {
-        "password": "$2y$10$XCO498c4h5JI1TuzYTwVUe9\/KE3Zj9RZtFqWHOsl6dgbeyevmYzHu"
-    },
-    "ferdinand": {
-        "password": "$2y$10$KRQn5J7FUDFRBPPY8NAJmu0JBR1Q4OK0blSu6c4FvZXyw\/MrfSzoS"
-    },
-    "papu": {
-        "password": "$2y$10$mrznl\/OY2UUQ\/URSzJA6SOfMTELJFZ1A2NnNjY1LAGPvBgtlaD4RC"
-    }
 }

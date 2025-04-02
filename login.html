@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Page login</title>
+</head>
+
+<body>
+  <h1> Login Page</h1>
+
+    <!-- Registration Form -->
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="text" id="registerUsername" required>
+      <input type="password" id="registerPassword" required>
+      <button type="submit">Register</button>
+    </form>
+
+
+     <!-- Login Form -->
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" id="loginUsername" placeholder="Username" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+
+
+
+    <script>
+      
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const username = document.getElementById('registerUsername').value;
+          const password = document.getElementById('registerPassword').value;
+
+        // handle register
+          fetch('/api/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, password })
+          })
+          .then((response) => {
+            if (!response.ok) {
+              return response.text().then((text) => {
+                throw new Error(text || 'An error occurred');
+              });
+            }
+            return response.json();
+          })
+          .then(({ ok, data }) => {
+            console.log('Success');
+          })
+          .catch((error)=>{
+            console.error('Error:', error);
+          });
+      });
+      
+
+
+    </script>
+
+
+</body>
+</html>

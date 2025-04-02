@@ -1,0 +1,5 @@
+/home/typhus/web_projet/projet_dev_web/front/chef.html
+/home/typhus/web_projet/projet_dev_web/front/index.html
+/home/typhus/web_projet/projet_dev_web/front/login.html
+/home/typhus/web_projet/projet_dev_web/front/recipe.html
+/home/typhus/web_projet/projet_dev_web/front/recipes.html

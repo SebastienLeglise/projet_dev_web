@@ -17,7 +17,7 @@ $router = new Router();
 $authController = new AuthController(__DIR__ . '/data/users.json', __DIR__ . '/data/roles.json');
 $commentController = new CommentController(__DIR__ . '/data/comments.json', $authController);
 $roleController = new RoleController(__DIR__ . '/data/roles.json', $authController);
-$recipeController = new RecipeController(__DIR__ . '/data/recipesTest.json');
+$recipeController = new RecipeController(__DIR__ . '/data/recipes.json');
 
 
 
@@ -59,6 +59,7 @@ $router->register('PUT','/api/recipe',[$recipeController, 'handleRecipeModificat
 
 $router->register('POST','/api/recipe/approval/{recipe_name}',[$recipeController, 'handleRecipeApproval'],false);				//Approuver une recette
 $router->register('GET','/api/recipe/consult/{recipe_name}',[$recipeController, 'handleRecipeConsulting'],false);				//Consulter une recette
+$router->register('GET','/api/recipe/consultAll',[$recipeController, 'handleRecipeConsultingAll'],false);				//Consulter toutes les recettes
 $router->register('GET','/api/recipe/search',[$recipeController, 'handleRecipeSearch'],false);				//Rechercher une recette
 
 $router->register('POST','/api/recipe/traduction/{params}',[$recipeController, 'handleRecipeTraduction'],false);				//Traduire une recette

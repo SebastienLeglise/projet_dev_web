@@ -273,27 +273,41 @@ class RecipeController{
         echo json_encode($filteredRecipes);
     }
 
-
-
-    public function handleRecipeConsulting($params) {//nom
-        $recipe_name = $params[0]; // Extraire l'ID depuis le tableau
-
+    public function handleRecipeConsultingAll() {
         $recipes = $this->getAllRecipes();
-   
-
         if($recipes == null) {
             http_response_code(404);
             echo json_encode("error => The recipes databases is empty, you can help by expanding it ");
             return;
         }
 
-        foreach($recipes as $recipe) {
-            if($recipe['name'] == $recipe_name) {
-                http_response_code(200);
+        http_response_code(200);
+        header('Content-Type: application/json');
+        echo json_encode($recipes);
+    }
 
-                //TODO header
-                //echo json_encode($recipe);
-                return $recipe;
+
+
+    public function handleRecipeConsulting($params) {//nom
+        $recipe_name = urldecode($params[0]); // Extraire le nom depuis le tableau
+
+        $recipes = $this->getAllRecipes();   
+        if($recipes == null) {
+            http_response_code(404);
+            echo json_encode("error => The recipes databases is empty, you can help by expanding it ");
+            return;
+        }
+
+        foreach($recipes as $key => $recipe) {
+            foreach($recipe as $key => $value) {
+
+                if($value == $recipe_name) {
+                    echo json_encode($recipe);
+                    http_response_code(200);
+                    header('Content-Type: application/json');
+                    echo json_encode($recipe);
+                    return $recipe;
+                }
             }
         }
 

@@ -6,12 +6,33 @@
 </head>
 
 <body>
-  recetas
+  <h1>Liste des recettes</h1>
+  <div id="recipesContainer"></div>
 
-    <div class="menu">
-        <a href="index.html">Accueil</a>
-        <a href="recipe.html">Recette</a>
-    </div>
+  <div class="menu">
+    <a href="index.html">Accueil</a>
+  </div>
+
+  <script>
+     fetch('/api/recipes/consultAll', {
+        method: 'GET', 
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+      })
+      .then((response) => response.json())
+      .then((recipes) => {
+        //debug
+        console.log('Recettes:', recipes);
+  
+      //todo
+      })
+      .catch((error) => {
+        console.error('Erreur lors du chargement des recettes:', error);
+      });
+
+  </script>
+
 
 </body>
 </html>

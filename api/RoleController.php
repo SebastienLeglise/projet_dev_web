@@ -22,7 +22,6 @@ class RoleController{
     
 
     public function handleRoleRequest(): void{
-        echo "ok";
 
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
             http_response_code(400);
@@ -32,8 +31,6 @@ class RoleController{
         }
         $json = file_get_contents('php://input');
         $data = json_decode($json);
-
-        echo "ok";
 
         if (!($data->username) || !($data->requestedRole)) {
             http_response_code(400);

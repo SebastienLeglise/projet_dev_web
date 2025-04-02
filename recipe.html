@@ -2,13 +2,46 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Page recette</title>
+  <title>Détails de la Recette</title>
 </head>
 
 <body>
-    receta
+  <h1>Détails de la Recette</h1>
+  <div id="recipeDetails"></div>
+  <div id="recipeComments"></div>
+
+  <div class="menu">
+    <a href="recipes.html">Retour à la liste des recettes</a>
+  </div>
+
+  <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const recipeName= urlParams.get('name');
 
 
+       // Fetch recipe details from the backend
+      fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`)
+      .then((response) => response.json())
+      .then((recipe) => {
+        const recipeDetails = document.getElementById('recipeDetails');
+        recipeDetails.innerHTML = `
+          <h2>${recipe.name}</h2>
+          <p><strong>Nom (FR):</strong> ${recipe.nameFR}</p>
+          <p><strong>Auteur:</strong> ${recipe.Author}</p>
+          <p><strong>Ingrédients:</strong> ${recipe.ingredients.join(', ')}</p>
+          <p><strong>Étapes:</strong> ${recipe.steps.join('. ')}</p>
+          <p><strong>Temps:</strong> ${recipe.timers.join(', ')}</p>
+          <p><strong>URL de l'image:</strong> <a href="${recipe.imageURL}" target="_blank">${recipe.imageURL}</a></p>
+          <p><strong>URL originale:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a></p>
+        `;
+      })
+      .catch((error) => {
+        console.error('Error fetching recipe details:', error);
+      });
+
+
+
+  </script>
 
 </body>
 </html>

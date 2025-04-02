@@ -25,7 +25,8 @@ class RoleController{
 
     private function updateRoles(array $u): void
     {
-        $users = $this->getAllUsers();
+        $users = $this->
+        getAllUsers();
 
         foreach($user as &$us) {
             if($user['name'] == $role['name']) {
@@ -114,7 +115,7 @@ class RoleController{
     public function handleRoleAssignment(): void
     {
 
-/*
+
 
         $echo = "ok";
 
@@ -153,7 +154,7 @@ class RoleController{
         $echo = "ok";
 
 
-        foreach ($users as $key => $user) {
+        foreach ($users->getIterator() as $key => $user) {
             echo $ok;
             if ($user == $username) {
                 $user['role'] = $role;
@@ -165,12 +166,10 @@ class RoleController{
             }
 
         }
-
-
-
-*/
+        echo $json;
+        echo json_encode($users);
         http_response_code(404);
-        echo json_encode(['error' => 'User not found aaaaaaaaaaaaaaa']);
+        echo json_encode(['error' => 'User not found ']);
     }
     
         

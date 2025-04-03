@@ -20,7 +20,6 @@ $roleController = new RoleController(__DIR__ . '/data/roles.json', $authControll
 $recipeController = new RecipeController(__DIR__ . '/data/recipesTest.json');
 
 
-
 //------------------------------------------------------------------
 
 //Auth
@@ -28,7 +27,7 @@ $recipeController = new RecipeController(__DIR__ . '/data/recipesTest.json');
 $router->register('POST', '/api/register', [$authController, 'handleRegister'],false);
 $router->register('POST', '/api/login', [$authController, 'handleLogin'],false);
 $router->register('POST', '/api/logout', [$authController, 'handleLogout'],true);
-
+$router->register('GET', '/api/check-session', [$authController, 'handleCheckSession'], false);
 
 //Comments
 

@@ -13,6 +13,14 @@
     <a href="index.html">Accueil</a>
   </div>
 
+      <!-- session info -->
+      <div id="sessionInfo">
+        <p id="sessionStatus">Chargement du statut de la session...</p>
+      </div>
+    
+      <!-- logout Button -->
+      <button id="logoutButton" style="display: none;">Se déconnecter</button>
+
   <script>
      fetch('/api/recipe/consultAll', {
         method: 'GET', 
@@ -33,6 +41,48 @@
       .catch((error) => {
         console.error('Erreur lors du chargement des recettes:', error);
       });
+
+         // Automatically check session status when the page loads
+    window.onload = function() {
+      fetch('/api/check-session', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const sessionStatus = document.getElementById('sessionStatus');
+        const logoutButton = document.getElementById('logoutButton');
+
+        if (data.isLoggedIn) {
+          console.log('User is logged in as ' + data.username);
+          sessionStatus.innerHTML = `Vous êtes connecté en tant que <strong>${data.username}</strong>.`;
+          logoutButton.style.display = 'block';
+        } else {
+          console.log('User is not logged in');
+          sessionStatus.innerHTML = 'Vous n\'êtes pas connecté.';
+          logoutButton.style.display = 'none';
+        }
+      })
+      .catch(error => {
+        console.error('Error checking session:', error);
+        document.getElementById('sessionStatus').innerHTML = 'Erreur lors de la vérification de la session.';
+      });
+    }
+
+    document.getElementById('logoutButton').addEventListener('click', () => {
+      fetch('/api/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data.message);
+        window.location.reload(); 
+      })
+      .catch(error => {
+        console.error('Error logging out:', error);
+      });
+    });
 
   </script>
 

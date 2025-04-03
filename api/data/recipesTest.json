@@ -1,35 +1,34 @@
 [
     {
-        "name": "test",
-        "nameFR": "Roti \u00e0 la cocotte",
+        "name": "Crock Pot Roast",
+        "nameFR": "Rôti à la cocotte",
         "Author": "Unknown",
         "Without": [
             "NoGluten",
             "NoMilk"
         ],
-        "imageURL": [
-            "url2",
-            "url",
-            "url3"
-        ],
-        "likes": 2
-    },
-    {
-        "name": "test2",
-        "nameFR": "Roti \u00e0 la cocottela",
-        "Author": "Unknown",
-        "ingredients": [
+        "ingredientsFR": [
             {
                 "quantity": "1",
-                "name": "beef roast",
-                "type": "Meat"
+                "name": "roti de boeuf",
+                "type": "Viande"
+            },
+            {
+                "quantity": "1 sachet",
+                "name": "mélange pour sauce brune",
+                "type": "Aide culinaire"
+            },
+            {
+                "quantity": "1/2 tasse",
+                "name": "eau",
+                "type": "Liquide"
             }
         ],
-        "imageURL": [
-            "url2",
-            "url",
-            "url3"
-        ],
-        "likes": 2
+        "stepsFR": [
+            "Placer le roti dans la cocotte en fonte",
+            "Melanger les sachets de sauces en poudre dans un bol et saupoudrer le roti avec.",
+            "Arroser le roti",
+            "Cuire à feu doux entre 7 et 9 heures."
+        ]
     }
 ]

@@ -18,22 +18,29 @@
       const urlParams = new URLSearchParams(window.location.search);
       const recipeName= urlParams.get('name');
 
+     
+      //print the name of the recipe in the console
+      console.log(recipeName);
+
 
        // Fetch recipe details from the backend
-      fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`)
+      fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`,{
+          // Fetch recipe details from the backend
+          method: 'GET', 
+          headers: {
+            'Content-Type': 'application/json', 
+          }})  
       .then((response) => response.json())
       .then((recipe) => {
-        const recipeDetails = document.getElementById('recipeDetails');
-        recipeDetails.innerHTML = `
-          <h2>${recipe.name}</h2>
-          <p><strong>Nom (FR):</strong> ${recipe.nameFR}</p>
-          <p><strong>Auteur:</strong> ${recipe.Author}</p>
-          <p><strong>Ingrédients:</strong> ${recipe.ingredients.join(', ')}</p>
-          <p><strong>Étapes:</strong> ${recipe.steps.join('. ')}</p>
-          <p><strong>Temps:</strong> ${recipe.timers.join(', ')}</p>
-          <p><strong>URL de l'image:</strong> <a href="${recipe.imageURL}" target="_blank">${recipe.imageURL}</a></p>
-          <p><strong>URL originale:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a></p>
-        `;
+        //display only the name of the recipe
+        const recipeDetailsContainer = document.getElementById('recipeDetails');
+  
+        let title = '<h3>' + recipe.name + '</h3>';
+        console.log(recipe);
+        recipeDetailsContainer.innerHTML = title;
+
+
+  
       })
       .catch((error) => {
         console.error('Error fetching recipe details:', error);

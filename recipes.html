@@ -14,7 +14,7 @@
   </div>
 
   <script>
-     fetch('/api/recipes/consultAll', {
+     fetch('/api/recipe/consultAll', {
         method: 'GET', 
         headers: {
           'Content-Type': 'application/json', 
@@ -22,10 +22,13 @@
       })
       .then((response) => response.json())
       .then((recipes) => {
-        //debug
-        console.log('Recettes:', recipes);
-  
-      //todo
+        const recipesContainer = document.getElementById('recipesContainer');
+        recipesContainer.innerHTML = recipes.map(recipe => `
+          <div>
+            <h3><a href="recipe.html?name=${encodeURIComponent(recipe.name)}">${recipe.name}</a></h3>
+            <p><strong>URL originale:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a></p>
+          </div>
+        `).join('');
       })
       .catch((error) => {
         console.error('Erreur lors du chargement des recettes:', error);

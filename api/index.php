@@ -17,7 +17,7 @@ $router = new Router();
 $authController = new AuthController(__DIR__ . '/data/users.json', __DIR__ . '/data/roles.json');
 $commentController = new CommentController(__DIR__ . '/data/comments.json', $authController);
 $roleController = new RoleController(__DIR__ . '/data/roles.json', $authController);
-$recipeController = new RecipeController(__DIR__ . '/data/recipesTest.json');
+$recipeController = new RecipeController(__DIR__ . '/data/recipes.json');
 
 
 //------------------------------------------------------------------

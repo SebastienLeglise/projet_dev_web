@@ -7,5 +7,8 @@
     },
     "masterChief": {
         "password": "$2y$10$A0Qx7tyk.dD\/XZCKsTt92udhzIxVPLw8m0K86t0SX\/uuDYgm2ADeS"
+    },
+    "pepe": {
+        "password": "$2y$10$L\/7ghH5iKn6WaULtTOcHQORYpu6GSY0cwXLfFUY7bNydJqO0BhDRm"
     }
 }

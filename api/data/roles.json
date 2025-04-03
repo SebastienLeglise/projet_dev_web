@@ -14,5 +14,9 @@
     {
         "username": "masterChief",
         "role": "cuisinier"
+    },
+    {
+        "username": "pepe",
+        "role": "cuisinier"
     }
 ]

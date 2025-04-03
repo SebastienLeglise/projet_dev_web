@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 class AuthController
 {
 	private string $filePath, $roleFilePath;
@@ -11,7 +11,7 @@ class AuthController
 	}
 
 
-
+    
     public function handleRegister(): void {  
     if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
         http_response_code(400);
@@ -111,11 +111,42 @@ class AuthController
 
 		// Store user session
 		$_SESSION['user'] = $username;
-
+        
 		http_response_code(200);
 		echo json_encode(['message' => 'Login successful']);
 
 	}
+
+    public function handleCheckSession(): void
+{
+    if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
+        http_response_code(400);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Invalid Content-Type']);
+        return;
+    }
+    // Start session if not already started
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Initialize response
+    $response = ['isLoggedIn' => false, 'username' => ''];
+
+    // Check if the session contains a logged-in user
+    if (isset($_SESSION['user'])) {
+        $response['isLoggedIn'] = true;
+        $response['username'] = $_SESSION['user'];
+    }
+
+    // Set appropriate headers
+    //header('Content-Type: application/json');
+
+    // Send JSON response
+    echo json_encode($response);
+}
+
+
 
 	public function handleLogout(): void
 	{

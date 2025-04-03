@@ -7,5 +7,29 @@
     },
     "masterChief": {
         "password": "$2y$10$A0Qx7tyk.dD\/XZCKsTt92udhzIxVPLw8m0K86t0SX\/uuDYgm2ADeS"
+    },
+    "pedros": {
+        "password": "$2y$10$rT3pOUXC9vALmJIXbYNgQucpbxS9wnNobFAlfEtj69.WXi8D8Ilre"
+    },
+    "pedro": {
+        "password": "$2y$10$RQnfJg6feSPdENBEFihy5udD6RccL0enhYQQpCV1dJVpn7CodH6fu"
+    },
+    "pablo": {
+        "password": "$2y$10$waBPNQE2X6YlAoObs44XfuqWXZQmbAPe1M.TtciV7YVe0wgTjSLQu"
+    },
+    "juancarlos": {
+        "password": "$2y$10$cVyaeslCGYLthxsUbWFAuO4aALwk2lOamYQguS3TBFiMqqMi.5FAy"
+    },
+    "alosno ": {
+        "password": "$2y$10$UB6EmgQvvuJSnf3V\/irtWuBzVPa\/3wDtX5UI1LOoGmdsbQxa1Tj.u"
+    },
+    "ola": {
+        "password": "$2y$10$9.V9xZw0juLXlXnl.T2JH.IcTuZUYSDpfhzC\/\/0p46G6w7yXc7aV2"
+    },
+    "olaaa": {
+        "password": "$2y$10$Sdmr1eqgkxBLBa60ND16qurQ11HpIJV7aDgbwuMsWxbieJAMQfRXW"
+    },
+    "olaaaaaa": {
+        "password": "$2y$10$7rLLfTaSpCLUD7zNHLB7UucBX9OCRP\/zv0YBbFOrGuk429NP1WzlG"
     }
 }

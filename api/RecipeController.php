@@ -33,17 +33,17 @@ class RecipeController{
         $recipes = $this->getAllRecipes();
 
         // Create a new recipe object using the input data
+        // La recette peut avoir un ou plusieurs champs avec la valeur null(le titre, la liste des ingrédients, etc ..)
         $newRecipe = [
-            "name" => $data->name,
-            "nameFR" => $data->nameFR ?? "N/A",
-            "Author" => $data->Author ?? "Unknown",
-            "Without" => $data->Without ?? [],
-            "ingredients" => $data->ingredients,
-            "steps" => $data->steps,
-            "timers" => $data->timers ,
-            "imageURL" => $data->imageURL ?? "",
-            "originalURL" => $data->originalURL ?? "",
-            "status" => 'proposed'
+            'name' => $data->name,
+            'nameFR' => $data->nameFR ?? null,
+            'Author' => $data->Author ?? null,
+            'Without' => $data->Without ?? null,
+            'ingredients' => $data->ingredients ?? null,
+            'steps' => $data->steps,
+            'timers' => $data->timers,
+            'imageURL' => $data->imageURL ?? null,
+            'originalURL' => $data->originalURL ?? null,
         ];
 
         $recipes[] = $newRecipe;
@@ -55,7 +55,7 @@ class RecipeController{
     }
 
     public function handleRecipeDeletion($params) {
-        //TODO
+
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
             http_response_code(400);
             header('Content-Type: application/json');
@@ -86,11 +86,10 @@ class RecipeController{
         http_response_code(404);
         echo json_encode(['error' => 'Recipe not found']);
     
-       // $recipe_id = (int) $params[0]; // Extraire l'ID depuis le tableau
-    //echo "Recipe with ID $recipe_id deleted.";
     }
     
-        public function handleRecipeModification() {
+    
+    public function handleRecipeModification() {
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
             http_response_code(400);
             header('Content-Type: application/json');
@@ -125,6 +124,9 @@ class RecipeController{
                 return;
             }
         }
+
+        http_response_code(404);
+        echo json_encode(['error' => 'Recipe not found']);
     }
     //---------------------------------------------------------------
 
@@ -132,13 +134,80 @@ class RecipeController{
 
 
 
-    public function handleRecipeApproval():void {
-        //TODO
-        echo "Recipe approved.";
+    public function handleRecipeApproval($params):void {
+
+        // Ensure the correct Content-Type header
+        if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid Content-Type']);
+            return;
+        }
+
+        // Validate and sanitize form data
+        $username = filter_var($params['username'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $status = filter_var($params['status'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        if (!$username) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing required fields. Fields' . $username ]);
+            return;
+        }
+
+        $recipes = $this->getAllRecipes();
+         // Chercher la recette à approuver     -> l'administrateur déclare une recette terminée ou publiée en fonction de ce qui manque
+        foreach ($recipes as &$recipe) {
+            if ($recipe['name'] === $recipeName) {
+                // Vérifier si le champ 'status' existe, sinon le créer
+                if (!isset($recipe['status'])) {
+                    $recipe['status'] = null;
+                }
+                
+                // Compter les champs avec des valeurs nulles
+                $nullFields = 0;
+                foreach (['ingredients', 'steps', 'timers', 'description'] as $field) {
+                    if (empty($recipe[$field])) {
+                        $nullFields++;
+                    }
+                }
+
+
+                // Déterminer le statut en fonction du nombre de champs nulls
+                if ($nullFields <= 1) {
+                    $recipe['status'] = 'terminée';
+                } else {
+                    $recipe['status'] = 'publiée';
+                }
+
+
+                // Mettre à jour la base de données
+                file_put_contents($this->filePath, json_encode($recipes, JSON_PRETTY_PRINT));
+
+                http_response_code(200);
+                echo json_encode([
+                    'message' => 'Recipe status updated successfully',
+                    'status' => $recipe['status']
+                ]);
+                return;
+            }
+        }
+
+        // Si la recette n'est pas trouvée
+        http_response_code(404);
+        echo json_encode(['error' => 'Recipe not found']);
     }
 
 
-    public function handleRecipeSearch($params, $splitedQuery) {//querys
+
+
+    public function handleRecipeSearch($params, $splitedQuery) {
+        // Validate and sanitize form data
+        if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid Content-Type']);
+            return;
+        }
 
         $validSearchFields = ['name',
                               'nameFR', 
@@ -149,8 +218,11 @@ class RecipeController{
                               //'lang'   une foie traduction sera faite on pourra chercher par langue
         ];
 
-        $validSearchVlaues = [];
 
+
+        $validSearchVlaues = [];
+        
+        // Validate and sanitize the search query
         foreach($splitedQuery as $field => $queryValue) {
             if(!in_array($field, $validSearchFields)) {
                 http_response_code(400);
@@ -160,6 +232,7 @@ class RecipeController{
                 $validSearchVlaues[$field] = $queryValue;
             }
         }
+
 
         $recipes = $this->getAllRecipes();
         if($recipes == null) {
@@ -264,12 +337,13 @@ class RecipeController{
 
         if(count($filteredRecipes) == 0) {
             http_response_code(404);
+            header('Content-Type: application/json');
             echo json_encode("error => No recipe found with the specified query");
             return;
         }
 
         http_response_code(200);
-        //TODO header
+        header('Content-Type: application/json');
         echo json_encode($filteredRecipes);
     }
 

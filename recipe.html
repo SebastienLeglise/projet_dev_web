@@ -8,7 +8,9 @@
 <body>
   <h1>Détails de la Recette</h1>
   <div id="recipeDetails"></div>
+  <h2>Commentaires</h2>
   <div id="recipeComments"></div>
+
 
   <div class="menu">
     <a href="recipes.html">Retour à la liste des recettes</a>
@@ -29,8 +31,6 @@
 
      
       //print the name of the recipe in the console
-      console.log(recipeName);
-
 
        // Fetch recipe details from the backend
       fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`,{
@@ -44,11 +44,74 @@
         //display only the name of the recipe
         const recipeDetailsContainer = document.getElementById('recipeDetails');
   
-        let title = '<h3>' + recipe.name + '</h3>';
-        console.log(recipe);
-        recipeDetailsContainer.innerHTML = title;
+
+        const ingredients = 
+          Array.isArray(recipe.ingredients)? 
+            recipe.ingredients: recipe.ingredients? 
+            [recipe.ingredients]: [];
+          
+        const imageURLs = 
+          Array.isArray(recipe.imageURL)? 
+            recipe.imageURL: recipe.imageURL?
+            [recipe.imageURL]: [];
+
+        const author = recipe.author || 'Unknown';
+        const without = recipe.Without ? recipe.Without.join(', ') : 'No fear to food';
+        const steps = Array.isArray(recipe.steps) ? recipe.steps : [];
+        const timers = Array.isArray(recipe.timers) ? recipe.timers : [];
 
 
+        let recipeInfo =
+            '<h3>' +
+            recipe.name +
+            '</h3>' +
+            '<p><strong>Auteur :</strong> ' +
+            author +
+            '</p>' +
+            '<p><strong>Without:</strong> ' +
+            without +
+            '</p>' +
+            '<p><strong>Ingrédients :</strong></p>' +
+            '<ul>' +     
+              ingredients.map(
+                (ingredient) =>
+                  '<li>' +
+                  (ingredient.quantity || 'Not specified') +
+                  ' ' +
+                  (ingredient.name || 'Unknown') +
+                  ' (' +
+                  (ingredient.type || 'Unknown') +
+                  ')</li>'
+              ).join('') +
+              '</ul>' +
+              '<p><strong>URL original :</strong> <a href="' +
+              (recipe.originalURL || '#') +
+              '" target="_blank">' +
+              (recipe.originalURL || 'Non disponible') +
+              '</a></p>' +
+              '<h3>Steps :</h3>' +
+              '<ol>' +
+              steps.map(
+                (step, index) =>
+                  '<li>' +
+                  step +
+                  ' (' +
+                  (timers[index] || 'Non spécifié') +
+                  ' minutes)</li>'
+              ).join('') +
+              '</ol>' +
+              '<p><strong>Image :</strong></p>' +
+              '<ul>' +
+              imageURLs.map(
+                (image) =>
+                  '<li><img src="' +
+                  image +
+                  '" alt="Image de la recette" style="width: 200px; height: auto;"></li>'
+              ).join('') +
+              '</ul>'
+        ;
+        console.log(recipe.name);
+        recipeDetailsContainer.innerHTML = recipeInfo;
   
       })
       .catch((error) => {

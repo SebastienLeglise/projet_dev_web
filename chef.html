@@ -8,22 +8,111 @@
 <body>
   <h1>Créer une nouvelle recette</h1>
   <form id="recipeForm">
-    <input type="text" id="recipeName" placeholder="Nom de la recette (en anglais)" required>
-    <input type="text" id="recipeNameFR" placeholder="Nom de la recette (en français)">
-    <input type="text" id="recipeAuthor" placeholder="Auteur de la recette">
-    <input type="text" id="recipeWithout" placeholder="Ingrédients à exclure (séparés par des virgules)">
-    <textarea id="recipeIngredients" placeholder="Ingrédients (séparés par des virgules)" required></textarea>
-    <textarea id="recipeSteps" placeholder="Étapes (séparées par des points)" required></textarea>
-    <input type="text" id="recipeTimers" placeholder="Temps pour chaque étape (en minutes, séparés par des virgules)">
-    <input type="text" id="recipeImageURL" placeholder="URL de l'image">
-    <input type="text" id="recipeOriginalURL" placeholder="URL originale de la recette">  
-    <button type="submit">Ajouter la recette</button>
+    <input type="text" id="name" placeholder="Nom de la recette (en anglais)" required> </br>
+    <input type="text" id="nameFR" placeholder="Nom de la recette (en français)"></br>
+    <input type="text" id="Author" placeholder="Auteur de la recette"></br>
+    <input type="text" id="Without" placeholder="Ingrédients à exclure (séparés par des virgules)"></br>
+    <textarea id="Steps" placeholder="Étapes (séparées par des points)" ></textarea></br>
+    <input type="text" id="Timers" placeholder="Temps pour chaque étape (en minutes, séparés par des virgules)"></br>
+    <input type="text" id="imageURL" placeholder="URL de l'image"></br>
+    <input type="text" id="originalURL" placeholder="URL originale de la recette"></br>
+    
+    <div id="ingredientsContainer">
+      <h3>Ingrédients</h3>
+      <div class="ingredient">
+        <input type="text" class="ingredientName" placeholder="Nom de l'ingrédient" >
+        <input type="text" class="ingredientQuantity" placeholder="Quantité" >
+        <input type="text" class="ingredientType" placeholder="Type (e.g., Meat, Baking)" >
+      </div>
+    </div>
+    <button type="button" id="addIngredientButton">Ajouter un ingrédient</button></br>
+  
+    
+    <button type="submit">Ajouter la recette</button></br>
   </form>
 
 
   <script>
-    //TODO
+     document.getElementById('addIngredientButton').addEventListener('click', () => {
+      const ingredientsContainer = document.getElementById('ingredientsContainer');
+      const ingredientDiv = document.createElement('div');
+      ingredientDiv.classList.add('ingredient');
+      ingredientDiv.innerHTML = `
+        <input type="text" class="ingredientQuantity" placeholder="Quantité">
+        <input type="text" class="ingredientName" placeholder="Nom de l'ingrédient" >
+        <input type="text" class="ingredientType" placeholder="Type (e.g., Meat, Baking)" >
+      `;
+      ingredientsContainer.appendChild(ingredientDiv);
+    });
 
+    document.getElementById('recipeForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+
+
+      const ingredients = 
+        Array.from(document.querySelectorAll('.ingredient')).map(ingredientDiv => {
+          const quantity = ingredientDiv.querySelector('.ingredientQuantity').value.trim();
+          const name = ingredientDiv.querySelector('.ingredientName').value.trim();
+          const type = ingredientDiv.querySelector('.ingredientType').value.trim();
+          if (name && quantity && type) {
+            return { name, quantity, type };
+          }
+          return null;
+        }).filter(ingredient => ingredient.name !== '');
+
+      const name = document.getElementById('name').value;
+      const stepsInput= document.getElementById('Steps').value;
+      const timersInput = document.getElementById('Timers').value;
+      const withoutInput = document.getElementById('Without').value;
+      const imageURL = document.getElementById('imageURL').value;
+      const originalURL = document.getElementById('originalURL').value;
+  
+      steps = stepsInput.split('.').map(step => step.trim()).filter(step => step !== '');
+      timers = timersInput.split(',').map(timer => parseInt(timer.trim(), 10)).filter(timer => !isNaN(timer));
+      without = withoutInput.split(',').map(ingredient => ingredient.trim()).filter(ingredient => ingredient !== '');
+
+
+      console.log('Name:', name);
+      console.log('Steps:', steps);
+      console.log('Timers:', timers);
+      console.log('Ingredients:', ingredients);
+
+      const recipe = {
+        name,
+        ingredients,
+        steps,
+        timers,
+        imageURL: imageURL || null,
+        originalURL: originalURL || null
+      };
+
+      fetch('/api/recipe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(recipe)
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(error => { throw new Error(error.error); });
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert('Recipe added successfully!');
+        console.log('Success:', data);
+        //redirection, si quieres lo cambias 
+        window.location.href = 'recipes.html';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error adding the recipe: \n' + error.message);
+      });
+
+
+    });
   </script>
 
 

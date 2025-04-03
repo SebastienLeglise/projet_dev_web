@@ -1,0 +1,23 @@
+[
+    {
+        "name": "pepaPuta",
+        "nameFR": null,
+        "Author": null,
+        "Without": null,
+        "ingredients": [
+            {
+                "quantity": "5",
+                "name": "tocino",
+                "type": "puerca"
+            }
+        ],
+        "steps": [
+            "darle a palos"
+        ],
+        "timers": [
+            1
+        ],
+        "imageURL": null,
+        "originalURL": null
+    }
+]

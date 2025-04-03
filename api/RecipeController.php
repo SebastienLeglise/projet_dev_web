@@ -23,12 +23,34 @@ class RecipeController{
         $json = file_get_contents('php://input');
         $data = json_decode($json);
 
+      // Check if the recipe name already exists
+        $recipes = $this->getAllRecipes();
+        foreach ($recipes as $recipe) {
+            if (strcasecmp($recipe['name'], $data->name) === 0) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Recipe name already exists']);
+                return;
+            }
+        }
+
+            // sanitize the input data
         // Validate necessary fields
-        if (!($data->name) || !($data->ingredients) || !($data->steps)  ||!($data->timers)) {
+        $missingFields = [];
+        if (!$data->name) 
+            $missingFields[] = 'name';
+        if (!$data->ingredients) 
+            $missingFields[] = 'ingredients';
+        if (!$data->steps) 
+            $missingFields[] = 'steps';
+        if (!$data->timers) 
+            $missingFields[] = 'timers';
+    
+        if ($missingFields) {
             http_response_code(400);
-            echo json_encode(['error' => 'Missing required recipe information' . $data->name . $data->ingredients . $data->steps . $data->timers]);
+            echo json_encode(['error' => 'Missing required recipe information: ' . implode(', ', $missingFields)]);
             return;
         }
+    
 
         $recipes = $this->getAllRecipes();
 
@@ -39,17 +61,14 @@ class RecipeController{
             'nameFR' => $data->nameFR ?? null,
             'Author' => $data->Author ?? null,
             'Without' => $data->Without ?? null,
-            'ingredients' => $data->ingredients ?? null,
+            'ingredients' => $data->ingredients,
             'steps' => $data->steps,
             'timers' => $data->timers,
             'imageURL' => $data->imageURL ?? null,
             'originalURL' => $data->originalURL ?? null,
         ];
-
         $recipes[] = $newRecipe;
-
         file_put_contents($this->filePath, json_encode($recipes, JSON_PRETTY_PRINT| JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-
         http_response_code(201);
         echo json_encode(['message' => 'Recipe proposed successfully']);
     }

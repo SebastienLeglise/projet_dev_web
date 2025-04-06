@@ -18,5 +18,13 @@
     {
         "username": "pepe",
         "role": "cuisinier"
+    },
+    {
+        "username": "pablo",
+        "role": "chef"
+    },
+    {
+        "username": "papo",
+        "role": "cuisinier"
     }
 ]

@@ -10,5 +10,11 @@
     },
     "pepe": {
         "password": "$2y$10$L\/7ghH5iKn6WaULtTOcHQORYpu6GSY0cwXLfFUY7bNydJqO0BhDRm"
+    },
+    "pablo": {
+        "password": "$2y$10$T1ICb0\/JANQmNGm2w98I\/uYQXbi7xx2o75CDNtK2ctdUCJfBLadoS"
+    },
+    "papo": {
+        "password": "$2y$10$dBxilW7VPeStwTOgB\/jzAO3Um4V0qTxKiKlB.nlazmOSS.jgGZsgu"
     }
 }

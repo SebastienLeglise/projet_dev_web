@@ -22,8 +22,8 @@
   <a href="login.html">login</a>
     <h2>recettes</h2>
     <a href="recipes.html">Recettes</a>
-    <h2>création recettes</h2>
-    <a href="chef.html">Créer une recette</a>
+    <h2 id="createRecipeHeading" style="display:block;">création recettes</h2>
+    <a href="chef.html" id="createRecipeLink">Créer une recette</a>
 </div>
 
 
@@ -38,11 +38,16 @@
       .then(data => {
         const sessionStatus = document.getElementById('sessionStatus');
         const logoutButton = document.getElementById('logoutButton');
-
         if (data.isLoggedIn) {
           console.log('User is logged in as ' + data.username);
           sessionStatus.innerHTML = `Vous êtes connecté en tant que <strong>${data.username}</strong>.`;
           logoutButton.style.display = 'block';
+
+          if (data.role === 'cuisinier'||data.role === 'traducteur') {
+            createRecipeHeading.style.display = 'none';
+            createRecipeLink.style.display = 'none';
+          }
+          
         } else {
           console.log('User is not logged in');
           sessionStatus.innerHTML = 'Vous n\'êtes pas connecté.';

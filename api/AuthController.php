@@ -108,9 +108,26 @@ class AuthController
 			echo json_encode(['error' => 'Invalid credentials']);
 			return;
 		}
+        $roles = json_decode(file_get_contents(__DIR__ . '/data/roles.json'), true);
+
+        $userRole = null;
+        foreach ($roles as $entry) {
+            if ($entry['username'] === $username) {
+                $userRole = $entry['role'];
+                break;
+            }
+        }
+
+        if (!$userRole) {
+            http_response_code(403);
+            echo json_encode(['error' => 'No role assigned to this user']);
+            return;
+        }
 
 		// Store user session
 		$_SESSION['user'] = $username;
+        $_SESSION['role'] = $userRole;
+        
         
 		http_response_code(200);
 		echo json_encode(['message' => 'Login successful']);
@@ -131,16 +148,14 @@ class AuthController
     }
 
     // Initialize response
-    $response = ['isLoggedIn' => false, 'username' => ''];
+    $response = ['isLoggedIn' => false, 'username' => '','role' => ''];
 
     // Check if the session contains a logged-in user
     if (isset($_SESSION['user'])) {
         $response['isLoggedIn'] = true;
         $response['username'] = $_SESSION['user'];
+        $response['role'] = $_SESSION['role'];
     }
-
-    // Set appropriate headers
-    //header('Content-Type: application/json');
 
     // Send JSON response
     echo json_encode($response);

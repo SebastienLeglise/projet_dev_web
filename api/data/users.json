@@ -1,32 +1,8 @@
 {
-    "susi": {
-        "password": "$2y$10$Q6NbOBVVMWSFUg.s90tmCe\/haJJbl5g0NpXPBzCoKz.f4vVYxk6Pa"
-    },
-    "garnachas": {
-        "password": "$2y$10$q2ePhjqwW6tIh7tkyvXQtu.NOvesZs06vASOlbSK5aDyi6cusSu0O"
-    },
-    "masterChief": {
-        "password": "$2y$10$A0Qx7tyk.dD\/XZCKsTt92udhzIxVPLw8m0K86t0SX\/uuDYgm2ADeS"
-    },
-    "pepe": {
-        "password": "$2y$10$L\/7ghH5iKn6WaULtTOcHQORYpu6GSY0cwXLfFUY7bNydJqO0BhDRm"
-    },
     "pablo": {
-        "password": "$2y$10$T1ICb0\/JANQmNGm2w98I\/uYQXbi7xx2o75CDNtK2ctdUCJfBLadoS"
+        "password": "$2y$10$5q\/WdAkLhLtyxxRtKXqCFehw9h\/y9NhLglz7R88DVfIWKkEsmcFeq"
     },
-    "pters": {
-        "password": "$2y$10$YEZenjJMDVsfsSW0DOPWg.TNpPbNezbWItRbIOjj0RXlVGwUSrDHm"
-    },
-    "ptersa": {
-        "password": "$2y$10$uZN2t6OsyOQPvKtVpQe9cO.EFh32HPYYyJWZjOSe0No3UWwl2cYQO"
-    },
-    "ptersaaaa": {
-        "password": "$2y$10$5ewVgeNpmV\/21GGtjOBsEOn6ukPz2Jx4SGH0XpKDlXWXTTwbq4ToW"
-    },
-    "isma": {
-        "password": "$2y$10$B6HZvPwHDTtqtqdv3kINmeQWRz92thy9O6RpNYbxoLPn\/kLaS.P6S"
-    },
-    "pipo": {
-        "password": "$2y$10$vCYfsuMckH3PyIm3OB9dh.fmQZY7Nf4AhNp9fvfPNMxa\/THfpiqrG"
+    "isam": {
+        "password": "$2y$10$qJYgVqx38VlPECezvQFaWOwkATQhkQgqrOxYubvPQclLSkCzr9MFq"
     }
 }

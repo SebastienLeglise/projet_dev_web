@@ -1,59 +1,13 @@
 [
     {
-        "username": "chacha",
-        "role": "cuisinier"
-    },
-    {
-        "username": "susi",
-        "role": "cuisinier"
-    },
-    {
-        "username": "garnachas",
-        "role": "cuisinier"
-    },
-    {
-        "username": "masterChief",
-        "role": "cuisinier"
-    },
-    {
-        "username": "pepe",
-        "role": "cuisinier"
-    },
-    {
         "username": "pablo",
-        "role": "chef"
-    },
-    {
-        "username": "papo",
-        "role": "cuisinier"
-    },
-    {
-        "username": "pters",
         "requestedRole": "none",
         "status": "denied",
-        "role": "cuisinier"
+        "role": "admin"
     },
     {
-        "username": "ptersa",
-        "requestedRole": "none",
-        "status": "denied",
-        "role": "cuisinier"
-    },
-    {
-        "username": "ptersaaaa",
-        "requestedRole": "none",
-        "status": "denied",
-        "role": "cuisinier"
-    },
-    {
-        "username": "isma",
-        "requestedRole": "none",
-        "status": "denied",
-        "role": "cuisinier"
-    },
-    {
-        "username": "pipo",
-        "requestedRole": "none",
+        "username": "isam",
+        "requestedRole": "chef",
         "status": "denied",
         "role": "cuisinier"
     }

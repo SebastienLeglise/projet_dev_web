@@ -43,9 +43,9 @@ $router->register('DELETE', '/api/comment', [$commentController, 'handleDeleteCo
 //Roles
 */
 $router->register('POST','/api/askedRoles', [$roleController, 'handleRoleRequest'],false );		//Demander un role
-$router->register('POST','/api/roles',  [$roleController, 'handleRoleApproval'],false );		//Accepter la demande d'un role
-$router->register('PUT','/api/role',  [$roleController, 'handleRoleAssignment'],false  );		//Attribuer un role
-
+$router->register('POST','/api/roles',  [$roleController, 'handleRoleApproval'],false );		//Accepter la demande d'un role		//Attribuer un role
+$router->register('GET','/api/roles',[$roleController, 'handleRoleConsultingAll'],false);
+$router->register('POST','/api/roles/deny',[$roleController, 'handleRoleDeny'],false);
 
 
 

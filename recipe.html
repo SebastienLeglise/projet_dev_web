@@ -6,15 +6,29 @@
 </head>
 
 <body>
-  <h1>Détails de la Recette</h1>
-  <div id="recipeDetails"></div>
-  <h2>Commentaires</h2>
-  <div id="recipeComments"></div>
+    <h1 id="pageHeader">Recipe Details</h1>
 
-
+  <button id="languageToggle">Changer la langue</button>
   <div class="menu">
-    <a href="recipes.html">Retour à la liste des recettes</a>
+    <a id="backToRecipes" href="recipes.html">Retour à la liste des recettes</a>
   </div>
+
+
+  <div id="recipeDetails"></div>
+  
+  <h2 id="commentsHeader">Commentaires</h2>
+    <div id="recipeComments"></div>
+
+  <h3 id="addCommentFormHeader">Add a Comment</h3>
+  <form id="addCommentForm">
+    <textarea id="message" placeholder="Votre commentaire" required></textarea>
+    <button type="submit" id="submitCommentButton">Ajouter le commentaire</button>  
+  </form>
+
+
+
+
+
    <!-- session info -->
    <div id="sessionInfo">
     <p id="sessionStatus">Chargement du statut de la session...</p>
@@ -25,98 +39,253 @@
 
   
 
+
+   <!----------------------------------------------backend---------------------------------------------------------->
+
   <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const recipeName= urlParams.get('name');
+      let currentUsername = null; 
+        //----------------------language logic-------------------
 
-     
-      //print the name of the recipe in the console
+      let currentLanguage = 'EN'; // Default language is English
 
-       // Fetch recipe details from the backend
-      fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`,{
-          // Fetch recipe details from the backend
-          method: 'GET', 
-          headers: {
-            'Content-Type': 'application/json', 
-          }})  
-      .then((response) => response.json())
-      .then((recipe) => {
-        //display only the name of the recipe
-        const recipeDetailsContainer = document.getElementById('recipeDetails');
-  
+      const translations = {
+            EN: {
+              pageHeader: 'Recipe Details',
+              languageToggle: 'Switch Language',
+              backToRecipes: 'Back to the list of recipes',
+              author: 'Author',
+              without: 'Without',
+              ingredients: 'Ingredients',
+              steps: 'Steps',
+              originalURL: 'Original URL',
+              unspecified: 'Unspecified',
+              unknownIngredient: 'Unknown ingredient',
+              unknownType: 'Unknown type',
+              noRestriction: 'No restriction',
+              minutes: 'minutes',
+              commentsHeader: 'Comments',
+              addCommentHeader: 'Add a Comment',
+              usernamePlaceholder: 'Your name',
+              messagePlaceholder: 'Your comment',
+              submitCommentButton: 'Add Comment',
+              noComments: 'No comments for this recipe.',
+            },
+            FR: {
+              pageHeader: 'Détails de la Recette',
+              languageToggle: 'Changer la langue',
+              backToRecipes: 'Retour à la liste des recettes',
+              author: 'Auteur',
+              without: 'Sans',
+              ingredients: 'Ingrédients',
+              steps: 'Étapes',
+              originalURL: 'URL originale',
+              unspecified: 'Non spécifié',
+              unknownIngredient: 'Ingrédient inconnu',
+              unknownType: 'Type inconnu',
+              noRestriction: 'Aucune restriction',
+              minutes: 'minutes',
+              commentsHeader: 'Commentaires',
+              addCommentHeader: 'Ajouter un commentaire',
+              usernamePlaceholder: 'Votre nom',
+              messagePlaceholder: 'Votre commentaire',
+              submitCommentButton: 'Ajouter le commentaire',
+              noComments: 'Aucun commentaire pour cette recette.',
+            },
+          };
 
-        const ingredients = 
-          Array.isArray(recipe.ingredients)? 
-            recipe.ingredients: recipe.ingredients? 
-            [recipe.ingredients]: [];
-          
-        const imageURLs = 
-          Array.isArray(recipe.imageURL)? 
-            recipe.imageURL: recipe.imageURL?
-            [recipe.imageURL]: [];
-
-        const author = recipe.author || 'Unknown';
-        const without = recipe.Without ? recipe.Without.join(', ') : 'No fear to food';
-        const steps = Array.isArray(recipe.steps) ? recipe.steps : [];
-        const timers = Array.isArray(recipe.timers) ? recipe.timers : [];
+          lang = translations[currentLanguage];
 
 
-        let recipeInfo =
-            '<h3>' +
-            recipe.name +
-            '</h3>' +
-            '<p><strong>Auteur :</strong> ' +
-            author +
-            '</p>' +
-            '<p><strong>Without:</strong> ' +
-            without +
-            '</p>' +
-            '<p><strong>Ingrédients :</strong></p>' +
-            '<ul>' +     
-              ingredients.map(
-                (ingredient) =>
-                  '<li>' +
-                  (ingredient.quantity || 'Not specified') +
-                  ' ' +
-                  (ingredient.name || 'Unknown') +
-                  ' (' +
-                  (ingredient.type || 'Unknown') +
-                  ')</li>'
-              ).join('') +
-              '</ul>' +
-              '<p><strong>URL original :</strong> <a href="' +
-              (recipe.originalURL || '#') +
-              '" target="_blank">' +
-              (recipe.originalURL || 'Non disponible') +
-              '</a></p>' +
-              '<h3>Steps :</h3>' +
-              '<ol>' +
-              steps.map(
+    function updateLanguage() {
+      lang = translations[currentLanguage];
+      document.getElementById('pageHeader').textContent = lang.pageHeader;
+      document.getElementById('languageToggle').textContent = lang.languageToggle;
+      document.getElementById('backToRecipes').textContent = lang.backToRecipes;
+      
+      document.getElementById('commentsHeader').textContent = lang.commentsHeader;
+      document.getElementById('addCommentFormHeader').textContent = lang.addCommentHeader;
+      document.getElementById('message').placeholder = lang.messagePlaceholder;
+      document.getElementById('submitCommentButton').textContent = lang.submitCommentButton;
+    }
+
+
+
+  function displayRecipeDetails(recipe) {
+      const recipeDetailsContainer = document.getElementById('recipeDetails');
+      lang = translations[currentLanguage];
+
+      // Determine which data to display based on the current language
+      const name = currentLanguage === 'FR' ? recipe.nameFR :recipe.name ;
+      const ingredients = currentLanguage === 'FR' ? recipe.ingredientsFR :recipe.ingredients ;
+      const steps = currentLanguage === 'FR' ? recipe.stepsFR : recipe.steps ;
+
+      const author = recipe.Author || lang.unspecified;
+      const without = recipe.Without ? recipe.Without.join(', ') : lang.noRestriction;
+      const timers = Array.isArray(recipe.timers) ? recipe.timers : [];
+
+      let recipeInfo =
+      '<h3>' + (name || lang.unspecified) + '</h3>' +
+      '<p><strong>'+lang.author +': </strong> ' + (author || lang.unspecified) + '</p>' +
+      '<p><strong>'+lang.without +':</strong> ' + (without || lang.noRestriction)  + '</p>' +
+      '<p><strong>'+lang.ingredients +':</strong></p>';
+
+      if (ingredients && ingredients.length > 0) {
+        recipeInfo += '<ul>' + ingredients.map(
+            (ingredient) =>
+              '<li>' +
+              (ingredient.quantity || lang.unspecified) +
+              ' ' +
+              (ingredient.name || lang.unknownIngredient) +
+              ' (' +
+              (ingredient.type || lang.unknownIngredient) +
+              ')</li>').join('') +'</ul>' ;
+      }else {
+        recipeInfo += '<p>' + lang.unspecified + '</p>';
+      }
+
+      recipeInfo +=
+            '<h3>'+ lang.steps +' :</h3>';
+      if (steps && steps.length > 0) {
+        recipeInfo += 
+            '<ol>' +steps.map(
                 (step, index) =>
                   '<li>' +
                   step +
                   ' (' +
-                  (timers[index] || 'Non spécifié') +
-                  ' minutes)</li>'
-              ).join('') +
-              '</ol>' +
-              '<p><strong>Image :</strong></p>' +
-              '<ul>' +
-              imageURLs.map(
-                (image) =>
-                  '<li><img src="' +
-                  image +
-                  '" alt="Image de la recette" style="width: 200px; height: auto;"></li>'
-              ).join('') +
-              '</ul>'
-        ;
-        console.log(recipe.name);
+                  (timers[index] || lang.unspecified) +
+                  ' ' +lang.minutes +')</li>'
+              )
+              .join('') +
+            '</ol>';
+      } else {
+        recipeInfo += '<p>' + lang.unspecified + '</p>';
+      }
+      recipeInfo +=
+            '<p><strong>'+lang.originalURL +':</strong> <a href="' +
+            (recipe.originalURL || '#') +
+            '" target="_blank">' +
+            (recipe.originalURL || lang.unspecified) +
+            '</a></p>';
+
         recipeDetailsContainer.innerHTML = recipeInfo;
-  
+    }
+
+
+
+    //----------------------display recepe info logic-------------------
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const recipeName= urlParams.get('name');
+
+     
+
+       // Fetch recipe details from the backend
+       fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`,{
+            method: 'GET', 
+            headers: {
+              'Content-Type': 'application/json', 
+            }})  
+        .then((response) => response.json())
+        .then((recipe) => {
+          displayRecipeDetails(recipe);
+          
+          document.getElementById('languageToggle').addEventListener('click', () => {
+            currentLanguage = currentLanguage === 'EN' ? 'FR' : 'EN';
+            document.getElementById('languageToggle').textContent =
+              currentLanguage === 'EN' ? 'Changer la langue' : 'Switch Language';
+            displayRecipeDetails(recipe);
+            updateLanguage();
+
+          });    
+        })
+        .catch((error) => {
+          console.error('Error fetching recipe details:', error);
+        });
+
+    //----------------------display comments logic-------------------
+
+
+  fetchComments(recipeName);
+
+    function fetchComments(recipeName) {
+      fetch(`/api/comment?recipeName=${encodeURIComponent(recipeName)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => response.json())
+      .then((comments) => {
+        const commentsContainer = document.getElementById('recipeComments');
+        commentsContainer.innerHTML = '';
+
+        if (comments.length === 0) {
+          commentsContainer.innerHTML = `<p>${lang.noComments}</p>`;
+          return;
+        }
+
+        comments.forEach((comment) => {
+          const commentElement = document.createElement('div');
+          commentElement.innerHTML = 
+          `<p><strong>${currentUsername}</strong> (${new Date(comment.timestamp).toLocaleString()}): ${comment.message}</p>`;
+          commentsContainer.appendChild(commentElement);
+        });
       })
       .catch((error) => {
-        console.error('Error fetching recipe details:', error);
+        console.error('Error fetching comments:', error);
       });
+
+    }
+
+    document.getElementById('addCommentForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = currentUsername; 
+      const message = document.getElementById('message').value.trim();
+
+      if (!username || !message) {
+        alert('Veuillez remplir tous les champs.');
+        return;
+      }
+
+
+      //add a comment
+
+      fetch('/api/comment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          username,
+          message,
+          recipeName,
+        }),
+      })
+      .then((response) => {
+          if (!response.ok) {
+            console.error('Erreur lors de l\'ajout du commentaire.');
+          }
+          return response.json();
+      })
+      .then(() => {
+          // Clear the form
+          document.getElementById('addCommentForm').reset();
+          // Refresh the comments
+          fetchComments(recipeName);
+      })
+      .catch((error) => {
+          console.error('Error adding comment:', error);
+      });
+    });
+
+
+
+
+    //------------------------session logic ------------------------------------------
+
+
+
+
 
     // Automatically check session status when the page loads
     window.onload = function() {
@@ -133,6 +302,7 @@
           console.log('User is logged in as ' + data.username);
           sessionStatus.innerHTML = `Vous êtes connecté en tant que <strong>${data.username}</strong>.`;
           logoutButton.style.display = 'block';
+          currentUsername = data.username; 
         } else {
           console.log('User is not logged in');
           sessionStatus.innerHTML = 'Vous n\'êtes pas connecté.';

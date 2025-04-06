@@ -6,12 +6,38 @@
 </head>
 
 <body>
-  <h1>Liste des recettes</h1>
-  <div id="recipesContainer"></div>
+  
+      <div class="menu">
+        <a href="index.html">Accueil</a>
+      </div>
+        <!-- Search Bar -->
+      <div id="searchContainer">
+        <select id="searchField">
+          <option value="name">Nom (EN)</option>
+          <option value="nameFR">Nom (FR)</option>
+          <option value="author">Auteur</option>
+          <option value="without">Sans</option>
+          <option value="ingredient">Ingrédient</option>
+          <option value="likes">Likes</option>
+        </select>
 
-  <div class="menu">
-    <a href="index.html">Accueil</a>
-  </div>
+        <input type="text" id="searchValue" placeholder="Entrez votre recherche..." >
+        <button id="searchButton" >Rechercher</button>
+
+      </div>
+      <h1>Liste des recettes</h1>
+
+      <div id="recipesContainer"></div>
+
+
+
+
+
+
+
+
+
+
 
       <!-- session info -->
       <div id="sessionInfo">
@@ -21,26 +47,77 @@
       <!-- logout Button -->
       <button id="logoutButton" style="display: none;">Se déconnecter</button>
 
+
+
+  
   <script>
-     fetch('/api/recipe/consultAll', {
-        method: 'GET', 
+    function displayRecipes(recipes) {
+      const recipesContainer = document.getElementById('recipesContainer');
+      if (recipes.length === 0) {
+          recipesContainer.innerHTML = '<p>No recipe found</p>';
+          return;
+      }
+      recipesContainer.innerHTML = recipes.map(recipe => `
+        <div>
+          <h3><a href="recipe.html?name=${encodeURIComponent(recipe.name)}">${recipe.name}</a></h3>
+          <p><strong>URL original:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a></p>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('searchButton').addEventListener('click', () => {
+      const searchField = document.getElementById('searchField').value; // Get the selected field
+      const searchValue = document.getElementById('searchValue').value.trim(); // Get the search value
+
+      // Validate input
+      if (!searchValue) {
+        alert('Please enter a search value.');
+        return;
+      }
+
+      // Send the search query to the backend
+      fetch(`/api/recipe/search?${encodeURIComponent(searchField)}=${encodeURIComponent(searchValue)}`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json', 
+          'Content-Type': 'application/json',
         },
       })
-      .then((response) => response.json())
-      .then((recipes) => {
-        const recipesContainer = document.getElementById('recipesContainer');
-        recipesContainer.innerHTML = recipes.map(recipe => `
-          <div>
-            <h3><a href="recipe.html?name=${encodeURIComponent(recipe.name)}">${recipe.name}</a></h3>
-            <p><strong>URL originale:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a></p>
-          </div>
-        `).join('');
+      .then((response) => {
+          if (!response.ok) {
+            console.error('Error while searching recipes:', error);
+          }
+          return response.json();
+      })
+      .then((filteredRecipes) => {
+        displayRecipes(filteredRecipes); // Display the filtered recipes
       })
       .catch((error) => {
-        console.error('Erreur lors du chargement des recettes:', error);
+        console.error('Error while searching recipes:', error);
+        document.getElementById('recipesContainer').innerHTML = '<p>No recipe found</p>';
       });
+    });
+
+    // Fetch all recipes initially
+    fetch('/api/recipe/consultAll', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => response.json())
+    .then((recipes) => {
+      displayRecipes(recipes); // Display all recipes initially
+    })
+    .catch((error) => {
+      console.error('Error while searching recipes:', error);
+      document.getElementById('recipesContainer').innerHTML = '<p>Error when loading recipes.</p>';
+    });
+  
+
+
+
+
+//-------------------------------------session logic-------------------------------------//
 
          // Automatically check session status when the page loads
     window.onload = function() {

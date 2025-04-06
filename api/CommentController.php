@@ -4,11 +4,14 @@ class CommentController
 {
 	private string $filePath;
 	private AuthController $authController;
+	private RecipeController $recipeController;
 
-	public function __construct(string $filePath, AuthController $authController)
+	public function __construct(string $filePath, AuthController $authController, RecipeController $recipeController)
 	{
 		$this->filePath = $filePath;
 		$this->authController = $authController;
+		$this->recipeController = $recipeController;
+
 	}
 
 	// Handles the POST /comment route
@@ -22,26 +25,36 @@ class CommentController
 		}
 
 		// Validate and sanitize form data
-		$firstname = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-		$lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-		$message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $recipeName = filter_input(INPUT_POST, 'recipeName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-		if (!$firstname || !$lastname || !$message) {
+		
+        if (!$username || !$message || !$recipeName) {
 			http_response_code(400);
-			echo json_encode(['error' => 'Missing required fields. Fields' . $firstname . $lastname . $message]);
+			echo json_encode(['error' => 'Missing required fields. Fields']);
 			return;
 		}
 
+
+		//only comment if the recipe exists
+		$recipe = $this->recipeController->findRecipeByName($recipeName);
+		
+        if ($recipe === null) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Recipe not found']);
+            return;
+        }
+
 		// Create a new comment
 		$newComment = [
-			'firstname' => $firstname,
-			'lastname' => $lastname,
-			'message' => $message,
-			'timestamp' => date('c'),
-		];
+			'username' => $username,
+            'message' => $message,
+            'timestamp' => date('c'),
+      	];
 
 		// Save the comment
-		$this->saveComment($newComment);
+		$this->saveComment($recipeName, $newComment);
 
 		// Return the updated list of comments
 		http_response_code(200);
@@ -50,10 +63,15 @@ class CommentController
 	}
 
 	// Saves a new comment to the file
-	private function saveComment(array $comment): void
+	private function saveComment(string $recipeName,array $comment): void
 	{
 		$comments = $this->getAllComments();
-		$comments[] = $comment;
+		
+		if (!isset($comments[$recipeName])) {
+            $comments[$recipeName] = [];
+        }
+		$comments[$recipeName][] = $comment;
+
 
 		file_put_contents($this->filePath, json_encode($comments, JSON_PRETTY_PRINT));
 	}
@@ -66,29 +84,71 @@ class CommentController
 		}
 
 		$content = file_get_contents($this->filePath);
+		if ($content === false) {
+			http_response_code(500);
+			echo json_encode(['error' => 'Failed to read comments file']);
+			return [];
+		}
 		return json_decode($content, true) ?? [];
 	}
 
 	public function handleGetCommentsRequest(): void
 	{
+		$recipeName = filter_input(INPUT_GET, 'recipeName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+
+		if (!$recipeName) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing recipe name']);
+            return;
+        }
+
+		$comments = $this->getCommentsByRecipe($recipeName);
+		if ($comments === null) {
+			http_response_code(500);
+			echo json_encode(['error' => 'Failed to retrieve comments']);
+			return;
+		}
+
 		http_response_code(200);
 		header('Content-Type: application/json');
-		echo json_encode($this->getAllComments());
+		echo json_encode($comments);
 	}
 
 	public function handleDeleteCommentRequest(): void
 	{
-		$email = $this->authController->validateAuth();
-		if (!$email) {
+
+		//TODO
+		/*$auth = $this->authController->isAuthenticated();
+		
+		if (!$auth) {
 			http_response_code(401);
 			echo json_encode(['error' => 'Unauthorized']);
 			return;
-		}
+		}*/
 
 		file_put_contents($this->filePath, json_encode([]));
 
 		http_response_code(200);
 		echo json_encode(['message' => 'All comments deleted']);
 	}
+
+	private function getCommentsByRecipe(string $recipeName): array
+	{
+		$comments = $this->getAllComments();
+
+		// Log the loaded comments
+		error_log("Loaded comments: " . json_encode($comments));
+
+		if (!is_array($comments)) {
+			error_log("Comments data is not an array.");
+			return [];
+		}
+
+		return $comments[$recipeName] ?? [];
+	}
+	
 }
+
+
 

@@ -602,7 +602,7 @@ class RecipeController{
 
     
     //-----------------------------------------------------------------------------------------
-    private function findRecipeByName(string $recipeName): ?array{
+    public function findRecipeByName(string $recipeName): ?array{
     
         if(!$recipeName) {
             http_response_code(400);

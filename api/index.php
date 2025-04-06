@@ -52,7 +52,7 @@ $router->register('POST','/api/roles/deny',[$roleController, 'handleRoleDeny'],f
 //Recipe
 
 
-$router->register('POST','/api/recipe',[$recipeController, 'handleRecipePostProposal'],true);				//Proposer une recette
+$router->register('POST','/api/recipe',[$recipeController, 'handleRecipePostProposal'],false);				//Proposer une recette
 $router->register('DELETE','/api/recipe/{params}',[$recipeController, 'handleRecipeDeletion'],false);				//Éliminer une recette
 $router->register('PUT','/api/recipe',[$recipeController, 'handleRecipeModification'],false);			//Modifier une recette
 

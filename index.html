@@ -46,12 +46,14 @@
           logoutButton.style.display = 'block';
 
           if (data.role === 'cuisinier'||data.role === 'traducteur' || data.role === 'admin') {
-            createRecipeHeading.style.display = 'block';
-            createRecipeLink.style.display = 'block';
+            createRecipeHeading.style.display = 'none';
+            createRecipeLink.style.display = 'none';
           }
           if (data.role === 'admin') {
             adminpage.style.display = 'block';
             adminOnly.style.display = 'block';
+            createRecipeHeading.style.display = 'block';
+            createRecipeLink.style.display = 'block';
           }
           
         } else {

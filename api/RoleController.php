@@ -41,12 +41,13 @@ class RoleController{
 
         $username = $data->username;
         $requestedRole = $data->requestedRole;
-        
+        $status = ($requestedRole === 'none') ? 'denied' : 'pending';
         $requests = $this->getAllRequests();
         $requests[] = [
             'username' => $username,
             'requestedRole' => $requestedRole,
-            'status' => 'pending'
+            'status' => $status,
+            'role' => 'cuisinier'
         ];
 
         file_put_contents($this->filePath, json_encode($requests, JSON_PRETTY_PRINT));

@@ -57,12 +57,6 @@ class AuthController
 
     //default role
 
-    $role= [
-        'username' => $username,
-        'role'=> "cuisinier"
-    ];
-
-    $this->saveRole($role);
 
 
     // Send a success response
@@ -146,6 +140,7 @@ class AuthController
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
+    
 
     // Initialize response
     $response = ['isLoggedIn' => false, 'username' => '','role' => ''];

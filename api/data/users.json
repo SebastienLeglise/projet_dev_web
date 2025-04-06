@@ -14,7 +14,19 @@
     "pablo": {
         "password": "$2y$10$T1ICb0\/JANQmNGm2w98I\/uYQXbi7xx2o75CDNtK2ctdUCJfBLadoS"
     },
-    "papo": {
-        "password": "$2y$10$dBxilW7VPeStwTOgB\/jzAO3Um4V0qTxKiKlB.nlazmOSS.jgGZsgu"
+    "pters": {
+        "password": "$2y$10$YEZenjJMDVsfsSW0DOPWg.TNpPbNezbWItRbIOjj0RXlVGwUSrDHm"
+    },
+    "ptersa": {
+        "password": "$2y$10$uZN2t6OsyOQPvKtVpQe9cO.EFh32HPYYyJWZjOSe0No3UWwl2cYQO"
+    },
+    "ptersaaaa": {
+        "password": "$2y$10$5ewVgeNpmV\/21GGtjOBsEOn6ukPz2Jx4SGH0XpKDlXWXTTwbq4ToW"
+    },
+    "isma": {
+        "password": "$2y$10$B6HZvPwHDTtqtqdv3kINmeQWRz92thy9O6RpNYbxoLPn\/kLaS.P6S"
+    },
+    "pipo": {
+        "password": "$2y$10$vCYfsuMckH3PyIm3OB9dh.fmQZY7Nf4AhNp9fvfPNMxa\/THfpiqrG"
     }
 }

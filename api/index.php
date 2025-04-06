@@ -26,7 +26,7 @@ $recipeController = new RecipeController(__DIR__ . '/data/recipeTest.json');
 
 $router->register('POST', '/api/register', [$authController, 'handleRegister'],false);
 $router->register('POST', '/api/login', [$authController, 'handleLogin'],false);
-$router->register('POST', '/api/logout', [$authController, 'handleLogout'],true);
+$router->register('POST', '/api/logout', [$authController, 'handleLogout'],false);
 $router->register('GET', '/api/check-session', [$authController, 'handleCheckSession'], false);
 
 //Comments
@@ -52,7 +52,7 @@ $router->register('PUT','/api/role',  [$roleController, 'handleRoleAssignment'],
 //Recipe
 
 
-$router->register('POST','/api/recipe',[$recipeController, 'handleRecipePostProposal'],false);				//Proposer une recette
+$router->register('POST','/api/recipe',[$recipeController, 'handleRecipePostProposal'],true);				//Proposer une recette
 $router->register('DELETE','/api/recipe/{params}',[$recipeController, 'handleRecipeDeletion'],false);				//Éliminer une recette
 $router->register('PUT','/api/recipe',[$recipeController, 'handleRecipeModification'],false);			//Modifier une recette
 

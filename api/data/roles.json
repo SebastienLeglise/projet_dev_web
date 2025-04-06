@@ -26,5 +26,35 @@
     {
         "username": "papo",
         "role": "cuisinier"
+    },
+    {
+        "username": "pters",
+        "requestedRole": "none",
+        "status": "denied",
+        "role": "cuisinier"
+    },
+    {
+        "username": "ptersa",
+        "requestedRole": "none",
+        "status": "denied",
+        "role": "cuisinier"
+    },
+    {
+        "username": "ptersaaaa",
+        "requestedRole": "none",
+        "status": "denied",
+        "role": "cuisinier"
+    },
+    {
+        "username": "isma",
+        "requestedRole": "none",
+        "status": "denied",
+        "role": "cuisinier"
+    },
+    {
+        "username": "pipo",
+        "requestedRole": "none",
+        "status": "denied",
+        "role": "cuisinier"
     }
 ]

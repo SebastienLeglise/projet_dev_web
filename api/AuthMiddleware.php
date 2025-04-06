@@ -1,24 +1,28 @@
 <?php
-$response = ['isLoggedIn' => false, 'username' => ''];
 class AuthMiddleware{
 
     public static function authCheck(){
-        if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
-            http_response_code(400);
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'Invalid Content-Type']);
-            return;
-        }
-        
-
-        if (!isset($_SESSION['user'])){
+        if (!isset($_SESSION['username'])){
             http_response_code(401);
             echo json_encode(['error' => 'Unauthorized']);
             exit();
         }
-        $response['isLoggedIn'] = true;
-        $response['username'] = $_SESSION['user'];
-
-        echo json_encode($response);
+        
+        $roles = json_decode(file_get_contents('/data/roles.json'));
+        $userRole = null;
+        
+        foreach ($roles as $entry) {
+            if ($entry['username'] === $_SESSION['username']) {
+                $userRole = $entry['role'];
+                break;
+            }
+        }
+        
+        if ($userRole !== 'chef') {
+            http_response_code(403);
+            echo json_encode(['error' => 'Access denied: not a chef']);
+            exit;
+        }
+        
     }
 }

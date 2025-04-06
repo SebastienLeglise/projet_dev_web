@@ -13,6 +13,12 @@
     <form id="registerForm">
       <input type="text" id="registerUsername" required>
       <input type="password" id="registerPassword" required>
+      <label for="requestedRole">Demander un rôle :</label>
+      <select id="requestedRole">
+        <option value="none">Aucun </option>
+        <option value="traducteur">Traducteur</option>
+        <option value="chef">Chef</option>
+      </select>
       <button type="submit">Register</button><p id="status"></p>
     </form>
 
@@ -34,30 +40,52 @@
 
           const username = document.getElementById('registerUsername').value;
           const password = document.getElementById('registerPassword').value;
+          const requestedRole = document.getElementById('requestedRole').value;
           const status = document.getElementById('status');
         // handle register
-          fetch('/api/register', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ username, password })
-          })
-          .then((response) => {
-            if (!response.ok) {
-              return response.text().then((text) => {
-                throw new Error(text || 'An error occurred');
-              });
-            }
-            return response.json();
-          })
-          .then(({ ok, data }) => {
-            console.log('Success');
-            status.innerHTML = `compte crée`;
-            
-          })
-          .catch((error)=>{
-            console.error('Error:', error);
-          });
+    fetch('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  })
+  .then((response) => {
+    if (!response.ok) {
+      return response.text().then((text) => {
+        throw new Error(text || 'An error occurred during registration');
       });
+    }
+    return response.json();
+  })
+  .then(() => {
+    status.innerHTML = `✅ Compte créé avec succès.`;
+
+    // Step 2: Request role if selected
+    
+      return fetch('/api/askedRoles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, requestedRole})
+      });
+  })
+  .then((response) => {
+    if (!response.ok) {
+      return response.text().then((text) => {
+        throw new Error(text || 'Erreur lors de la demande de rôle');
+      });
+    } else if (response) {
+      return response.json().then(() => {
+        status.innerHTML += `<br>📝 Rôle demandé : <strong>${requestedRole}</strong>`;
+      });
+    }
+  })
+  .catch((error) => {
+    console.error('Erreur:', error);
+    status.innerHTML = `❌ Erreur: ${error.message}`;
+  });
+});
+
+
+
 
         document.getElementById('loginForm').addEventListener('submit', (e) => {
         e.preventDefault();

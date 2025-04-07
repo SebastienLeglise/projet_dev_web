@@ -17,8 +17,9 @@
         "timers": [
             1
         ],
-        "imageURL": null,
-        "originalURL": null
+        "imageURL": "http:\/\/upload.wikimedia.org\/wikipedia\/commons\/c\/c7\/Spinach_pizza.jpg",
+        "originalURL": "http:\/\/upload.wikimedia.org\/wikipedia\/commons\/c\/c7\/Spinach_pizza.jpg",
+        "status": "approved"
     },
     {
         "name": "pasta pesto",
@@ -40,6 +41,51 @@
             14
         ],
         "imageURL": null,
-        "originalURL": null
+        "originalURL": null,
+        "status": "approved"
+    },
+    {
+        "name": "a",
+        "nameFR": null,
+        "Author": null,
+        "Without": null,
+        "ingredients": [
+            {
+                "name": "lechuga",
+                "quantity": "1",
+                "type": "verdura"
+            }
+        ],
+        "steps": [
+            "cocer agua"
+        ],
+        "timers": [
+            1
+        ],
+        "imageURL": null,
+        "originalURL": null,
+        "status": "approved"
+    },
+    {
+        "name": "sisisisis",
+        "nameFR": null,
+        "Author": null,
+        "Without": null,
+        "ingredients": [
+            {
+                "name": "semen",
+                "quantity": "122",
+                "type": "nose"
+            }
+        ],
+        "steps": [
+            "ninguna"
+        ],
+        "timers": [
+            1
+        ],
+        "imageURL": null,
+        "originalURL": null,
+        "status": "approved"
     }
 ]

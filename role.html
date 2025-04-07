@@ -32,7 +32,7 @@
     .then((response) => response.json())
     .then((roles) => {
       const rolesContainer = document.getElementById('rolesContainer');
-      
+      //const pendingRoles = roles.filter(role => role.status === 'pending');
       // Check if there are roles to display
       if (roles.length > 0) {
         rolesContainer.innerHTML = roles.map(role => `
@@ -70,7 +70,7 @@
   .then(response => response.json())
   .then(data => {
     alert(data.message || data.error);
-    window.location.href = 'admin.html';
+    window.location.href = 'role.html';
   })
   .catch(error => {
     console.error('Error:', error);
@@ -91,7 +91,7 @@ function denyRole(username) {
   .then(response => response.json())
   .then(data => {
     alert(data.message || data.error);
-    window.location.href = 'admin.html';
+    window.location.href = 'role.html';
   })
   .catch(error => {
     console.error('Error:', error);

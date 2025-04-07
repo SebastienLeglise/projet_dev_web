@@ -29,16 +29,6 @@
 
       <div id="recipesContainer"></div>
 
-
-
-
-
-
-
-
-
-
-
       <!-- session info -->
       <div id="sessionInfo">
         <p id="sessionStatus">Chargement du statut de la session...</p>
@@ -60,8 +50,11 @@
       recipesContainer.innerHTML = recipes.map(recipe => `
         <div>
           <h3><a href="recipe.html?name=${encodeURIComponent(recipe.name)}">${recipe.name}</a></h3>
-          <p><strong>URL original:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a></p>
-        </div>
+          <p><strong>URL original:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a>
+            </p><strong>Status:</strong> ${recipe.status}</p>
+        <button onclick="approveRecette('${encodeURIComponent(recipe.name)}')">Approuver</button>
+                <button onclick="denyRecette">Rejeter</button>
+          </div>
       `).join('');
     }
 
@@ -98,7 +91,7 @@
     });
 
     // Fetch all recipes initially
-    fetch('/api/recipe/consultAll', {
+    fetch('/api/recipe/consultAllDos', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -106,10 +99,11 @@
     })
     .then((response) => response.json())
     .then((recipes) => {
-      const onlyPending = recipes.filter(r => r.status === 'approved');
+      const onlyPending = recipes.filter(r => r.status === 'pending');
       console.log('Filtered to pending in frontend:', onlyPending);
       displayRecipes(onlyPending);
       })
+    
     //.then((recipes) => {
       //displayRecipes(recipes); // Display all recipes initially
     //})
@@ -118,6 +112,27 @@
       document.getElementById('recipesContainer').innerHTML = '<p>Error when loading recipes.</p>';
     });
   
+
+    function approveRecette(name) {
+  fetch('/api/recipe/approval', { 
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: name,
+      status: 'approved'
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert(data.message || data.error);
+    window.location.href = 'adminRecipe.html';
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
 
 
 

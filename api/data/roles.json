@@ -14,7 +14,7 @@
     {
         "username": "sebas",
         "requestedRole": "chef",
-        "status": "denied",
-        "role": "cuisinier"
+        "status": "approved",
+        "role": "chef"
     }
 ]

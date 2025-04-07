@@ -66,6 +66,7 @@ class RecipeController{
             'timers' => $data->timers,
             'imageURL' => $data->imageURL ?? null,
             'originalURL' => $data->originalURL ?? null,
+            'status' => 'pending'
         ];
         $recipes[] = $newRecipe;
         file_put_contents($this->filePath, json_encode($recipes, JSON_PRETTY_PRINT| JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
@@ -153,7 +154,7 @@ class RecipeController{
 
 
 
-    public function handleRecipeApproval($params,$splitedQuery):void {
+    public function handleRecipeApproval():void {
 
         // Ensure the correct Content-Type header
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
@@ -163,50 +164,31 @@ class RecipeController{
             return;
         }
 
-
-        // Validate and sanitize form data
-        $recipeName = isset($splitedQuery['name']) ? filter_var($splitedQuery['name'], FILTER_SANITIZE_STRING) : null;
-        $status = isset($splitedQuery['status']) ? filter_var($splitedQuery['status'], FILTER_SANITIZE_STRING) : null;  
-        
-
-        if (!$recipeName || !$status) {
+        $json = file_get_contents('php://input');
+        $data = json_decode($json);
+        if (!($data->name) || !($data->status)) {
             http_response_code(400);
-            echo json_encode(['error' => 'Missing required fields:'. $recipeName . $status]);
-            return;
-        }
-        $validStatuses = ['terminée', 'publiée'];
-        if (!in_array($status, $validStatuses)) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Invalid status. Allowed values are: terminée, publiée']);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid name or status']);
             return;
         }
 
-
+        $name = $data->name;
+        $status = $data->status;
         $recipes = $this->getAllRecipes();
-         // Chercher la recette à approuver     -> l'administrateur déclare une recette terminée ou publiée en fonction de ce qui manque
-         foreach ($recipes as &$recipe) {
-            if ($recipe['name'] === $recipeName) {
-                echo json_encode($recipe);
-                // Vérifier si le champ 'status' existe, sinon le créer
-                if (!isset($recipe['status'])) {
-                    $recipe['status'] = null;
-                }
 
+        foreach ($recipes as &$recipe) {
+            if ($recipe['name'] === $name) {
                 $recipe['status'] = $status;
-
-                $this->updateRecipes($recipe);
-
-        
+                file_put_contents($this->filePath, json_encode($recipes, JSON_PRETTY_PRINT));
                 http_response_code(200);
-                echo json_encode(['message' => 'Recipe status updated successfully', 'status' => $status]);
+                echo json_encode(['message' => 'Recette request ' . $status]);
                 return;
-
             }
+            
         }
-
-        // Si la recette n'est pas trouvée
         http_response_code(404);
-        echo json_encode(['error' => 'Recipe not found']);
+        echo json_encode(['error' => 'Recipe request not found']);
     }
 
 
@@ -372,6 +354,28 @@ class RecipeController{
         http_response_code(200);
         header('Content-Type: application/json');
         echo json_encode($recipes);
+    }
+//does not work xddd
+    public function handleReccipeConsultingAll2() {
+        $recipes = $this->getAllRecipes();
+    
+        if ($recipes == null || empty($recipes)) {
+            http_response_code(404);
+            echo json_encode(["error" => "The recipes database is empty, you can help by expanding it."]);
+            return;
+        }
+    
+        // Filter roles with status "pending"
+        $pendingRecipes = array_filter($recipes, function($recipe) {
+            return isset($recipe['status']) && $recipe['status'] === 'pending';
+        });
+    
+        // Optional: Re-index array (so it returns a clean [0,1,2,...] array in JSON)
+        $pendingRecipies = array_values($pendingRecipes);
+    
+        http_response_code(200);
+        header('Content-Type: application/json');
+        echo json_encode($pendingRecipes);
     }
 
 
@@ -649,6 +653,8 @@ class RecipeController{
 
         
     }
+
+   
 
 
 

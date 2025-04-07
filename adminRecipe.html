@@ -53,7 +53,7 @@
           <p><strong>URL original:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a>
             </p><strong>Status:</strong> ${recipe.status}</p>
         <button onclick="approveRecette('${encodeURIComponent(recipe.name)}')">Approuver</button>
-                <button onclick="denyRecette">Rejeter</button>
+                <button onclick="denyRecette('${encodeURIComponent(recipe.name)}')">Rejeter</button>
           </div>
       `).join('');
     }
@@ -122,6 +122,26 @@
     body: JSON.stringify({
       name: name,
       status: 'approved'
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert(data.message || data.error);
+    window.location.href = 'adminRecipe.html';
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+function denyRecette(name) {
+  fetch('/api/recipe/approval', { 
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: name,
+      status: 'denied'
     })
   })
   .then(response => response.json())

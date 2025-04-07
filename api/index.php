@@ -57,6 +57,8 @@ $router->register('DELETE','/api/recipe/{params}',[$recipeController, 'handleRec
 $router->register('PUT','/api/recipe',[$recipeController, 'handleRecipeModification'],false);			//Modifier une recette
 
 $router->register('POST','/api/recipe/approval',[$recipeController, 'handleRecipeApproval'],false);				//Approuver une recette
+$router->register('POST','/api/recipe/deny',[$recipeController, 'handleRecipeDeny'],false);				//Approuver une recette
+
 $router->register('GET','/api/recipe/consult/{recipe_name}',[$recipeController, 'handleRecipeConsulting'],false);				//Consulter une recette
 $router->register('GET','/api/recipe/consultAll',[$recipeController, 'handleRecipeConsultingAll'],false);				//Consulter toutes les recettes
 

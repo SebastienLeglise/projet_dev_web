@@ -190,6 +190,42 @@ class RecipeController{
         http_response_code(404);
         echo json_encode(['error' => 'Recipe request not found']);
     }
+    public function handleRecipeDeny():void {
+
+        // Ensure the correct Content-Type header
+        if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid Content-Type']);
+            return;
+        }
+
+        $json = file_get_contents('php://input');
+        $data = json_decode($json);
+        if (!($data->name) || !($data->status)) {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid name or status']);
+            return;
+        }
+
+        $name = $data->name;
+        $status = $data->status;
+        $recipes = $this->getAllRecipes();
+
+        foreach ($recipes as &$recipe) {
+            if ($recipe['name'] === $name) {
+                $recipe['status'] = $status;
+                file_put_contents($this->filePath, json_encode($recipes, JSON_PRETTY_PRINT));
+                http_response_code(200);
+                echo json_encode(['message' => 'Recette request ' . $status]);
+                return;
+            }
+            
+        }
+        http_response_code(404);
+        echo json_encode(['error' => 'Recipe request not found']);
+    }
 
 
 

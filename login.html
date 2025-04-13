@@ -3,123 +3,179 @@
 <head>
   <meta charset="utf-8">
   <title>Page login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle, #834600, #e0accb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: white;
+      padding: 1rem 3rem;
+      border-radius: 74px; 
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    input, select {
+      padding: 0.75rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #834600;
+      outline: none;
+    }
+
+    button {
+      background-color: #e0accb;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #834600;
+    }
+
+    #status {
+      font-size: 0.9rem;
+      color: #444;
+      margin-top: 0.5rem;
+    }
+  </style>
 </head>
 
 <body>
-  <h1> Login Page</h1>
+  <div class="container">
+    <h1>Login Page</h1>
 
     <!-- Registration Form -->
     <h2>Register</h2>
     <form id="registerForm">
-      <input type="text" id="registerUsername" required>
-      <input type="password" id="registerPassword" required>
+      <input type="text" id="registerUsername" placeholder="Nom d'utilisateur" required>
+      <input type="password" id="registerPassword" placeholder="Mot de passe" required>
       <label for="requestedRole">Demander un rôle :</label>
       <select id="requestedRole">
         <option value="none">Aucun </option>
         <option value="traducteur">Traducteur</option>
         <option value="chef">Chef</option>
       </select>
-      <button type="submit">Register</button><p id="status"></p>
+      <button type="submit">Register</button>
+      <p id="status"></p>
     </form>
 
-
-     <!-- Login Form -->
+    <!-- Login Form -->
     <h2>Login</h2>
     <form id="loginForm">
-      <input type="text" id="loginUsername" placeholder="Username" required>
-      <input type="password" id="loginPassword" placeholder="Password" required>
+      <input type="text" id="loginUsername" placeholder="Nom d'utilisateur" required>
+      <input type="password" id="loginPassword" placeholder="Mot de passe" required>
       <button type="submit">Login</button>
     </form>
+  </div>
 
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', (e) => {
+      e.preventDefault();
 
+      const username = document.getElementById('registerUsername').value;
+      const password = document.getElementById('registerPassword').value;
+      const requestedRole = document.getElementById('requestedRole').value;
+      const status = document.getElementById('status');
 
-    <script>
-      
-        document.getElementById('registerForm').addEventListener('submit', (e) => {
-          e.preventDefault();
-
-          const username = document.getElementById('registerUsername').value;
-          const password = document.getElementById('registerPassword').value;
-          const requestedRole = document.getElementById('requestedRole').value;
-          const status = document.getElementById('status');
-        // handle register
-    fetch('/api/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password })
-  })
-  .then((response) => {
-    if (!response.ok) {
-      return response.text().then((text) => {
-        throw new Error(text || 'An error occurred during registration');
-      });
-    }
-    return response.json();
-  })
-  .then(() => {
-    status.innerHTML = `✅ Compte créé avec succès.`;
-
-    // Step 2: Request role if selected
-    
-      return fetch('/api/askedRoles', {
+      fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, requestedRole})
-      });
-  })
-  .then((response) => {
-    if (!response.ok) {
-      return response.text().then((text) => {
-        throw new Error(text || 'Erreur lors de la demande de rôle');
-      });
-    } else if (response) {
-      return response.json().then(() => {
-        status.innerHTML += `<br>📝 Rôle demandé : <strong>${requestedRole}</strong>`;
-      });
-    }
-  })
-  .catch((error) => {
-    console.error('Erreur:', error);
-    status.innerHTML = `❌ Erreur: ${error.message}`;
-  });
-});
+        body: JSON.stringify({ username, password })
+      })
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text || 'An error occurred during registration');
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        status.innerHTML = `✅ Compte créé avec succès.`;
 
-
-
-
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const username = document.getElementById('loginUsername').value;
-        const password = document.getElementById('loginPassword').value;
-
-        // handle login
-        fetch('/api/login', {
+        return fetch('/api/askedRoles', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
-        })
-        .then((response) => {
-          if (!response.ok) {
-            return response.text().then((text) => {
-              throw new Error(text || 'An error occurred');
-            });
-          }
-          return response.json();
-        })
-        .then(({ ok, data }) => {
-          console.log('Login Success:', data);
-          window.location.href = '/index.html';
-        })
-        .catch((error) => {
-          console.error('Login Error:', error);
+          body: JSON.stringify({ username, requestedRole })
         });
+      })
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text || 'Erreur lors de la demande de rôle');
+          });
+        } else if (response) {
+          return response.json().then(() => {
+            status.innerHTML += `<br>📝 Rôle demandé : <strong>${requestedRole}</strong>`;
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Erreur:', error);
+        status.innerHTML = `❌ Erreur: ${error.message}`;
       });
-      
+    });
 
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
 
-    </script>
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
 
-
+      fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text || 'An error occurred');
+          });
+        }
+        return response.json();
+      })
+      .then(({ ok, data }) => {
+        console.log('Login Success:', data);
+        window.location.href = '/index.html';
+      })
+      .catch((error) => {
+        console.error('Login Error:', error);
+      });
+    });
+  </script>
 </body>
 </html>

@@ -4,10 +4,11 @@
 <head>
   <meta charset="utf-8">
   <title>Page d'accueil</title>
+  <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
-  Bonjour le monde
     <!-- session info -->
   <div id="sessionInfo">
     <p id="sessionStatus">Chargement du statut de la session...</p>
@@ -15,12 +16,13 @@
 
   <!-- logout Button -->
   <button id="logoutButton" style="display: none;">Se déconnecter</button>
-
+  <img src="Presentación sin título.jpg" class="decor decor-logo">
 <div class="menu">
   
-  <h2>login</h2>
-  <a href="login.html">login</a>
-    <h2>recettes</h2>
+ 
+  <a href="login.html" id="loginLink">Se connecter</a>
+
+    <h2>Listes de recettes</h2>
     <a href="recipes.html">Recettes</a>
     <h2 id="createRecipeHeading" style="display:none;">création recettes</h2>
     <a href="chef.html" id="createRecipeLink"style="display:none;">Créer une recette</a>
@@ -43,8 +45,9 @@
         const logoutButton = document.getElementById('logoutButton');
         if (data.isLoggedIn) {
           console.log('User is logged in as ' + data.username);
-          sessionStatus.innerHTML = `Vous êtes connecté en tant que <strong>${data.username}</strong>.`;
+          sessionStatus.innerHTML = `Bonjour   <strong>${data.username}</strong>.`;
           logoutButton.style.display = 'block';
+          loginLink.style.display = 'none';
 
           if (data.role === 'cuisinier'||data.role === 'traducteur' || data.role === 'admin') {
             createRecipeHeading.style.display = 'none';

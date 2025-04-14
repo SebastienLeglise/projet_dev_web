@@ -32,13 +32,26 @@ header h1 {
 
 /* Session Info */
 #sessionInfo {
-    margin: 43px 40px;
-    text-align: right;
+    position: fixed;
+    top: 55px;         /* Below the logout button (which is at top: 10px + height) */
+    right: 10px;
     font-size: 0.9rem;
-    margin-top: 45px;
-color: #d32f2f;
-    
-}
+    color: #d32f2f;
+    z-index: 999;
+    text-align: right;
+  }
+  
+  #sessionStatus {
+    background-color: white;
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #333;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
 
 /* Menu */
 .menu {

@@ -40,5 +40,11 @@
         "requestedRole": "chef",
         "status": "pending",
         "role": "cuisinier"
+    },
+    {
+        "username": "nico",
+        "requestedRole": "none",
+        "status": "denied",
+        "role": "cuisinier"
     }
 ]

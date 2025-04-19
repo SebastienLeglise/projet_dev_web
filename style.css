@@ -1,35 +1,19 @@
-/* Global styles */
+/* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Arial', sans-serif;
 }
-/* Login Link (top-right corner) */
-
 
 body {
-    background-color: #e0accb;
+    background-color: #f4f4f4;
     color: #333;
-    line-height: 1.6;
     font-size: 16px;
-    background-image: 
-    url('chess.jpg');
-    
+    line-height: 1.6;
 }
 
-/* Header */
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
-}
-
-header h1 {
-    font-size: 2.5rem;
-}
-
+                /* Common Styles for All Pages */
 /* Session Info */
 #sessionInfo {
     position: fixed;
@@ -39,9 +23,9 @@ header h1 {
     color: #d32f2f;
     z-index: 999;
     text-align: right;
-  }
-  
-  #sessionStatus {
+}
+
+#sessionStatus {
     background-color: white;
     display: inline-block;
     padding: 10px 15px;
@@ -50,59 +34,8 @@ header h1 {
     text-decoration: underline;
     color: #333;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
+}
   
-
-/* Menu */
-.menu {
-    background-color: #834600;
-    width: 250px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    height: 88%;
-    
-}
-
-.menu h2 {
-    font-size: 1.5rem;
-    margin: 10px 0;
-    color: #fff;
-    text-transform: uppercase;
-}
-
-.menu a {
-    color: #fff;
-    text-decoration: none;
-    display: block;
-    margin: 8px 0;
-    padding: 10px;
-    background-color: #e0accb;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.menu a:hover {
-    background-color: #000000;
-}
-.decor {
-    position: fixed;
-    max-width: 800px;
-    z-index: 1000; /* High value to be on top */
-}
-
-/* Specific positions */
-.decor-logo {
-    top: 202px;
-    left: 613px;
-    border : 5px solid #834600;
-}
-
-
-
 
 
 /* Logout Button */
@@ -125,6 +58,85 @@ header h1 {
     background-color: #d32f2f;
 }
 
+
+/* Menu principal*/
+.sidebar-menu {
+    background-color: #834600;
+    width: 250px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    height: 88%;
+    
+}
+
+.sidebar-menu  h2 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.sidebar-menu  a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin: 8px 0;
+    padding: 10px;
+    background-color: #e0accb;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-menu a:hover {
+    background-color: #000000;
+}
+.decor {
+    position: fixed;
+    max-width: 800px;
+    z-index: 1000; /* High value to be on top */
+}
+
+/* Specific positions */
+.decor-logo {
+    top: 202px;
+    left: 613px;
+    border : 5px solid #834600;
+}
+
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+    /* Adjust the layout for smaller screens */
+    body {
+        padding: 0 15px;
+    }
+
+    .sidebar-menu {
+        width: 100%;
+        position: relative;
+        margin: 0;
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    #sessionInfo {
+        font-size: 1rem;
+    }
+
+
+}
+
+
+
+
 #loginLink {
     position: fixed;
     top: 0px;
@@ -143,27 +155,676 @@ header h1 {
 }
 
 
-/* Media Queries */
-@media (max-width: 768px) {
-    /* Adjust the layout for smaller screens */
-    body {
-        padding: 0 15px;
-    }
 
-    .menu {
-        width: 100%;
-        position: relative;
-        margin: 0;
+.menu-button {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    background-color: #2d2d2d;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+
+.menu-button  a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+
+.menu-button  a:hover {
+    text-decoration: underline;
+}
+
+
+
+#searchContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#searchField,
+#searchValue {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    min-width: 180px;
+}
+
+
+#searchButton {
+    padding: 10px 15px;
+    background-color: #834600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#searchButton:hover {
+    background-color: #5a2d00;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    #searchBarContainer {
+        flex-direction: column;
+        gap: 10px;
         padding: 15px;
     }
 
-    header h1 {
-        font-size: 2rem;
+    #searchContainer {
+        flex-direction: column;
+        gap: 10px;
     }
+}
 
-    #sessionInfo {
-        font-size: 1rem;
-    }
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center elements horizontally */
+    justify-content: center; /* Center elements vertically if needed */
+    height: 100vh; /* Full viewport height for vertical centering */
+}
 
+input,
+textarea{
+    display: block;
+    width: 30%;
+    padding: 5px 0;
+    margin: 7px 0;
+    border: none;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    background: transparent;
+    color: #333;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+textarea {
+    height: 30px; /* do not change this */      
+    resize: none; /* Prevent resizing for consistent appearance */
 
 }
+
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #2196f3; /* Primary button color */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: background-color 0.1s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 10px 0; /* Add spacing between buttons */
+}
+
+button:hover {
+    background-color: #1976d2; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+button:active {
+    background-color: #1565c0; /* Even darker shade on click */
+    transform: translateY(0); /* Reset lift effect */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow */
+}
+
+
+
+/*-------------------------------------roles page---------------------------------------*/
+
+.form-page {
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+    font-size: 16px;
+  }
+
+.form-page h1 {
+    font-size: 2rem;
+    color: #222;
+    background-color: white;
+    display: block;                /* Make sure it's a block-level element */
+    width: fit-content;            /* Only take up as much width as needed */
+    margin: 40px auto 20px auto;   /* Center horizontally */
+    text-align: center;
+    padding: 5px 15px;
+    border-radius: 8px;
+}
+
+.form-page #rolesContainer {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    min-height: 200px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/*-------------------------------------roles page---------------------------------------*/
+
+
+  /* Recipes Container */
+  #recipesContainer {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap to the next row if needed */
+    justify-content: center; 
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    min-height: 300px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .recipies-title {
+    font-size: 2rem;
+    color: #222;
+    background-color: white;
+    display: block;                /* Make sure it's a block-level element */
+    width: fit-content;            /* Only take up as much width as needed */
+    margin: 40px auto 20px auto;   /* Center horizontally */
+    text-align: center;
+    padding: 5px 15px;
+    border-radius: 8px;
+}
+
+
+/*-------------------------------------------------créer un recette---------------------------------------*/
+
+
+.ingredient {
+    display: flex;
+    flex-wrap: wrap; /* Allow inputs to wrap if they don't fit in one row */
+    gap: 10px; /* Add spacing between inputs */
+    margin-bottom: 10px; /* Add spacing between ingredient rows */
+}
+
+
+
+/*---------------------------------------------------liste des recettes---------------------------------------*/
+
+/* Recipe Card Styles */
+.recipe-card {
+    width: 300px;
+    height: 200px;
+    margin: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  .recipe-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .recipe-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+  
+  .recipe-title {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    position: absolute;
+    bottom: 0;
+  }
+
+
+  /*------------------------------------------page d'une recette--------------------------------*/
+
+  .header {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;
+    padding: 10px 20px;
+    background-color: black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu-buttons {
+    display: flex;
+    gap: 15px; /* Add spacing between the buttons */
+    margin-bottom: 10px; /* Add spacing below the menu buttons */
+  }
+
+  .menu-link {
+    text-decoration: none;
+    color: #2196f3;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 8px 12px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .menu-link:hover {
+    background-color: #2196f3;
+    color: white;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 15px; /* Add spacing between the buttons */
+  }
+  
+  .action-button {
+    padding: 8px 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #2196f3;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .action-button:hover {
+    background-color: #1976d2;
+  }
+
+
+  #recipeDetails {
+    display: block; 
+    position: relative;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recipe{
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  /* Recipe Author and Without */
+.recipe-author,
+.recipe-without {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Ingredients Section */
+.recipe-ingredients h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.recipe-ingredients ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+
+.recipe-ingredients li {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Steps Section */
+  .recipe-steps h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .recipe-steps ol {
+    margin: 10px 0;
+    padding-left: 20px;
+  }
+  
+  .recipe-steps li {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #555;
+  }
+
+  /* Original URL */
+.recipe-original-url {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 20px;
+  }
+  
+  .recipe-original-url a {
+    color: #2196f3;
+    text-decoration: none;
+  }
+  
+  .recipe-original-url a:hover {
+    text-decoration: underline;
+  }
+
+
+
+  .recipe-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .recipe-img {
+    width: 200px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recipe-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+
+
+  #likeSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .like-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color:blue; /* Pink color for the heart */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.1s ease, transform 0.2s ease;
+  }
+  
+  .like-button:hover {
+    background-color: #c2185b; /* Darker pink on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+  
+  .like-button:disabled {
+    background-color: #ccc; /* Gray color when disabled */
+    cursor: not-allowed;
+  }
+
+
+
+
+  /*---------------------------------temporaire ajout des images--------*/
+
+  #addPhotoHeader {
+    font-size: 1.5rem;
+    height: auto;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  #addPhotoForm {
+    max-width: 400px;
+    height: auto;
+    margin: 0 auto 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  #addPhotoForm input[type="file"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  #addPhotoForm button {
+    align-self: center;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #2196f3;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #addPhotoForm button:hover {
+    background-color: #1976d2;
+  }
+
+
+
+
+  
+  /* -----------------------------------Comments Section */
+  #commentsHeader {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  #recipeComments {
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .comment {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .comment:last-child {
+    border-bottom: none;
+  }
+  
+  .comment-username {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .comment-timestamp {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 5px;
+  }
+  
+  .comment-message {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .no-comments {
+    font-size: 1rem;
+    color: #777;
+    text-align: center;
+  }
+
+  #addCommentFormHeader {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  #addCommentForm {
+    max-width: 400px;
+    height: auto;
+    margin: 0 auto 20px auto; /* Center the form and add spacing below */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Add spacing between form elements */
+  }
+  
+  #addCommentForm textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    resize: none; /* Prevent resizing for consistent appearance */
+  }
+  #addCommentForm button {
+    align-self: flex-end; /* Align the button to the right */
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #2196f3;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #addCommentForm button:hover {
+    background-color: #1976d2;
+  }
+
+
+
+  /*---------------------------------traduction page---------------------------------------*/
+
+
+  /* Translation Page Styles */
+.translation-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .column-title {
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .content-box {
+    flex: 1;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow-y: auto;
+    max-height: 400px; /* Limit the height with scrolling */
+  }
+  .content-box p {
+    display: flex;
+    flex-wrap: wrap; /* Allow elements to wrap if they don't fit in one row */
+    gap: 10px; /* Add spacing between elements */
+    margin-bottom: 10px; /* Add space between each ingredient or step */
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .content-box p strong {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .content-box input {
+    margin-bottom: 10px; /* Add space between input fields */
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .save-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .action-button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background-color: #2196f3;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .action-button:hover {
+    background-color: #1976d2;
+    transform: translateY(-2px);
+  }
+  
+  .action-button:active {
+    background-color: #1565c0;
+    transform: translateY(0);
+  }

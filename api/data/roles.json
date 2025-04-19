@@ -38,8 +38,8 @@
     {
         "username": "pepes",
         "requestedRole": "chef",
-        "status": "pending",
-        "role": "cuisinier"
+        "status": "approved",
+        "role": "chef"
     },
     {
         "username": "nico",

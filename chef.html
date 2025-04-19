@@ -3,9 +3,16 @@
 <head>
   <meta charset="utf-8">
   <title>Page creation recette</title>
+  <link rel="stylesheet" href="style.css">
+
 </head>
 
-<body>
+<body class="form-page">
+
+  <div class="menu-button">
+    <a href="index.html">Accueil</a>
+  </div>
+
   <h1>Créer une nouvelle recette</h1>
   <div id="sessionInfo">
     <p id="sessionStatus">Chargement du statut de la session...</p>
@@ -18,11 +25,11 @@
     <input type="text" id="nameFR" placeholder="Nom de la recette (en français)"></br>
     <input type="text" id="Author" placeholder="Auteur de la recette"></br>
     <input type="text" id="Without" placeholder="Ingrédients à exclure (séparés par des virgules)"></br>
-    <textarea id="Steps" placeholder="Étapes (séparées par des points)" ></textarea></br>
     <input type="text" id="Timers" placeholder="Temps pour chaque étape (en minutes, séparés par des virgules)"></br>
     <input type="text" id="imageURL" placeholder="URL de l'image"></br>
     <input type="text" id="originalURL" placeholder="URL originale de la recette"></br>
-    
+    <textarea id="Steps" placeholder="Étapes (séparées par des points)" ></textarea></br>
+
     <div id="ingredientsContainer">
       <h3>Ingrédients</h3>
       <div class="ingredient">
@@ -45,8 +52,8 @@
       const ingredientDiv = document.createElement('div');
       ingredientDiv.classList.add('ingredient');
       ingredientDiv.innerHTML = `
-        <input type="text" class="ingredientQuantity" placeholder="Quantité">
         <input type="text" class="ingredientName" placeholder="Nom de l'ingrédient" >
+        <input type="text" class="ingredientQuantity" placeholder="Quantité">
         <input type="text" class="ingredientType" placeholder="Type (e.g., Meat, Baking)" >
       `;
       ingredientsContainer.appendChild(ingredientDiv);
@@ -135,7 +142,7 @@
 
         if (data.isLoggedIn && (data.role === 'chef' || data.role === 'admin')) {
           console.log('User is logged in as ' + data.username);
-          sessionStatus.innerHTML = `Vous êtes connecté en tant que <strong>${data.username}</strong>.`;
+          sessionStatus.innerHTML = `Bonjour, <strong>${data.username}</strong>.`;
           logoutButton.style.display = 'block';
         } else {
           console.log('User is not logged in');

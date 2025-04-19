@@ -3,22 +3,41 @@
 <head>
   <meta charset="utf-8">
   <title>Détails de la Recette</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1 id="pageHeader">Recipe Details</h1>
 
-  <button id="languageToggle">Changer la langue</button>
-  <div class="menu">
-    <a id="backToRecipes" href="recipes.html">Retour à la liste des recettes</a>
+  <div class="header">
+    <div class="menu-buttons">
+      <a href="index.html" class="menu-link">Accueil</a>
+      <a href="recipes.html" class="menu-link">Retour à la liste des recettes</a>
+    </div>
+    <div class="action-buttons">
+      <button id="languageToggle" class="action-button">Changer la langue</button>
+      <div id="translatorActions">
+        <button id="editTranslationButton" class="action-button">Modifier la traduction</button>
+      </div>
+    </div>
   </div>
+  <h3 id="addPhotoHeader">Ajouter une photo</h3>
+<form id="addPhotoForm">
+  <input type="url" id="photoURL" placeholder="Entrez l'URL de la photo" required>
+  <button type="submit" id="submitPhotoButton">Ajouter la photo</button>
+</form>
+
+  <h1 id="pageHeader">Recipe Details</h1>
+  
 
 
   <div id="recipeDetails"></div>
-
-  <div id="translatorActions">
-    <button id="editTranslationButton">Edit Translation</button>
+  <div id="likeSection">
+    <button id="likeButton" class="like-button">
+      ❤️ Like (<span id="likeCount">0</span>)
+    </button>
   </div>
+
+  
   
   <h2 id="commentsHeader">Commentaires</h2>
     <div id="recipeComments"></div>
@@ -126,15 +145,32 @@
       const author = recipe.Author || lang.unspecified;
       const without = recipe.Without ? recipe.Without.join(', ') : lang.noRestriction;
       const timers = Array.isArray(recipe.timers) ? recipe.timers : [];
+      const imageURLs = Array.isArray(recipe.imageURL)? recipe.imageURL: [recipe.imageURL || null];
 
-      let recipeInfo =
-      '<h3>' + (name || lang.unspecified) + '</h3>' +
-      '<p><strong>'+lang.author +': </strong> ' + (author || lang.unspecified) + '</p>' +
-      '<p><strong>'+lang.without +':</strong> ' + (without || lang.noRestriction)  + '</p>' +
+
+
+
+      let recipeInfo = '';
+      if (imageURLs.length > 0 && imageURLs[0]) {
+        recipeInfo += '<div class="recipe-images">';
+        imageURLs.forEach((url, index) => {
+          recipeInfo += `
+            <div class="recipe-img">
+              <img src="${url}" alt="${name || lang.unspecified} - Image ${index + 1}" class="recipe-img">
+            </div>`;
+        });
+        recipeInfo += '</div>';
+      } else {
+        recipeInfo += `<div class="recipe-image-placeholder">Image non disponible</div>`;
+      }
+
+      recipeInfo += '<h2 class="recipe">' + (name || lang.unspecified) + '</h2>' +
+      '<p class="recipe-author"><strong>'+lang.author +': </strong> ' + (author || lang.unspecified) + '</p>' +
+      '<pclass="recipe-without"><strong>'+lang.without +':</strong> ' + (without || lang.noRestriction)  + '</p>' +
       '<p><strong>'+lang.ingredients +':</strong></p>';
 
       if (ingredients && ingredients.length > 0) {
-        recipeInfo += '<ul>' + ingredients.map(
+        recipeInfo += '<div class="recipe-ingredients"><ul>' + ingredients.map(
             (ingredient) =>
               '<li>' +
               (ingredient.quantity || lang.unspecified) +
@@ -150,8 +186,7 @@
       recipeInfo +=
             '<h3>'+ lang.steps +' :</h3>';
       if (steps && steps.length > 0) {
-        recipeInfo += 
-            '<ol>' +steps.map(
+        recipeInfo += '<div class="recipe-steps"> <ol>' +steps.map(
                 (step, index) =>
                   '<li>' +
                   step +
@@ -165,7 +200,7 @@
         recipeInfo += '<p>' + lang.unspecified + '</p>';
       }
       recipeInfo +=
-            '<p><strong>'+lang.originalURL +':</strong> <a href="' +
+            '<p class="recipe-original-url"><strong>'+lang.originalURL +':</strong> <a href="' +
             (recipe.originalURL || '#') +
             '" target="_blank">' +
             (recipe.originalURL || lang.unspecified) +
@@ -174,6 +209,110 @@
         recipeDetailsContainer.innerHTML = recipeInfo;
     }
 
+    
+    //--------------------------------------------------------------------------temporaire
+    document.getElementById('addPhotoForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const photoURL = document.getElementById('photoURL').value.trim();
+        if (!photoURL) {
+          alert('Veuillez entrer une URL valide.');
+          return;
+        }
+
+        // Send the photo URL to the backend
+        fetch(`/api/recipe/photo/${encodeURIComponent(recipeName)}?img=${encodeURIComponent(photoURL)}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              return response.json().then((data) => {
+                throw new Error(data.error || 'Erreur lors de l\'ajout de la photo.');
+              });
+            }
+            return response.json();
+          })
+          .then((data) => {
+            alert('Photo ajoutée avec succès!');
+            console.log('Photo ajoutée:', data.imageURL);
+
+            // Refresh the recipe details to display the new photo
+            fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+              .then((response) => response.json())
+              .then((updatedRecipe) => {
+                displayRecipeDetails(updatedRecipe);
+              })
+              .catch((error) => {
+                console.error('Erreur lors de la mise à jour des détails de la recette:', error);
+              });
+          })
+          .catch((error) => {
+            console.error('Erreur:', error);
+            alert(error.message);
+          });
+
+        // Clear the form
+        document.getElementById('addPhotoForm').reset();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const likeButton = document.getElementById('likeButton');
+      const likeCount = document.getElementById('likeCount');
+      const recipeName = decodeURIComponent(window.location.search.split('=')[1]); // Récupère le nom de la recette depuis l'URL
+
+      // Charger les likes actuels
+      fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((recipe) => {
+          likeCount.textContent = recipe.likes || 0; // Affiche le nombre de likes
+        })
+        .catch((error) => {
+          console.error('Erreur lors du chargement des likes:', error);
+        });
+
+      // Gérer le clic sur le bouton "J'aime"
+      likeButton.addEventListener('click', () => {
+        fetch(`/api/recipe/like/${encodeURIComponent(recipeName)}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              return response.json().then((data) => {
+                throw new Error(data.error || 'Erreur lors de l\'ajout du like.');
+              });
+            }
+            return response.json();
+          })
+          .then((updatedRecipes) => {
+            // Met à jour le nombre de likes
+            const updatedRecipe = updatedRecipes.find((r) => r.name === recipeName);
+            likeCount.textContent = updatedRecipe.likes;
+
+            // Désactive le bouton
+            likeButton.disabled = true;
+          })
+          .catch((error) => {
+            console.error('Erreur:', error);
+            alert(error.message);
+          });
+      });
+    });
 
 
     //----------------------display recepe info logic-------------------
@@ -305,7 +444,7 @@
 
         if (data.isLoggedIn) {
           console.log('User is logged in as ' + data.username);
-          sessionStatus.innerHTML = `Vous êtes connecté en tant que <strong>${data.username}</strong>.`;
+          sessionStatus.innerHTML = `Bonjour, <strong>${data.username}</strong>.`;
           logoutButton.style.display = 'block';
           currentUsername = data.username; 
 

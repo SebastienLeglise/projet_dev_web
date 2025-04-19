@@ -14,8 +14,11 @@
         "timers": [
             1
         ],
-        "imageURL": null,
-        "originalURL": null,
+        "imageURL": [
+            "http://img.sndimg.com/food/image/upload/w_266/v1/img/recipes/27/20/8/picVfzLZo.jpg",
+            "http://img.sndimg.com/food/image/upload/w_266/v1/img/recipes/27/20/8/picVfzLZo.jpg"
+        ],
+        "originalURL": "http://upload.wikimedia.org/wikipedia/commons/c/c7/Spinach_pizza.jpg",
         "ingredientsFR": [],
         "steps": [
             "aefaefazfazf",
@@ -25,8 +28,6 @@
             "azfevzfaezbzbf zbf bf dbdf ",
             "a zfzef zef zefzefzfg"
         ],
-        "imageURL": "http:\/\/upload.wikimedia.org\/wikipedia\/commons\/c\/c7\/Spinach_pizza.jpg",
-        "originalURL": "http:\/\/upload.wikimedia.org\/wikipedia\/commons\/c\/c7\/Spinach_pizza.jpg",
         "status": "approved"
     },
     {

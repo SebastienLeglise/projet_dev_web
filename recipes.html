@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <title>Page des recettes</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   
-      <div class="menu">
+      <div class="menu-button">
         <a href="index.html">Accueil</a>
       </div>
         <!-- Search Bar -->
@@ -25,7 +26,7 @@
         <button id="searchButton" >Rechercher</button>
 
       </div>
-      <h1>Liste des recettes</h1>
+      <h1 class="recipies-title">Liste des recettes</h1>
 
       <div id="recipesContainer"></div>
 
@@ -57,12 +58,26 @@
           recipesContainer.innerHTML = '<p>No recipe found</p>';
           return;
       }
-      recipesContainer.innerHTML = recipes.map(recipe => `
-        <div>
-          <h3><a href="recipe.html?name=${encodeURIComponent(recipe.name)}">${recipe.name}</a></h3>
-          <p><strong>URL original:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a></p>
-        </div>
-      `).join('');
+      recipesContainer.innerHTML = recipes.map(recipe => {
+      let imageURL = '';
+
+      if (Array.isArray(recipe.imageURL)) {
+        imageURL = recipe.imageURL[Math.floor(Math.random() * recipe.imageURL.length)];
+      } else {
+        imageURL = recipe.imageURL || '';
+      }
+      const hasImage = !!imageURL; 
+      
+      return `
+       <div class="recipe-card">
+        <a href="recipe.html?name=${encodeURIComponent(recipe.name)}" class="recipe-link">
+          <div class="recipe-image" style="background-image: url('${hasImage ? imageURL : ''}'); background-color: ${hasImage ? 'transparent' : 'red'};">
+            <h3 class="recipe-title">${recipe.name}</h3>
+          </div>
+        </a>
+      </div>
+      `;
+    }).join('');
     }
 
     document.getElementById('searchButton').addEventListener('click', () => {
@@ -137,7 +152,7 @@
 
         if (data.isLoggedIn) {
           console.log('User is logged in as ' + data.username);
-          sessionStatus.innerHTML = `Vous êtes connecté en tant que <strong>${data.username}</strong>.`;
+          sessionStatus.innerHTML = `Bonjour, <strong>${data.username}</strong>.`;
           logoutButton.style.display = 'block';
         } else {
           console.log('User is not logged in');

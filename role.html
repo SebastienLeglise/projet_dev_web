@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <title>Page d'accueil</title>
+  <link rel="stylesheet" href="styleRole.css">
 </head>
 
 <body>
-  Bonjour le monde
     <!-- session info -->
   <div id="sessionInfo">
     <p id="sessionStatus">Chargement du statut de la session...</p>
@@ -32,7 +32,7 @@
     .then((response) => response.json())
     .then((roles) => {
       const rolesContainer = document.getElementById('rolesContainer');
-      
+      //const pendingRoles = roles.filter(role => role.status === 'pending');
       // Check if there are roles to display
       if (roles.length > 0) {
         rolesContainer.innerHTML = roles.map(role => `
@@ -70,7 +70,7 @@
   .then(response => response.json())
   .then(data => {
     alert(data.message || data.error);
-    window.location.href = 'admin.html';
+    window.location.href = 'role.html';
   })
   .catch(error => {
     console.error('Error:', error);
@@ -91,7 +91,7 @@ function denyRole(username) {
   .then(response => response.json())
   .then(data => {
     alert(data.message || data.error);
-    window.location.href = 'admin.html';
+    window.location.href = 'role.html';
   })
   .catch(error => {
     console.error('Error:', error);
@@ -110,7 +110,7 @@ function denyRole(username) {
         const logoutButton = document.getElementById('logoutButton');
         if (data.isLoggedIn && data.role === 'admin') {
           console.log('User is logged in as ' + data.username);
-          sessionStatus.innerHTML = `Vous êtes connecté en tant que <strong>${data.username}</strong>.`;
+          sessionStatus.innerHTML = `Bonjour  <strong>${data.username}</strong>.`;
           logoutButton.style.display = 'block';
         } else {
           console.log('User is not logged in');

@@ -7,5 +7,20 @@
     },
     "sebas": {
         "password": "$2y$10$XrFHcK4ABwOKCiHCLtfA7eqijLUrrqUm\/oOV.07oNoxCJhb\/mwN9O"
+    },
+    "pepe": {
+        "password": "$2y$10$l9\/T4pyorfDUrXmNqg6LYuhcvvXTAIpq52v4NSdF8nIkD2DUyrvVm"
+    },
+    "pene": {
+        "password": "$2y$10$K1zHtf9T63aav6uBId9dmerDKvxep4gV11J2VJjrq8K3VnrkSGgK."
+    },
+    "momo": {
+        "password": "$2y$10$2Me0NwjIu.KiHr7.uLYhf.63O14Zv5ghCt4NnmV\/BkmqMlrUwKbxy"
+    },
+    "pepes": {
+        "password": "$2y$10$T5iTewHRncE\/uEhEvaxFp.Y6phqHsxn0xGnpAtYnP.DVrRRI4CXu6"
+    },
+    "nico": {
+        "password": "$2y$10$JnGfbhVyeB684ObqGJkag.w6ZQ9xxjNIVmPulKDAMIsJ15xG27.l6"
     }
 }

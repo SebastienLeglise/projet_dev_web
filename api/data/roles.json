@@ -14,6 +14,36 @@
     {
         "username": "sebas",
         "requestedRole": "chef",
+        "status": "approved",
+        "role": "chef"
+    },
+    {
+        "username": "pepe",
+        "requestedRole": "none",
+        "status": "denied",
+        "role": "cuisinier"
+    },
+    {
+        "username": "pene",
+        "requestedRole": "none",
+        "status": "denied",
+        "role": "cuisinier"
+    },
+    {
+        "username": "momo",
+        "requestedRole": "none",
+        "status": "denied",
+        "role": "cuisinier"
+    },
+    {
+        "username": "pepes",
+        "requestedRole": "chef",
+        "status": "pending",
+        "role": "cuisinier"
+    },
+    {
+        "username": "nico",
+        "requestedRole": "none",
         "status": "denied",
         "role": "cuisinier"
     }

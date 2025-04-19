@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Page des recettes</title>
+  <link rel="stylesheet" href="styleRecipeAdmin.css">
+
 </head>
 
 <body>
@@ -29,16 +31,6 @@
 
       <div id="recipesContainer"></div>
 
-
-
-
-
-
-
-
-
-
-
       <!-- session info -->
       <div id="sessionInfo">
         <p id="sessionStatus">Chargement du statut de la session...</p>
@@ -60,8 +52,11 @@
       recipesContainer.innerHTML = recipes.map(recipe => `
         <div>
           <h3><a href="recipe.html?name=${encodeURIComponent(recipe.name)}">${recipe.name}</a></h3>
-          <p><strong>URL original:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a></p>
-        </div>
+          <p><strong>URL original:</strong> <a href="${recipe.originalURL}" target="_blank">${recipe.originalURL}</a>
+            </p><strong>Status:</strong> ${recipe.status}</p>
+        <button onclick="approveRecette('${encodeURIComponent(recipe.name)}')">Approuver</button>
+                <button onclick="denyRecette('${encodeURIComponent(recipe.name)}')">Rejeter</button>
+          </div>
       `).join('');
     }
 
@@ -98,7 +93,7 @@
     });
 
     // Fetch all recipes initially
-    fetch('/api/recipe/consultAll', {
+    fetch('/api/recipe/consultAllDos', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -106,10 +101,11 @@
     })
     .then((response) => response.json())
     .then((recipes) => {
-      const onlyPending = recipes.filter(r => r.status === 'approved');
+      const onlyPending = recipes.filter(r => r.status === 'pending');
       console.log('Filtered to pending in frontend:', onlyPending);
       displayRecipes(onlyPending);
       })
+    
     //.then((recipes) => {
       //displayRecipes(recipes); // Display all recipes initially
     //})
@@ -118,6 +114,47 @@
       document.getElementById('recipesContainer').innerHTML = '<p>Error when loading recipes.</p>';
     });
   
+
+    function approveRecette(name) {
+  fetch('/api/recipe/approval', { 
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: name,
+      status: 'approved'
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert(data.message || data.error);
+    window.location.href = 'adminRecipe.html';
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+function denyRecette(name) {
+  fetch('/api/recipe/approval', { 
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: name,
+      status: 'denied'
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert(data.message || data.error);
+    window.location.href = 'adminRecipe.html';
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
 
 
 
@@ -137,12 +174,13 @@
 
         if (data.isLoggedIn) {
           console.log('User is logged in as ' + data.username);
-          sessionStatus.innerHTML = `Vous êtes connecté en tant que <strong>${data.username}</strong>.`;
+          sessionStatus.innerHTML = `Bonjour  <strong>${data.username}</strong>.`;
           logoutButton.style.display = 'block';
         } else {
           console.log('User is not logged in');
           sessionStatus.innerHTML = 'Vous n\'êtes pas connecté.';
           logoutButton.style.display = 'none';
+          window.location.href = 'index.html';
         }
       })
       .catch(error => {

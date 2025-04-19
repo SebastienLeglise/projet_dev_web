@@ -15,6 +15,10 @@
 
 
   <div id="recipeDetails"></div>
+
+  <div id="translatorActions">
+    <button id="editTranslationButton">Edit Translation</button>
+  </div>
   
   <h2 id="commentsHeader">Commentaires</h2>
     <div id="recipeComments"></div>
@@ -297,12 +301,19 @@
       .then(data => {
         const sessionStatus = document.getElementById('sessionStatus');
         const logoutButton = document.getElementById('logoutButton');
+        const translatorActions = document.getElementById('translatorActions');
 
         if (data.isLoggedIn) {
           console.log('User is logged in as ' + data.username);
           sessionStatus.innerHTML = `Vous êtes connecté en tant que <strong>${data.username}</strong>.`;
           logoutButton.style.display = 'block';
           currentUsername = data.username; 
+
+          //if (data.role === 'translator' || data.role === 'admin') {
+            translatorActions.style.display = 'block';
+          //}
+
+
         } else {
           console.log('User is not logged in');
           sessionStatus.innerHTML = 'Vous n\'êtes pas connecté.';
@@ -314,6 +325,11 @@
         document.getElementById('sessionStatus').innerHTML = 'Erreur lors de la vérification de la session.';
       });
     }
+
+    document.getElementById('editTranslationButton').addEventListener('click', () => {
+      const recipeName = new URLSearchParams(window.location.search).get('name');
+      window.location.href = `/translate_recipe.html?name=${encodeURIComponent(recipeName)}`;
+    });
 
 
 

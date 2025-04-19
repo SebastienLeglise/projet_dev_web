@@ -132,7 +132,9 @@ class RecipeController{
                 $recipe['Author'] = $data->Author ?? $recipe['Author'];
                 $recipe['Without'] = $data->Without ?? $recipe['Without'];
                 $recipe['ingredients'] = $data->ingredients ?? $recipe['ingredients'];
+                $recipe['ingredientsFR'] = $data->ingredientsFR?? $recipe['ingredientsFR'];
                 $recipe['steps'] = $data->steps ?? $recipe['steps'];
+                $recipe['stepsFR'] = $data->stepsFR?? $recipe['stepsFR'];
                 $recipe['timers'] = $data->timers ?? $recipe['timers'];
                 $recipe['imageURL'] = $data->imageURL ?? $recipe['imageURL'];
                 $recipe['originalURL'] = $data->originalURL ?? $recipe['originalURL'];
@@ -404,7 +406,7 @@ class RecipeController{
 
 
 
-    public function handleRecipeTraduction($params, $splitedQuery) {
+    public function handleRecipeTraduction($params) {
         // Ensure the correct Content-Type header
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
             http_response_code(400);
@@ -417,98 +419,134 @@ class RecipeController{
         if ($recipe === null)
             return;
 
-        /*   // Vérifier si l'utilisateur est autorisé (rôle de traducteur)
-        if (!AuthMiddleware::authCheck('translator')) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Access denied. Only translators can modify translations.']);
-            return;
-        }*/
-
-                    // Validate and sanitize
-
-        $language = $splitedQuery['lang'] == null ? strtolower($splitedQuery['lang']) : 'en';//default language is english
-
-        if($language != 'fr' && $language != 'en') {
-            http_response_code(400);
-            echo json_encode(['error' => 'Invalid language']);
-            return;
+        $response = [];
+        //include if only one langauge has information
+        if (!(empty($recipe['name']) && empty($recipe['nameFR'])) &&    //if it's not fully empty
+            !(!empty($recipe['name']) && !empty($recipe['nameFR']))){   //if it's not fully filled
+            $response['name'] = $recipe['name'] ?? null;
+            $response['nameFR'] = $recipe['nameFR'] ?? null;
         }
 
-        $json = file_get_contents('php://input');
-        $body = json_decode($json, true);
-
-        if ($body === null || !is_array($body)) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Invalid or missing request body']);
-            return;
-        }
-        if (!$body['translationData'] || !is_array($body['translationData'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Invalid or missing translation data']);
-            return;
-        }
-
-        $translationData = $body['translationData'];
-        $sanitizedData = [];
 
 
-        echo $body['translationData'];
+        if (!empty($recipe['ingredients']) && !empty($recipe['ingredientsFR'])) {
+            
+            $iter = count($recipe['ingredients']) > count($recipe['ingredientsFR']) ? $recipe['ingredients'] : $recipe['ingredientsFR'];
+        
+            foreach ($iter as $index => $ingredient) {
 
-            //v1 traduction vers le français
-         
 
-        // Valider le champ nameFR
-        if (isset($translationData['nameFR'])) 
-            $sanitizedData['nameFR'] = filter_var($translationData['nameFR'], FILTER_SANITIZE_STRING);
-        // Valider le champ ingredientsFR
-        if (isset($translationData['ingredientsFR'])) {
-            if (is_array($translationData['ingredientsFR'])) {
-                $sanitizedData['ingredientsFR'] = array_map(function ($ingredient) {
-                    if (!is_array($ingredient) || !isset($ingredient['quantity'], $ingredient['name'], $ingredient['type'])) {
-                        http_response_code(400);
-                        echo json_encode(['error' => 'Invalid ingredientsFR format. Each ingredient must be an object with quantity, name, and type.']);
-                        exit();
+                if($recipe['ingredients'][$index] !== null && $recipe['ingredientsFR'][$index] !== null) {
+                    //si les deux champs sont complétements remplis on ne l'envoie pas
+
+                    if($recipe['ingredients'][$index]['quantity'] !== null && $recipe['ingredients'][$index]['name'] !== null && $recipe['ingredients'][$index]['type'] !== null
+                     && $recipe['ingredientsFR'][$index]['quantity'] !== null && $recipe['ingredientsFR'][$index]['name'] !== null && $recipe['ingredientsFR'][$index]['type'] !== null) {
+
+                        continue;
                     }
-                    return [
-                        'quantity' => filter_var($ingredient['quantity'],  FILTER_SANITIZE_STRING),
-                        'name' => filter_var($ingredient['name'],  FILTER_SANITIZE_STRING),
-                        'type' => filter_var($ingredient['type'],  FILTER_SANITIZE_STRING),
-                    ];
-                }, $translationData['ingredientsFR']);
-            } else {
-                http_response_code(400);
-                echo json_encode(['error' => 'Invalid ingredientsFR format. It must be an array of objects.']);
-                return;
+
+
+                    $ingredientEN = $recipe['ingredients'][$index] ?? ['quantity' => null, 'name' => null, 'type' => null];
+                    $ingredientFR = $recipe['ingredientsFR'][$index] ?? ['quantity' => null, 'name' => null, 'type' => null];
+
+                   
+                    
+                    //si n'importe quel champ est vide on envoi l'ingrédient
+                    if ($ingredientEN['quantity'] === null || $ingredientEN['name'] === null || $ingredientEN['type'] === null
+                    || $ingredientFR['quantity'] === null || $ingredientFR['name'] === null || $ingredientFR['type'] === null) {
+                        $response['ingredients'][] = $ingredientEN;
+                        $response['ingredientsFR'][] = $ingredientFR;
+
+
+                    }
+
+                }
+             
+            
+                //source de l'erreur debugger ici 
+
+                //cas simple, un des deuxingrédients est complétement vide
+                else if($recipe['ingredients'][$index] !== null && $recipe['ingredientsFR'][$index] === null
+                || $recipe['ingredients'][$index] === null && $recipe['ingredientsFR'][$index] !== null) {
+
+
+
+
+                     //cas un ingrédient existe mais tout ces valeurs sont null et ça contrepart n'existe pas
+                    if(($recipe['ingredients'][$index] === null &&
+                            $recipe['ingredientsFR'][$index]['quantity'] === null && $recipe['ingredientsFR'][$index]['name'] === null  &&
+                            $recipe['ingredientsFR'][$index]['type'] === null)
+                
+                            || ($recipe['ingredientsFR'][$index] === null &&
+                            $recipe['ingredients'][$index]['quantity'] === null && $recipe['ingredients'][$index]['name'] === null  &&
+                            $recipe['ingredients'][$index]['type'] === null)) {
+                        continue;
+                    }
+                  
+
+                    $response['ingredients'][] = $recipe['ingredients'][$index] ?? ['quantity' => null, 'name' => null, 'type' => null];
+                    $response['ingredientsFR'][] = $recipe['ingredientsFR'][$index] ?? ['quantity' => null, 'name' => null, 'type' => null];
+
+
+                   
+
+
+
+                }
+
+
+                
             }
+
+
         }
-        // Valider le champ stepsFR
-        if (isset($translationData['stepsFR'])) {
-            if (is_array($translationData['stepsFR'])) {
-                $sanitizedData['stepsFR'] = 
-                    array_map(function ($step) {
-                        return filter_var($step, FILTER_SANITIZE_STRING);
-                    }, $translationData['stepsFR']);
-            } else {
-                http_response_code(400);
-                echo json_encode(['error' => 'Invalid stepsFR format. It must be an array.']);
-                return;
+
+       
+
+
+        //cas simple un des deux champs d'ingrédients n'existe pas
+        if( (empty($recipe['ingredients']) && !empty($recipe['ingredientsFR']))
+        || (!empty($recipe['ingredients']) && empty($recipe['ingredientsFR']))){
+            $response['ingredients'] = $recipe['ingredients'] ?? null;
+            $response['ingredientsFR'] = $recipe['ingredientsFR'] ?? null;
+        }
+
+
+
+
+
+
+
+
+        if (!(empty($recipe['steps']) && empty($recipe['stepsFR']))){
+            if ((empty($recipe['steps']) && !empty($recipe['stepsFR'])) ||
+                    (!empty($recipe['steps']) && empty($recipe['stepsFR']))){
+                $response['steps'] = $recipe['steps'] ?? null;
+                $response['stepsFR'] = $recipe['stepsFR'] ?? null;
             }
+            else if(!empty($recipe['steps']) && !empty($recipe['stepsFR'])){
+
+                foreach($recipe['steps'] as $key => $step) {
+                    
+                    if (($recipe['stepsFR'][$key] !== null && $recipe['steps'][$key] !== null) ||
+                        ($recipe['stepsFR'][$key] === null && $recipe['steps'][$key] === null)) {
+                    } else {
+                        $response['steps'] = $recipe['steps'];
+                        $response['stepsFR']= $recipe['stepsFR'];
+                        break;
+                    }
+                }
+                
+            }
+              
         }
+            
 
-     
-        // modifier la recette avec les données de traduction
-        if (isset($sanitizedData['nameFR'])) 
-            $recipe['nameFR'] = $sanitizedData['nameFR'];
-        if (isset($sanitizedData['ingredientsFR'])) 
-            $recipe['ingredientsFR'] = $sanitizedData['ingredientsFR'];
-        if (isset($sanitizedData['stepsFR'])) 
-            $recipe['stepsFR'] = $sanitizedData['stepsFR'];
-
-
-        $this->updateRecipes($recipe);
+    
         http_response_code(200);
-        echo json_encode(['message' => 'Recipe translation updated successfully']);
-    }
+        header('Content-Type: application/json');
+        echo json_encode($response);
+     }
 
 
 

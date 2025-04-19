@@ -61,7 +61,7 @@ $router->register('GET','/api/recipe/consult/{recipe_name}',[$recipeController, 
 $router->register('GET','/api/recipe/consultAll',[$recipeController, 'handleRecipeConsultingAll'],false);				//Consulter toutes les recettes
 $router->register('GET','/api/recipe/search',[$recipeController, 'handleRecipeSearch'],false);				//Rechercher une recette
 
-$router->register('POST','/api/recipe/traduction/{params}',[$recipeController, 'handleRecipeTraduction'],false);				//Traduire une recette
+$router->register('GET','/api/recipe/traduction/{recipe_name}',[$recipeController, 'handleRecipeTraduction'],false);				//Traduire une recette
 $router->register('POST','/api/recipe/photo/{params}',[$recipeController, 'handleRecipeFotoPublication'],false); 			//Publier une photo d'une recette
 $router->register('POST','/api/recipe/like/{recipe_name}',[$recipeController, 'handleRecipeLike'],false);				//Liker une recette
 

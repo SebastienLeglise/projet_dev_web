@@ -1,24 +1,30 @@
 [
     {
         "name": "pepaPuta",
-        "nameFR": null,
+        "nameFR": "tralala",
         "Author": null,
         "Without": null,
         "ingredients": [
             {
-                "quantity": "5",
-                "name": "tocino",
-                "type": "puerca"
+                "quantity": "1",
+                "name": "beef roast",
+                "type": "Meat"
             }
-        ],
-        "steps": [
-            "darle a palos"
         ],
         "timers": [
             1
         ],
         "imageURL": null,
-        "originalURL": null
+        "originalURL": null,
+        "ingredientsFR": [],
+        "steps": [
+            "aefaefazfazf",
+            "aefaegzzev adazd azd "
+        ],
+        "stepsFR": [
+            "azfevzfaezbzbf zbf bf dbdf ",
+            "a zfzef zef zefzefzfg"
+        ]
     },
     {
         "name": "pasta pesto",
@@ -27,9 +33,26 @@
         "Without": null,
         "ingredients": [
             {
+                "name": null,
+                "quantity": null,
+                "type": null
+            },
+            {
                 "name": "pasta",
-                "quantity": "1",
-                "type": "pasta"
+                "quantity": null,
+                "type": null
+            },
+            {
+                "name": null,
+                "quantity": null,
+                "type": null
+            }
+        ],
+        "ingredientsFR": [
+            {
+                "name": "pasta",
+                "quantity": null,
+                "type": "sauce"
             }
         ],
         "steps": [
@@ -40,6 +63,10 @@
             14
         ],
         "imageURL": null,
-        "originalURL": null
+        "originalURL": null,
+        "stepsFR": [
+            null,
+            null
+        ]
     }
 ]

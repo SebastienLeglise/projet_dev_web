@@ -118,15 +118,6 @@ class CommentController
 	public function handleDeleteCommentRequest(): void
 	{
 
-		//TODO
-		/*$auth = $this->authController->isAuthenticated();
-		
-		if (!$auth) {
-			http_response_code(401);
-			echo json_encode(['error' => 'Unauthorized']);
-			return;
-		}*/
-
 		file_put_contents($this->filePath, json_encode([]));
 
 		http_response_code(200);

@@ -13,23 +13,30 @@
       <a href="index.html" class="menu-link">Accueil</a>
       <a href="recipes.html" class="menu-link">Retour à la liste des recettes</a>
     </div>
+
+
     <div class="action-buttons">
+      <!-- Bouton pour changer la langue -->
       <button id="languageToggle" class="action-button">Changer la langue</button>
       <div id="translatorActions">
+        <!-- Bouton pour les traducteurs-->
         <button id="editTranslationButton" class="action-button">Modifier la traduction</button>
       </div>
     </div>
+  
   </div>
-  <h3 id="addPhotoHeader">Ajouter une photo</h3>
-<form id="addPhotoForm">
-  <input type="url" id="photoURL" placeholder="Entrez l'URL de la photo" required>
-  <button type="submit" id="submitPhotoButton">Ajouter la photo</button>
-</form>
 
+  <!-- Formulaire pour ajouter une photo -->
+  <h3 id="addPhotoHeader">Ajouter une photo</h3>
+  <form id="addPhotoForm">
+    <input type="url" id="photoURL" placeholder="Entrez l'URL de la photo" required>
+    <button type="submit" id="submitPhotoButton">Ajouter la photo</button>
+  </form>
+
+  <!-- informations de la recette -->
   <h1 id="pageHeader">Recipe Details</h1>
   
-
-
+  <!-- Formulaire pour ajouter un like -->
   <div id="recipeDetails"></div>
   <div id="likeSection">
     <button id="likeButton" class="like-button">
@@ -42,6 +49,7 @@
   <h2 id="commentsHeader">Commentaires</h2>
     <div id="recipeComments"></div>
 
+  <!-- Formulaire pour ajouter un commentaire -->
   <h3 id="addCommentFormHeader">Add a Comment</h3>
   <form id="addCommentForm">
     <textarea id="message" placeholder="Votre commentaire" required></textarea>
@@ -50,26 +58,22 @@
 
 
 
-
-
-   <!-- session info -->
-   <div id="sessionInfo">
+  <!-- Informations sur la session -->
+  <div id="sessionInfo">
     <p id="sessionStatus">Chargement du statut de la session...</p>
   </div>
 
-   <!-- logout Button -->
-   <button id="logoutButton" style="display: none;">Se déconnecter</button>
+  <button id="logoutButton" style="display: none;">Se déconnecter</button>
 
   
 
-
-   <!----------------------------------------------backend---------------------------------------------------------->
+  <!----------------------------------------------backend---------------------------------------------------------->
 
   <script>
       let currentUsername = null; 
         //----------------------language logic-------------------
 
-      let currentLanguage = 'EN'; // Default language is English
+      let currentLanguage = 'EN'; // Default language : English
 
       const translations = {
             EN: {
@@ -137,7 +141,6 @@
       const recipeDetailsContainer = document.getElementById('recipeDetails');
       lang = translations[currentLanguage];
 
-      // Determine which data to display based on the current language
       const name = currentLanguage === 'FR' ? recipe.nameFR :recipe.name ;
       const ingredients = currentLanguage === 'FR' ? recipe.ingredientsFR :recipe.ingredients ;
       const steps = currentLanguage === 'FR' ? recipe.stepsFR : recipe.steps ;
@@ -210,7 +213,7 @@
     }
 
     
-    //--------------------------------------------------------------------------temporaire
+    //------------------------------ ajout d'une image -------------------
     document.getElementById('addPhotoForm').addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -220,7 +223,6 @@
           return;
         }
 
-        // Send the photo URL to the backend
         fetch(`/api/recipe/photo/${encodeURIComponent(recipeName)}?img=${encodeURIComponent(photoURL)}`, {
           method: 'POST',
           headers: {
@@ -239,7 +241,6 @@
             alert('Photo ajoutée avec succès!');
             console.log('Photo ajoutée:', data.imageURL);
 
-            // Refresh the recipe details to display the new photo
             fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`, {
               method: 'GET',
               headers: {
@@ -259,7 +260,6 @@
             alert(error.message);
           });
 
-        // Clear the form
         document.getElementById('addPhotoForm').reset();
     });
 
@@ -268,7 +268,6 @@
       const likeCount = document.getElementById('likeCount');
       const recipeName = decodeURIComponent(window.location.search.split('=')[1]); // Récupère le nom de la recette depuis l'URL
 
-      // Charger les likes actuels
       fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`, {
         method: 'GET',
         headers: {
@@ -321,8 +320,6 @@
       const recipeName= urlParams.get('name');
 
      
-
-       // Fetch recipe details from the backend
        fetch(`/api/recipe/consult/${encodeURIComponent(recipeName)}`,{
             method: 'GET', 
             headers: {
@@ -391,8 +388,7 @@
       }
 
 
-      //add a comment
-
+      //ajout d'un commentaire 
       fetch('/api/comment', {
         method: 'POST',
         headers: {
@@ -411,9 +407,7 @@
           return response.json();
       })
       .then(() => {
-          // Clear the form
           document.getElementById('addCommentForm').reset();
-          // Refresh the comments
           fetchComments(recipeName);
       })
       .catch((error) => {
@@ -427,10 +421,6 @@
     //------------------------session logic ------------------------------------------
 
 
-
-
-
-    // Automatically check session status when the page loads
     window.onload = function() {
       fetch('/api/check-session', {
         method: 'GET',
@@ -447,10 +437,7 @@
           sessionStatus.innerHTML = `Bonjour, <strong>${data.username}</strong>.`;
           logoutButton.style.display = 'block';
           currentUsername = data.username; 
-
-          //if (data.role === 'translator' || data.role === 'admin') {
-            translatorActions.style.display = 'block';
-          //}
+          translatorActions.style.display = 'block';
 
 
         } else {

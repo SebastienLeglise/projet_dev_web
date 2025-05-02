@@ -8,45 +8,36 @@
 
 <body>
   
-      <div class="menu-button">
-        <a href="index.html">Accueil</a>
-      </div>
-        <!-- Search Bar -->
-      <div id="searchContainer">
-        <select id="searchField">
-          <option value="name">Nom (EN)</option>
-          <option value="nameFR">Nom (FR)</option>
-          <option value="author">Auteur</option>
-          <option value="without">Sans</option>
-          <option value="ingredient">Ingrédient</option>
-          <option value="likes">Likes</option>
-        </select>
-
-        <input type="text" id="searchValue" placeholder="Entrez votre recherche..." >
-        <button id="searchButton" >Rechercher</button>
-
-      </div>
-      <h1 class="recipies-title">Liste des recettes</h1>
-
-      <div id="recipesContainer"></div>
+    <div class="menu-button">
+      <a href="index.html">Accueil</a>
+    </div>
 
 
+    <!-- Barre de recherche -->
+    <div id="searchContainer">
+      <select id="searchField">
+        <option value="name">Nom (EN)</option>
+        <option value="nameFR">Nom (FR)</option>
+        <option value="author">Auteur</option>
+        <option value="without">Sans</option>
+        <option value="ingredient">Ingrédient</option>
+        <option value="likes">Likes</option>
+      </select>
+
+      <input type="text" id="searchValue" placeholder="Entrez votre recherche..." >
+      <button id="searchButton" >Rechercher</button>
+
+    </div>
+    <h1 class="recipies-title">Liste des recettes</h1>
+
+    <div id="recipesContainer"></div>
 
 
-
-
-
-
-
-
-
-      <!-- session info -->
-      <div id="sessionInfo">
-        <p id="sessionStatus">Chargement du statut de la session...</p>
-      </div>
-    
-      <!-- logout Button -->
-      <button id="logoutButton" style="display: none;">Se déconnecter</button>
+    <div id="sessionInfo">
+      <p id="sessionStatus">Chargement du statut de la session...</p>
+    </div>
+  
+    <button id="logoutButton" style="display: none;">Se déconnecter</button>
 
 
 
@@ -58,6 +49,8 @@
           recipesContainer.innerHTML = '<p>No recipe found</p>';
           return;
       }
+
+      // Génère le contenu HTML pour chaque recette
       recipesContainer.innerHTML = recipes.map(recipe => {
       let imageURL = '';
 
@@ -81,16 +74,14 @@
     }
 
     document.getElementById('searchButton').addEventListener('click', () => {
-      const searchField = document.getElementById('searchField').value; // Get the selected field
-      const searchValue = document.getElementById('searchValue').value.trim(); // Get the search value
+      const searchField = document.getElementById('searchField').value; 
+      const searchValue = document.getElementById('searchValue').value.trim(); 
 
-      // Validate input
       if (!searchValue) {
         alert('Please enter a search value.');
         return;
       }
 
-      // Send the search query to the backend
       fetch(`/api/recipe/search?${encodeURIComponent(searchField)}=${encodeURIComponent(searchValue)}`, {
         method: 'GET',
         headers: {
@@ -104,7 +95,7 @@
           return response.json();
       })
       .then((filteredRecipes) => {
-        displayRecipes(filteredRecipes); // Display the filtered recipes
+        displayRecipes(filteredRecipes); 
       })
       .catch((error) => {
         console.error('Error while searching recipes:', error);
@@ -112,7 +103,6 @@
       });
     });
 
-    // Fetch all recipes initially
     fetch('/api/recipe/consultAll', {
       method: 'GET',
       headers: {
@@ -125,9 +115,6 @@
       console.log('Filtered to pending in frontend:', onlyPending);
       displayRecipes(onlyPending);
       })
-    //.then((recipes) => {
-      //displayRecipes(recipes); // Display all recipes initially
-    //})
     .catch((error) => {
       console.error('Error while searching recipes:', error);
       document.getElementById('recipesContainer').innerHTML = '<p>Error when loading recipes.</p>';
@@ -139,7 +126,6 @@
 
 //-------------------------------------session logic-------------------------------------//
 
-         // Automatically check session status when the page loads
     window.onload = function() {
       fetch('/api/check-session', {
         method: 'GET',

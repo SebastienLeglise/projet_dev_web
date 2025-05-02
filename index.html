@@ -9,31 +9,34 @@
 </head>
 
 <body>
-    <!-- session info -->
   <div id="sessionInfo">
     <p id="sessionStatus">Chargement du statut de la session...</p>
   </div>
 
-  <!-- logout Button -->
   <button id="logoutButton" style="display: none;">Se déconnecter</button>
-  <img src="Presentación sin título.jpg" class="decor decor-logo">
-<div class="menu sidebar-menu">
-  
- 
-  <a href="login.html" id="loginLink">Se connecter</a>
+  <img src="Presentación sin título.jpg" class="decor decor-logo"> <!--TODO-->
 
+<div class="menu sidebar-menu">
+    <a href="login.html" id="loginLink">Se connecter</a>
+    
+    <!-- Section pour les recettes -->
     <h2>Listes de recettes</h2>
     <a href="recipes.html">Recettes</a>
+    
+    <!-- Section pour le chef, création de recettes -->
     <h2 id="createRecipeHeading" style="display:none;">création recettes</h2>
     <a href="chef.html" id="createRecipeLink"style="display:none;">Créer une recette</a>
+    
+    <!-- Section pour l'administrateur -->
     <h2 id="adminpage" style="display:none;">page du admin</h2>
     <a href="role.html" id="adminOnly" style="display:none;">valider de roles</a>
     <a href="adminRecipe.html" id="adminOnly2" style="display:none;">valider des reccettes</a>
 </div>
 
 
+
+  <!-- Script pour vérifier le statut de la session -->
   <script>
-    // Automatically check session status when the page loads
     window.onload = function() {
       fetch('/api/check-session', {
         method: 'GET',

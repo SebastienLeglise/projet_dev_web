@@ -7,10 +7,11 @@
 }
 
 body {
-    background-color: #f4f4f4;
+    background-color: hsl(37, 68%, 94%);
     color: #333;
     font-size: 16px;
     line-height: 1.6;
+
 }
 
                 /* Common Styles for All Pages */

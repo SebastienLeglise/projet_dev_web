@@ -230,8 +230,15 @@ class RecipeController{
     }
 
 
-
-
+    /*
+    * 
+    * Cette fonction permet de consulter toutes les recettes disponibles.
+    * Elle retourne une liste complète des recettes sous forme de réponse JSON.
+    * 
+    * - Récupère toutes les recettes existantes.
+    * - Retourne la liste des recettes sous forme de réponse JSON.
+    * 
+    */
     public function handleRecipeSearch($params, $splitedQuery) {
         // Ensure the correct Content-Type header
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
@@ -417,7 +424,14 @@ class RecipeController{
     }
 
 
-
+    /*
+    * Cette fonction permet de consulter les détails d'une recette spécifique.
+    * Elle retourne toutes les informations disponibles sur la recette.
+    * 
+    * - Vérifie si la recette existe.
+    * - Retourne les données complètes de la recette sous forme de réponse JSON.
+    * 
+    */
     public function handleRecipeConsulting($params) {//nom
          // Ensure the correct Content-Type header
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
@@ -445,7 +459,17 @@ class RecipeController{
 
 
 
-
+    /*
+    * Cette fonction gère la traduction d'une recette. Elle récupère les données
+    * d'une recette spécifique (en anglais et en français) et les retourne pour
+    * permettre leur affichage ou modification.
+    * 
+    * 
+    * - Vérifie si la recette existe.
+    * - Récupère les champs nécessaires pour la traduction.
+    * - Retourne les données de la recette sous forme de réponse JSON.
+    
+    * */
     public function handleRecipeTraduction($params) {
         // Ensure the correct Content-Type header
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
@@ -466,7 +490,6 @@ class RecipeController{
             $response['name'] = $recipe['name'] ?? null;
             $response['nameFR'] = $recipe['nameFR'] ?? null;
         }
-
 
 
         if (!empty($recipe['ingredients']) && !empty($recipe['ingredientsFR'])) {
@@ -526,12 +549,6 @@ class RecipeController{
 
                     $response['ingredients'][] = $recipe['ingredients'][$index] ?? ['quantity' => null, 'name' => null, 'type' => null];
                     $response['ingredientsFR'][] = $recipe['ingredientsFR'][$index] ?? ['quantity' => null, 'name' => null, 'type' => null];
-
-
-                   
-
-
-
                 }
 
 
@@ -541,8 +558,6 @@ class RecipeController{
 
         }
 
-       
-
 
         //cas simple un des deux champs d'ingrédients n'existe pas
         if( (empty($recipe['ingredients']) && !empty($recipe['ingredientsFR']))
@@ -550,12 +565,6 @@ class RecipeController{
             $response['ingredients'] = $recipe['ingredients'] ?? null;
             $response['ingredientsFR'] = $recipe['ingredientsFR'] ?? null;
         }
-
-
-
-
-
-
 
 
         if (!(empty($recipe['steps']) && empty($recipe['stepsFR']))){
@@ -580,8 +589,6 @@ class RecipeController{
             }
               
         }
-            
-
     
         http_response_code(200);
         header('Content-Type: application/json');
@@ -642,7 +649,18 @@ class RecipeController{
 
     }
 
-
+    /*
+    *
+    * Cette fonction gère l'ajout d'un "like" à une recette spécifique.
+    * Elle reçoit le nom de la recette en paramètre, recherche cette recette
+    * dans les données existantes, incrémente le compteur de "likes" 
+    *
+    * - Vérifie si la recette existe.
+    * - Si elle existe, incrémente le nombre de "likes".
+    * - Met à jour les données persistantes avec le nouveau nombre de "likes".
+    * - Retourne une réponse JSON contenant les données mises à jour ou un message d'erreur.
+    *
+    */
     public function handleRecipeLike($params) {
         // Ensure the correct Content-Type header
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {

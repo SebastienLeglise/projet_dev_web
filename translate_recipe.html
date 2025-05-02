@@ -7,17 +7,23 @@
   <title>Translate </title>
 </head>
 <body class = "form-page">
+
   <h1 id="recipeTitle">Translate Recipe</h1>
 
   <div class="translation-container">
+
+    <!-- Colonne pour le contenu en anglais -->
     <div class="column" id="englishColumn">
       <h3 class="column-title">English</h3>
       <div id="englishContent" class="content-box"></div>
     </div>
+  
+    <!-- Colonne pour le contenu en français -->
     <div class="column" id="frenchColumn">
       <h3 class="column-title">French</h3>
       <div id="frenchContent" class="content-box"></div>
     </div>
+  
   </div>
 
   <div class="save-button-container">
@@ -27,13 +33,14 @@
 
 
 <script>
+    // Récupère le nom de la recette depuis les paramètres de l'URL
     const recipeName = new URLSearchParams(window.location.search).get('name');
     const updatedIngredientsFR = [];
     const updatedIngredientsEN = [];
     const updatedStepsFR = [];
     const updatedStepsEN = [];
     
-
+    // Récupère les données de la recette
     fetch(`/api/recipe/traduction/${encodeURIComponent(recipeName)}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
@@ -58,7 +65,6 @@
           recipeFrInfo += recipe.nameFR;
           recipeFrInfo += `</strong></p>`;
         } else {
-          //make an input field for the user to enter the name
           recipeFrInfo += `<input type="text" id="nameFR" placeholder="Enter French name"></strong></p>`;
         }
       }
@@ -66,7 +72,7 @@
 
       if((!recipe.steps && recipe.stepsFR)||
           recipe.steps && !recipe.stepsFR){
-        if(!recipe.steps){//alors le champ en français est rempli
+        if(!recipe.steps){ //le champ en français est rempli
           recipe.stepsFR.forEach((step, index) => {
             recipeFrInfo += `<p><strong>steps(FR): ${step}</strong></p>`;
             recipeEnInfo += `<input type="text" id="stepsEN${index}" placeholder="Enter English steps"></strong></p>`;
@@ -123,7 +129,7 @@
 
       if((!recipe.ingredients && recipe.ingredientsFR)||
         recipe.ingredients && !recipe.ingredientsFR){
-          if(!recipe.ingredients){//alors le champ en français est rempli
+          if(!recipe.ingredients){//le champ en français est rempli
             recipe.ingredientsFR.forEach((ingredient, index)  => {
             recipeFrInfo += `<p><strong>Ingredient (FR):</strong> ${ingredient.quantity } ${ingredient.name } (${ingredient.type})</p>`;
             recipeEnInfo += `
@@ -274,22 +280,6 @@
       }
 
 
-      /*if(recipe.ingredientsFR) {
-        recipe.ingredientsFR.forEach((_, index) => {
-          const quantity = document.getElementById(`ingredientENQuantity${index}`)?.value || null;
-          const name = document.getElementById(`ingredientEName${index}`)?.value || null;
-          const type = document.getElementById(`ingredientENType${index}`)?.value || null;
-
-          if (quantity || name || type) {
-            updatedIngredientsEN.push({ quantity, name, type });
-          } else {
-            updatedIngredientsEN.push(recipe.ingredientsEN ? recipe.ingredientsEN[index] : { quantity: null, name: null, type: null }); 
-          }
-        });
-      }*/
-
-
-
     
       if (updatedStepsEN.length > 0) {
         updatedStepsEN.forEach((_, index) => {
@@ -324,7 +314,6 @@
           stepsFR: updatedStepsFR,
         };
 
-        // Send the updated data to the server
         fetch('/api/recipe', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },

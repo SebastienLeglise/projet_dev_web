@@ -64,6 +64,7 @@
   </div>
 
   <button id="logoutButton" style="display: none;">Se déconnecter</button>
+  <a href="login.html" id="loginLink">Se connecter</a>
 
   
 
@@ -457,6 +458,20 @@
       window.location.href = `/translate_recipe.html?name=${encodeURIComponent(recipeName)}`;
     });
 
+    document.getElementById('logoutButton').addEventListener('click', () => {
+      fetch('/api/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data.message);
+        window.location.reload(); 
+      })
+      .catch(error => {
+        console.error('Error logging out:', error);
+      });
+    });
 
 
   </script>

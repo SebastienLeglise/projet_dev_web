@@ -7,8 +7,8 @@
 }
 
 body {
-    background-color: hsl(37, 68%, 94%);
-    color: #333;
+    background-color: hsl(37, 68%, 94%); 
+    color: #2D2D2D; /* Charbon doux */
     font-size: 16px;
     line-height: 1.6;
 
@@ -21,20 +21,20 @@ body {
     top: 55px;         /* Below the logout button (which is at top: 10px + height) */
     right: 10px;
     font-size: 0.9rem;
-    color: #d32f2f;
+    color: #D62828; /* Rouge cerise */
     z-index: 999;
     text-align: right;
 }
 
 #sessionStatus {
-    background-color: white;
+    background-color:#6492cf;
     display: inline-block;
     padding: 10px 15px;
     border-radius: 8px;
     font-weight: bold;
     text-decoration: underline;
-    color: #333;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    color: #2D2D2D;
+    box-shadow: 0 2px 6px #2D2D2D;
 }
   
 
@@ -46,23 +46,46 @@ body {
     right: 10px;
     padding: 8px 12px;
     font-size: 1rem;
-    background-color: #f44336;
+    background-color: #D62828; /* Rouge cerise */
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+    box-shadow: 0 2px 6px #2D2D2D;
+
    
 }
 
 #logoutButton:hover {
-    background-color: #d32f2f;
+    background-color: #D62828; /* Rouge cerise */
 }
 
 
-/* Menu principal*/
+#loginLink {
+  position: fixed;
+  top:  10px; 
+  right: 50px; 
+  padding: 8px 12px;
+  font-size: 1rem;
+  background-color: #2196f3;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#loginLink:hover {
+  background-color: #1976d2;
+}
+
+
+
+
+
+/* ---------------------------------Menu principal-----------------------------*/
 .sidebar-menu {
-    background-color: #834600;
+    background-color: #9509cc;
     width: 250px;
     padding: 20px;
     border-radius: 10px;
@@ -77,17 +100,19 @@ body {
 .sidebar-menu  h2 {
     font-size: 1.5rem;
     margin: 10px 0;
-    color: #fff;
+    color: #fff; 
     text-transform: uppercase;
+    font-family: 'Dancing Script', cursive;
+
 }
 
 .sidebar-menu  a {
-    color: #fff;
+    color: #ebc5a6;
     text-decoration: none;
     display: block;
     margin: 8px 0;
     padding: 10px;
-    background-color: #e0accb;
+    background-color: hsl(32, 76%, 29%);
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
@@ -136,35 +161,15 @@ body {
 }
 
 
-
-
-#loginLink {
-    position: fixed;
-    top: 0px;
-    right: 50px; /* Pushed left of logout button */
-    padding: 8px 12px;
-    font-size: 1rem;
-    background-color: #2196f3;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-#loginLink:hover {
-    background-color: #1976d2;
-}
-
-
-
 .menu-button {
     position: fixed;
+    top : 40px;
     left: 20px;
-    bottom: 20px;
     background-color: #2d2d2d;
     padding: 12px 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    height: auto; 
 }
 
 
@@ -196,6 +201,7 @@ body {
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #aaa;
+    background-color: #d4d4d4;
     border-radius: 5px;
     min-width: 180px;
 }
@@ -203,7 +209,7 @@ body {
 
 #searchButton {
     padding: 10px 15px;
-    background-color: #834600;
+    background-color: #F4A261;
     color: white;
     border: none;
     border-radius: 5px;
@@ -213,7 +219,7 @@ body {
 }
 
 #searchButton:hover {
-    background-color: #5a2d00;
+    background-color: #9b6f4a;
 }
 
 /* Responsive Styles */
@@ -317,7 +323,18 @@ button:active {
     margin: 0 auto;
 }
 
-/*-------------------------------------roles page---------------------------------------*/
+/*-------------------------------------------------créer un recette---------------------------------------*/
+
+
+.ingredient {
+  display: flex;
+  flex-wrap: wrap; /* Allow inputs to wrap if they don't fit in one row */
+  gap: 10px; /* Add spacing between inputs */
+  margin-bottom: 10px; /* Add spacing between ingredient rows */
+}
+
+
+/*-------------------------------------recipes page---------------------------------------*/
 
 
   /* Recipes Container */
@@ -326,7 +343,7 @@ button:active {
     flex-wrap: wrap; /* Allow cards to wrap to the next row if needed */
     justify-content: center; 
     padding: 20px;
-    background-color: white;
+    background-color: black ;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     min-height: 300px;
@@ -337,29 +354,19 @@ button:active {
   .recipies-title {
     font-size: 2rem;
     color: #222;
-    background-color: white;
+    background-color: #aa47b1; 
     display: block;                /* Make sure it's a block-level element */
     width: fit-content;            /* Only take up as much width as needed */
     margin: 40px auto 20px auto;   /* Center horizontally */
     text-align: center;
     padding: 5px 15px;
     border-radius: 8px;
-}
+    font-family: 'Dancing Script', cursive;
 
-
-/*-------------------------------------------------créer un recette---------------------------------------*/
-
-
-.ingredient {
-    display: flex;
-    flex-wrap: wrap; /* Allow inputs to wrap if they don't fit in one row */
-    gap: 10px; /* Add spacing between inputs */
-    margin-bottom: 10px; /* Add spacing between ingredient rows */
 }
 
 
 
-/*---------------------------------------------------liste des recettes---------------------------------------*/
 
 /* Recipe Card Styles */
 .recipe-card {
@@ -369,7 +376,7 @@ button:active {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.1s ease, box-shadow 0.3s ease;
   }
   
   .recipe-card:hover {
@@ -403,6 +410,8 @@ button:active {
     padding: 10px 0;
     position: absolute;
     bottom: 0;
+    font-family: 'Dancing Script', cursive;
+
   }
 
 
@@ -410,17 +419,26 @@ button:active {
 
   .header {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
+    flex-direction: column; 
     align-items: center;
     padding: 10px 20px;
-    background-color: black;
+    background-color: #6A0572;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  #pageHeader {
+    font-size: 2rem;
+    color: #2D2D2D; 
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+
   }
 
   .menu-buttons {
     display: flex;
-    gap: 15px; /* Add spacing between the buttons */
-    margin-bottom: 10px; /* Add spacing below the menu buttons */
+    gap: 15px; 
+    margin-bottom: 10px;
   }
 
   .menu-link {
@@ -442,7 +460,7 @@ button:active {
 
   .action-buttons {
     display: flex;
-    gap: 15px; /* Add spacing between the buttons */
+    gap: 15px; 
   }
   
   .action-button {
@@ -450,7 +468,7 @@ button:active {
     font-size: 1rem;
     font-weight: bold;
     color: white;
-    background-color: #2196f3;
+    background-color: #F4A261;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -458,7 +476,7 @@ button:active {
   }
   
   .action-button:hover {
-    background-color: #1976d2;
+    background-color: #F4A261;
   }
 
 
@@ -666,6 +684,7 @@ button:active {
     margin-bottom: 20px;
     padding: 10px;
     border-bottom: 1px solid #ddd;
+
   }
   
   .comment:last-child {
@@ -687,6 +706,7 @@ button:active {
   .comment-message {
     font-size: 1rem;
     color: #555;
+
   }
   
   .no-comments {
@@ -705,10 +725,11 @@ button:active {
   #addCommentForm {
     max-width: 400px;
     height: auto;
-    margin: 0 auto 20px auto; /* Center the form and add spacing below */
+    margin: 0 auto 20px auto; 
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Add spacing between form elements */
+    gap: 10px;
+
   }
   
   #addCommentForm textarea {
@@ -718,7 +739,9 @@ button:active {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
-    resize: none; /* Prevent resizing for consistent appearance */
+    resize: none; 
+    background-color: #aaa;
+
   }
   #addCommentForm button {
     align-self: flex-end; /* Align the button to the right */
@@ -808,24 +831,3 @@ button:active {
     margin-top: 20px;
   }
   
-  .action-button {
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
-    background-color: #2196f3;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .action-button:hover {
-    background-color: #1976d2;
-    transform: translateY(-2px);
-  }
-  
-  .action-button:active {
-    background-color: #1565c0;
-    transform: translateY(0);
-  }

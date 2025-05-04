@@ -1,75 +1,38 @@
 [
     {
         "name": "Crock Pot Roast",
-        "nameFR":"Roti à la cocotte",
+        "nameFR": "Roti à la cocotte",
         "Author": "Unknown",
-        "Without": ["NoGluten","NoMilk"],
+        "Without": [
+            "NoGluten",
+            "NoMilk"
+        ],
         "ingredients": [
             {
-                "quantity": "1",
-                "name": "beef roast",
-                "type": "Meat"
-            },
-            {
-                "quantity": "1 package",
-                "name": "brown gravy mix",
-                "type": "Baking"
-            },
-            {
-                "quantity": "1 package",
                 "name": "dried Italian salad dressing mix",
-                "type": "Condiments"
+                "quantity": null,
+                "type": null
             },
             {
-                "quantity": "1 package",
                 "name": "dry ranch dressing mix",
-                "type": "Condiments"
-            },
-            {
-                "quantity": "1/2 cup",
-                "name": "water",
-                "type": "Drinks"
+                "quantity": null,
+                "type": null
             }
         ],
         "ingredientsFR": [
             {
-                "quantity": "1",
-                "name": "roti de boeuf",
-                "type": "Viande"
-            },
-            {
-                "quantity": "1 sachet",
-                "name": "melange sauce au vin",
-                "type": "Aide culinaire"
-            },
-            {
-                "quantity": "1 package",
                 "name": null,
-                "type": "Condiments"
+                "quantity": null,
+                "type": null
             },
             {
-                "quantity": "1 package",
                 "name": null,
-                "type": "Condiments"
-            },
-            {
-                "quantity": "1/2 verre",
-                "name": "eau",
-                "type": "Boisson"
+                "quantity": null,
+                "type": null
             }
         ],
-        "steps": [
-            "Place beef roast in crock pot.",
-            "Mix the dried mixes together in a bowl and sprinkle over the roast.",
-            "Pour the water around the roast.",
-            "Cook on low for 7-9 hours."
-        ],
-        "stepsFR": [
-            "Placer le roti dans la cocotte en fonte",
-            "Melanger les sachets de sauces en poudre dans un bol et saupoudrer le roti avec.",
-            "Arroser le roti",
-            "Cuire à feu doux entre 7 et 9 heures."
-        ],
+        "steps": [],
+        "stepsFR": [],
         "timers": [
             1,
             1,
@@ -79,13 +42,16 @@
         "imageURL": "http://img.sndimg.com/food/image/upload/w_266/v1/img/recipes/27/20/8/picVfzLZo.jpg",
         "originalURL": "http://www.food.com/recipe/to-die-for-crock-pot-roast-27208",
         "status": "approved"
-
     },
     {
         "name": "Roasted Asparagus",
         "nameFR": "Asperges roties",
         "Author": "Unknown",
-        "Without": ["NoGluten","NoMilk", "Vegan"],
+        "Without": [
+            "NoGluten",
+            "NoMilk",
+            "Vegan"
+        ],
         "ingredients": [
             {
                 "quantity": "1 lb",
@@ -135,7 +101,11 @@
         "name": "Curried Lentils and Rice",
         "nameFR": "Lentilles et Riz au curry",
         "Author": "Unknown",
-        "Without": ["NoGluten","NoMilk", "Vegan"],
+        "Without": [
+            "NoGluten",
+            "NoMilk",
+            "Vegan"
+        ],
         "ingredients": [
             {
                 "quantity": "1 quart",
@@ -179,13 +149,14 @@
         ],
         "imageURL": "http://dagzhsfg97k4.cloudfront.net/wp-content/uploads/2012/05/lentils3.jpg",
         "status": "approved"
-
     },
     {
         "name": "Big Night Pizza",
         "nameFR": "La pizza des grands soirs",
         "Author": "Unknown",
-        "Without": ["Vegetarian"],
+        "Without": [
+            "Vegetarian"
+        ],
         "ingredients": [
             {
                 "quantity": "5 teaspoons",
@@ -253,7 +224,10 @@
         "name": "Cranberry and Apple Stuffed Acorn Squash Recipe",
         "nameFR": "Courge poivrée farcies aux cranberries et aux pommes",
         "Author": "Unknown",
-        "Without": ["NoGluten", "Vegetarian"],
+        "Without": [
+            "NoGluten",
+            "Vegetarian"
+        ],
         "ingredients": [
             {
                 "quantity": "2",
@@ -309,13 +283,14 @@
         "imageURL": "http://elanaspantry.com/wp-content/uploads/2008/10/acorn_squash_with_cranberry.jpg",
         "originalURL": "",
         "status": "approved"
-
     },
     {
         "name": "Mic's Yorkshire Puds",
         "nameFR": "Yorkshire pudding  de Mickey",
         "Author": "Unknown",
-        "Without": [ "Vegetarian"],
+        "Without": [
+            "Vegetarian"
+        ],
         "ingredients": [
             {
                 "quantity": "200g",
@@ -455,7 +430,6 @@
         "imageURL": "http://s3.amazonaws.com/gmi-digital-library/65caecf7-a8f7-4a09-8513-2659cf92871e.jpg",
         "originalURL": "#",
         "status": "approved"
-
     },
     {
         "name": "Blueberry Oatmeal Squares",

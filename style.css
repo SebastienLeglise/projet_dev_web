@@ -47,18 +47,27 @@ body {
     padding: 8px 12px;
     font-size: 1rem;
     background-color: #D62828; /* Rouge cerise */
+    border: 2px solid #D62828; 
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 2px 6px #2D2D2D;
-
+    overflow: hidden;   
+    transition: all 0.3s ease;
+    --p: 0%; /* Initial progress for the background animation */
+    --t: 0s; /* Initial timing for the animation */
+    background: 
+        linear-gradient(#4d7ebd 0 0) no-repeat calc(200% - var(--p)) 100% / 200% var(--p, 0.2em),
+        #D62828; 
    
 }
 
 #logoutButton:hover {
-    background-color: #D62828; /* Rouge cerise */
+  --p: 100%; 
+  --t: 0.3s;
+  background-position: 0 0;
+  background-color: #D62828; /* Rouge cerise */
+
 }
 
 
@@ -83,7 +92,7 @@ body {
 
 
 
-/* ---------------------------------Menu principal-----------------------------*/
+/* ---------------------------------Page d'acceuil----------------------------*/
 .sidebar-menu {
     background-color: #9509cc;
     width: 250px;
@@ -161,28 +170,87 @@ body {
 }
 
 
+.image-grid {
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 80px;
+  gap: 5px; 
+  padding: 20px;
+  justify-content: center;
+  margin-top: 25px;
+  margin-left: 150px;
+  background-color: #f4f4f4; 
+  overflow: visible;
+  object-fit: cover;
+}
+.image-grid img {
+  width: 100%;
+  height: auto; 
+  border-radius: 5px; 
+  grid-row: span 2; 
+}
+.image-grid img:nth-child(2n) {
+  transform: translateY(40px); 
+}
+.image-grid img:nth-child(6) {
+  transform: translateY(100px); 
+}
+.image-grid img:nth-child(8) {
+  transform: translateY(100px); 
+}
+
+
+/*-----------------------------------------------------------------------------*/
+
+
 .menu-button {
     position: fixed;
     top : 40px;
     left: 20px;
     background-color: #2d2d2d;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    height: auto; 
+    border-radius: 10px; 
+    text-align: center;
+    font-size: 28px;
+    padding: 10px 20px;
+    width: 150px;
+    height: 70px;
+    cursor: pointer;
+    transition: all 0.5s;
+    margin: 5px;
+
 }
 
 
 .menu-button  a {
+    cursor: pointer;
     color: white;
     text-decoration: none;
     font-weight: bold;
     font-size: 1rem;
+    display: inline-block; 
+    position: relative;
+    transition: 0.5s; 
+}
+
+.menu-button a:after {
+  content: '\00bb';/* symbole ">>" */
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s; 
 }
 
 
-.menu-button  a:hover {
-    text-decoration: underline;
+.menu-button:hover  a{
+  text-decoration: none;
+  padding-right: 25px;
+}
+
+
+.menu-button:hover  a:after{
+  opacity: 1; 
+  right: 0; 
 }
 
 
@@ -269,25 +337,22 @@ button {
     font-size: 1rem;
     font-weight: bold;
     color: white;
-    background-color: #2196f3; /* Primary button color */
+    background-color: #2196f3; 
     border: none;
-    border-radius: 5px; /* Rounded corners */
+    border-radius: 5px; 
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    transition: background-color 0.1s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    margin: 10px 0; /* Add spacing between buttons */
+    transition: 0.5s; 
+    margin: 10px 0; 
 }
 
 button:hover {
-    background-color: #1976d2; /* Darker shade on hover */
-    transform: translateY(-2px); /* Slight lift effect */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+    background-color: #1976d2; 
+    transform: translateY(-2px); 
 }
 
 button:active {
-    background-color: #1565c0; /* Even darker shade on click */
-    transform: translateY(0); /* Reset lift effect */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow */
+    background-color: #1565c0; 
+    transform: translateY(0); 
 }
 
 
@@ -443,14 +508,20 @@ button:active {
 
   .menu-link {
     text-decoration: none;
-    color: #2196f3;
+    
     font-weight: bold;
     font-size: 1rem;
     padding: 8px 12px;
+   
+    border-radius: 5px;
+
+    cursor: pointer;
+    transition: all 0.5s;
+    margin: 5px;
+
+    color: #2196f3;
     background-color: #f4f4f4;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
   .menu-link:hover {
@@ -469,14 +540,42 @@ button:active {
     font-weight: bold;
     color: white;
     background-color: #F4A261;
+    text-align: center;
     border: none;
+    width: auto; 
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.5s;
+    margin: 5px;
+
+  }
+
+  .action-button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+
+  }
+
+  .action-button span:after {
+    content: '\00bb'; 
+    position: absolute;
+    opacity: 0; 
+    top: 0;
+    right: -20px; 
+    transition: 0.5s; 
+
   }
   
-  .action-button:hover {
-    background-color: #F4A261;
+  .action-button:hover span {
+    padding-right: 25px;
+
+  }
+  .action-button:hover span:after{
+    
+    opacity: 1; 
+    right: 0; 
   }
 
 
@@ -652,8 +751,8 @@ button:active {
     background-color: #2196f3;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+   
+
   }
   
   #addPhotoForm button:hover {

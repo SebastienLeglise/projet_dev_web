@@ -17,10 +17,10 @@
 
     <div class="action-buttons">
       <!-- Bouton pour changer la langue -->
-      <button id="languageToggle" class="action-button">Changer la langue</button>
+      <button id="languageToggle" class="action-button"><span>Changer la langue</span></button>
       <div id="translatorActions">
         <!-- Bouton pour les traducteurs-->
-        <button id="editTranslationButton" class="action-button">Modifier la traduction</button>
+        <button id="editTranslationButton" class="action-button"><span>Modifier la traduction</span></button>
       </div>
     </div>
   
@@ -439,7 +439,7 @@
           logoutButton.style.display = 'block';
           currentUsername = data.username; 
           translatorActions.style.display = 'block';
-
+          loginLink.style.display = 'none';
 
         } else {
           console.log('User is not logged in');

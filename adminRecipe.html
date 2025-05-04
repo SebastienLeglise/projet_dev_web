@@ -100,15 +100,15 @@
       },
     })
     .then((response) => response.json())
-    .then((recipes) => {
-      const onlyPending = recipes.filter(r => r.status === 'pending');
-      console.log('Filtered to pending in frontend:', onlyPending);
-      displayRecipes(onlyPending);
-      })
-    
     //.then((recipes) => {
-      //displayRecipes(recipes); // Display all recipes initially
-    //})
+     // const onlyPending = recipes.filter(r => r.status === 'pending');
+      //console.log('Filtered to pending in frontend:', onlyPending);
+      //displayRecipes(onlyPending);
+      //})
+    
+    .then((recipes) => {
+      displayRecipes(recipes); // Display all recipes initially
+    })
     .catch((error) => {
       console.error('Error while searching recipes:', error);
       document.getElementById('recipesContainer').innerHTML = '<p>Error when loading recipes.</p>';

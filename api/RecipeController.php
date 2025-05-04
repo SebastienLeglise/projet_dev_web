@@ -175,7 +175,7 @@ class RecipeController{
             return;
         }
 
-        $name = $data->name;
+        $name = urldecode($data->name);
         $status = $data->status;
         $recipes = $this->getAllRecipes();
 
@@ -211,7 +211,7 @@ class RecipeController{
             return;
         }
 
-        $name = $data->name;
+        $name = urldecode($data->name);
         $status = $data->status;
         $recipes = $this->getAllRecipes();
 
@@ -401,7 +401,7 @@ class RecipeController{
         echo json_encode($recipes);
     }
 //does not work xddd
-    public function handleReccipeConsultingAll2() {
+    public function handleRecipeConsultingAll2() {
         $recipes = $this->getAllRecipes();
     
         if ($recipes == null || empty($recipes)) {

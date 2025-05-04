@@ -62,7 +62,7 @@ $router->register('POST','/api/recipe/deny',[$recipeController, 'handleRecipeDen
 $router->register('GET','/api/recipe/consult/{recipe_name}',[$recipeController, 'handleRecipeConsulting'],false);				//Consulter une recette
 $router->register('GET','/api/recipe/consultAll',[$recipeController, 'handleRecipeConsultingAll'],false);				//Consulter toutes les recettes
 
-$router->register('GET','/api/recipe/consultAllDos',[$recipeController, 'handleRecipeConsultingAll'],false);				//Consulter toutes les recettes2
+$router->register('GET','/api/recipe/consultAllDos',[$recipeController, 'handleRecipeConsultingAll2'],false);				//Consulter toutes les recettes2
 
 $router->register('GET','/api/recipe/search',[$recipeController, 'handleRecipeSearch'],false);				//Rechercher une recette
 

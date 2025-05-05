@@ -12,7 +12,6 @@
       <div class="menu-button">
         <a href="index.html">Accueil</a>
       </div>
-        <!-- Search Bar -->
       <div id="searchContainer">
         <select id="searchField">
           <option value="name">Nom (EN)</option>
@@ -31,12 +30,10 @@
 
       <div id="recipesContainer"></div>
 
-      <!-- session info -->
       <div id="sessionInfo">
         <p id="sessionStatus">Chargement du statut de la session...</p>
       </div>
     
-      <!-- logout Button -->
       <button id="logoutButton" style="display: none;">Se déconnecter</button>
 
 
@@ -61,16 +58,14 @@
     }
 
     document.getElementById('searchButton').addEventListener('click', () => {
-      const searchField = document.getElementById('searchField').value; // Get the selected field
-      const searchValue = document.getElementById('searchValue').value.trim(); // Get the search value
+      const searchField = document.getElementById('searchField').value; 
+      const searchValue = document.getElementById('searchValue').value.trim(); 
 
-      // Validate input
       if (!searchValue) {
         alert('Please enter a search value.');
         return;
       }
 
-      // Send the search query to the backend
       fetch(`/api/recipe/search?${encodeURIComponent(searchField)}=${encodeURIComponent(searchValue)}`, {
         method: 'GET',
         headers: {
@@ -84,7 +79,7 @@
           return response.json();
       })
       .then((filteredRecipes) => {
-        displayRecipes(filteredRecipes); // Display the filtered recipes
+        displayRecipes(filteredRecipes); 
       })
       .catch((error) => {
         console.error('Error while searching recipes:', error);
@@ -92,7 +87,6 @@
       });
     });
 
-    // Fetch all recipes initially
     fetch('/api/recipe/consultAllDos', {
       method: 'GET',
       headers: {
@@ -107,7 +101,7 @@
       //})
     
     .then((recipes) => {
-      displayRecipes(recipes); // Display all recipes initially
+      displayRecipes(recipes);
     })
     .catch((error) => {
       console.error('Error while searching recipes:', error);
@@ -136,7 +130,7 @@
   });
 }
 function denyRecette(name) {
-  fetch('/api/recipe/approval', { 
+  fetch('/api/recipe/deny', { 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -156,12 +150,6 @@ function denyRecette(name) {
   });
 }
 
-
-
-
-//-------------------------------------session logic-------------------------------------//
-
-         // Automatically check session status when the page loads
     window.onload = function() {
       fetch('/api/check-session', {
         method: 'GET',

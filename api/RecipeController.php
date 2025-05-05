@@ -23,7 +23,7 @@ class RecipeController{
         $json = file_get_contents('php://input');
         $data = json_decode($json);
 
-      // Check if the recipe name already exists
+
         $recipes = $this->getAllRecipes();
         foreach ($recipes as $recipe) {
             if (strcasecmp($recipe['name'], $data->name) === 0) {
@@ -33,8 +33,6 @@ class RecipeController{
             }
         }
 
-            // sanitize the input data
-        // Validate necessary fields
         $missingFields = [];
         if (!$data->name) 
             $missingFields[] = 'name';
@@ -54,8 +52,6 @@ class RecipeController{
 
         $recipes = $this->getAllRecipes();
 
-        // Create a new recipe object using the input data
-        // La recette peut avoir un ou plusieurs champs avec la valeur null(le titre, la liste des ingrédients, etc ..)
         $newRecipe = [
             'name' => $data->name,
             'nameFR' => $data->nameFR ?? null,
@@ -158,7 +154,6 @@ class RecipeController{
 
     public function handleRecipeApproval():void {
 
-        // Ensure the correct Content-Type header
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
             http_response_code(400);
             header('Content-Type: application/json');
@@ -194,7 +189,6 @@ class RecipeController{
     }
     public function handleRecipeDeny():void {
 
-        // Ensure the correct Content-Type header
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
             http_response_code(400);
             header('Content-Type: application/json');

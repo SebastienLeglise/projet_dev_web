@@ -142,13 +142,11 @@ class RoleController{
             echo json_encode(["error" => "The roles database is empty, you can help by expanding it."]);
             return;
         }
-    
-        // Filter roles with status "pending"
         $pendingRoles = array_filter($roles, function($role) {
             return isset($role['status']) && $role['status'] === 'pending';
         });
     
-        // Optional: Re-index array (so it returns a clean [0,1,2,...] array in JSON)
+
         $pendingRoles = array_values($pendingRoles);
     
         http_response_code(200);

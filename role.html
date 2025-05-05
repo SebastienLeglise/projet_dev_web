@@ -7,12 +7,11 @@
 </head>
 
 <body class="form-page">
-    <!-- session info -->
   <div id="sessionInfo">
     <p id="sessionStatus">Chargement du statut de la session...</p>
   </div>
 
-  <!-- logout Button -->
+
   <button id="logoutButton" style="display: none;">Se déconnecter</button>
 
   <h1>Liste des Demandes de Role</h1>
@@ -97,8 +96,6 @@ function denyRole(username) {
     console.error('Error:', error);
   });
 }
-
-    // Automatically check session status when the page loads
     window.onload = function() {
       fetch('/api/check-session', {
         method: 'GET',

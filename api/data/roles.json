@@ -46,5 +46,11 @@
         "requestedRole": "none",
         "status": "denied",
         "role": "cuisinier"
+    },
+    {
+        "username": "lol",
+        "requestedRole": "traducteur",
+        "status": "approved",
+        "role": "traducteur"
     }
 ]

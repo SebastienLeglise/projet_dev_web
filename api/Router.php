@@ -7,13 +7,12 @@ class Router
 	/**
 	 * Register a new route
 	 */
-	public function register(string $method, string $path, callable $handler, bool $protected ): void
+	public function register(string $method, string $path, callable $handler): void
 	{	
 		$this->routes[] = [
 			'method' => strtoupper($method),
 			'path' => $path,
 			'handler' => $handler,
-			'protected' => $protected,
 		];
 	}
 

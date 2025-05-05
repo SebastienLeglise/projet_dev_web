@@ -124,7 +124,7 @@
         return response.json();
       })
       .then(() => {
-        status.innerHTML = `✅ Compte créé avec succès.`;
+        status.innerHTML = ` Compte créé avec succès.`;
 
         return fetch('/api/askedRoles', {
           method: 'POST',
@@ -139,13 +139,13 @@
           });
         } else if (response) {
           return response.json().then(() => {
-            status.innerHTML += `<br>📝 Rôle demandé : <strong>${requestedRole}</strong>`;
+            status.innerHTML += `<br> Rôle demandé : <strong>${requestedRole}</strong>`;
           });
         }
       })
       .catch((error) => {
         console.error('Erreur:', error);
-        status.innerHTML = `❌ Erreur: ${error.message}`;
+        status.innerHTML = ` Erreur: ${error.message}`;
       });
     });
 

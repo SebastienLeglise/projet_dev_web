@@ -400,7 +400,7 @@ class RecipeController{
         header('Content-Type: application/json');
         echo json_encode($recipes);
     }
-//does not work xddd
+    
     public function handleRecipeConsultingAll2() {
         $recipes = $this->getAllRecipes();
     
